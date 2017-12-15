@@ -156,6 +156,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\v1\studentServiceProvider::class,
+        App\Providers\v1\facilitiesServiceProvider::class,
+        App\Providers\v1\organizationsServiceProvider::class,
     ],
 
     /*

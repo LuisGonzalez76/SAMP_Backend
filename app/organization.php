@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class organization extends Model
 {
     //
+    protected $fillable = ['organizationName','organizationInitials','organizationType_code','organizationStatus_code'];
+
     public function type(){
         return $this->belongsTo('App\organizationType','organizationType_code');
     }
