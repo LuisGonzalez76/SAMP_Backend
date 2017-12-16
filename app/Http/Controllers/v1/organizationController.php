@@ -2,13 +2,24 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Services\v1\organizationsService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+
+
 class organizationController extends Controller
 {
+
+    protected $organizations;
+
+    public function __construct(organizationsService $service)
+    {
+        $this->organizations = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +28,9 @@ class organizationController extends Controller
     public function index()
     {
         //
+        $data = $this->organizations->getOrganizations();
+
+        return response()->json($data);
     }
 
     /**
@@ -27,6 +41,8 @@ class organizationController extends Controller
     public function create()
     {
         //
+
+
     }
 
     /**
@@ -38,6 +54,8 @@ class organizationController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->organizations->storeOrganization($request);
+
     }
 
     /**

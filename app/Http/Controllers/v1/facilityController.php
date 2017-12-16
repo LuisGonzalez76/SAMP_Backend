@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Services\v1\facilitiesService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\facility;
+
+
 
 class facilityController extends Controller
 {
+
+
+    protected $facilities;
+    public function __construct(facilitiesService $service)
+    {
+        $this->facilities = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +29,9 @@ class facilityController extends Controller
     public function index()
     {
         //
+        $data = $this->facilities->getFacilities();
+        return response()->json($data);
+
     }
 
     /**
@@ -27,6 +42,7 @@ class facilityController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -38,6 +54,8 @@ class facilityController extends Controller
     public function store(Request $request)
     {
         //
+
+        $data = $this->facilities->storeFacilities($request);
     }
 
     /**
