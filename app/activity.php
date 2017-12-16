@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class activity extends Model
 {
+    protected $hidden = ['student_id','organization_id','staff_id','facility_id','created_at','updated_at'];
     //Statuses and Types
     public function status(){
         return $this->belongsTo('App\activityStatus','activityStatus_code');

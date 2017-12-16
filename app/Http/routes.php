@@ -19,3 +19,4 @@ Route::get('sexo', 'v1\studentController@index');
 
 Route::get('b/{id}', 'ActivityStatusController@show');
 
+Route::get('api/activities', 'v1\activityController@index');

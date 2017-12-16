@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class organization extends Model
 {
+    protected $hidden = ['organizationType_code','organizationStatus_code','created_at','updated_at'];
     //
     public function type(){
         return $this->belongsTo('App\organizationType','organizationType_code');

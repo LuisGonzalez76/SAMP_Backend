@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Services\v1\activityService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -9,6 +10,12 @@ use App\Http\Controllers\Controller;
 
 class activityController extends Controller
 {
+    protected $activites;
+    public function __construct(activityService $service)
+    {
+        $this->activites = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +24,8 @@ class activityController extends Controller
     public function index()
     {
         //
+        $data = $this->activites->getActivities();
+        return response()->json($data);
     }
 
     /**
