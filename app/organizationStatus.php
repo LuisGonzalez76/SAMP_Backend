@@ -8,6 +8,6 @@ class organizationStatus extends Model
 {
     //
     public function organization(){
-        return $this->hasMany('App\organization','organizationStatus_code');
+        return $this->hasMany('App\organization','organizationStatus_code','code');
     }
 }

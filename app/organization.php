@@ -11,19 +11,21 @@ class organization extends Model
     protected $fillable = ['organizationName','organizationInitials','organizationType_code','organizationStatus_code'];
 
     public function type(){
-        return $this->belongsTo('App\organizationType','organizationType_code');
+        return $this->belongsTo('App\organizationType','organizationType_code','code');
     }
 
     public function status(){
-        return $this->belongsTo('App\organizationStatus','organizationStatus_code');
+        return $this->belongsTo('App\organizationStatus','organizationStatus_code','code');
     }
 
     public function members(){
-        return $this->belongsToMany('App\student','memberships');
+        return $this->belongsToMany('App\student','memberships',
+            'organization_id','student_id');
     }
 
     public function counselors(){
-        return $this->belongsToMany('App\counselor','counsels');
+        return $this->belongsToMany('App\counselor','counsels',
+            'organization_id','counselor_id');
     }
 
     public function activities(){

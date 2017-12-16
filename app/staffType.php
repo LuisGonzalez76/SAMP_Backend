@@ -8,6 +8,6 @@ class staffType extends Model
 {
     //
     public function staff(){
-        return $this->hasMany('App\staff','staffType_code');
+        return $this->hasMany('App\staff','staffType_code','code');
     }
 }

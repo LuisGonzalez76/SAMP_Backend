@@ -21,10 +21,11 @@ class CreateActivitiesTable extends Migration
             $table->string('activityName');
             $table->string('activityDescription');
             $table->integer('attendantsNumber');
-            $table->dateTime('activityDate');
+            $table->date('activityDate');
+            $table->time('activityStart');
+            $table->time('activityEnd');
             $table->integer('activityStatus_code')->unsigned();
-            $table->integer('hasFood');
-            $table->integer('hasGuest');
+            $table->integer('hasFood')->nullable();
             $table->string('guestName')->nullable();
             $table->integer('counselorStatus_code')->unsigned();
             $table->integer('managerStatus_code')->unsigned();

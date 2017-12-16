@@ -8,6 +8,6 @@ class organizationRole extends Model
 {
     //
     public function student(){
-        return $this->hasMany('App\membership','organizationRole_code');
+        return $this->hasMany('App\membership','organizationRole_code','code');
     }
 }

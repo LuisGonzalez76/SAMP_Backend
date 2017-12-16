@@ -9,7 +9,8 @@ class student extends Model
     protected $hidden = ['created_at','updated_at'];
     //
     public function organizations(){
-        return $this->belongsToMany('App\organization','memberships');
+        return $this->belongsToMany('App\organization','memberships',
+            'student_id','organization_id');
     }
 
     public function activities(){

@@ -8,6 +8,6 @@ class counselorStatus extends Model
 {
     //
     public function activity(){
-        return $this->hasMany('App\activity','counselorStatus_code');
+        return $this->hasMany('App\activity','counselorStatus_code','code');
     }
 }

@@ -8,6 +8,6 @@ class activityStatus extends Model
 {
     //
     public function activity(){
-        return $this->hasMany('App\activity','activityStatus_code');
+        return $this->hasMany('App\activity','activityStatus_code','code');
     }
 }

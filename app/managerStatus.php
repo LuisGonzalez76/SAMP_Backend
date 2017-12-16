@@ -8,6 +8,6 @@ class managerStatus extends Model
 {
     //
     public function activity(){
-        return $this->hasMany('App\activity','managerStatus_code');
+        return $this->hasMany('App\activity','managerStatus_code','code');
     }
 }
