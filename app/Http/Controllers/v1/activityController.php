@@ -58,6 +58,8 @@ class activityController extends Controller
     public function show($id)
     {
         //
+        $data = $this->activites->getActivity($id);
+        return response()->json($data);
     }
 
     /**

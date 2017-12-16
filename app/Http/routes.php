@@ -28,3 +28,5 @@ Route::post('api/facilities', 'v1\facilityController@store');
 Route::post('api/organizations','v1\organizationController@store');
 
 Route::get('api/activities', 'v1\activityController@index');
+
+Route::get('api/activities/{id}','v1\activityController@show');

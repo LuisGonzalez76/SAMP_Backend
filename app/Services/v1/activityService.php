@@ -27,4 +27,11 @@ class activityService{
 
         return $activity;
     }
+
+    public function getActivity($id){
+        $activity  = activity::find($id)->with('student')->with('organization.counselors')
+            ->with('facility.managers', 'facility.department')
+            ->get();
+        return $activity;
+    }
 }
