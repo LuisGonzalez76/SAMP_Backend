@@ -70,8 +70,21 @@ class organizationsService
 
         ]);
 
+    }
 
+    public function showOrganization($id){
 
+        $organization = DB::table('counsels')
+                        ->join('counselors','counsels.counselor_id','=','counselors.id')
+                        ->join('organizations','counsels.organization_id','=','organizations.id')
+                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
+                        ->select('organizations.id','organizations.organizationName','organization_types.description',
+                            'organizations.organizationInitials','organizations.created_at','counselors.fullName',
+                            'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
+                            'counselors.counselorDepartment','counselors.counselorOffice')
+                        ->where('organizations.id', $id)
+                        ->get();
+        return $organization;
 
     }
 

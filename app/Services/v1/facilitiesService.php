@@ -68,7 +68,20 @@ class facilitiesService
          ]);
 
 
+    }
 
+
+    public function showFacility ($id){
+
+      // return $facility = facility::find($id);
+        $facilities = DB::table('managements')
+            ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
+            ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
+            ->select('facilities.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
+            ->where('facilities.id','=',$id)
+            ->get();
+
+        return $facilities;
 
 
     }

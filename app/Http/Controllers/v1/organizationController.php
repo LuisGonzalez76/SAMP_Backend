@@ -56,6 +56,8 @@ class organizationController extends Controller
         //
         $data = $this->organizations->storeOrganization($request);
 
+        return response()->json($data);
+
     }
 
     /**
@@ -67,6 +69,9 @@ class organizationController extends Controller
     public function show($id)
     {
         //
+        $data = $this->organizations->showOrganization($id);
+        return response()->json($data);
+
     }
 
     /**
