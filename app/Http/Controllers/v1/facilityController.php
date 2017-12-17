@@ -68,6 +68,8 @@ class facilityController extends Controller
     public function show($id)
     {
         //
+        $data = $this->facilities->showFacility($id);
+        return response()->json($data);
     }
 
     /**
