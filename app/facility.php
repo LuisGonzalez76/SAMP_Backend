@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class facility extends Model
 {
     protected $hidden = ['created_at','updated_at','facilityDepartment_code'];
-    protected $fillable = ['building','space','facilityDepartment_code'];
+    protected $fillable =['building','space','facilityDepartment_code'];
 
     //
     public function department(){

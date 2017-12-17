@@ -30,7 +30,8 @@ class facilityController extends Controller
     {
         //
         $data = $this->facilities->getFacilities();
-        return response()->json($data);
+        return response()
+            ->json($data);
 
     }
 
