@@ -33,6 +33,30 @@ class organizationController extends Controller
         return response()->json($data);
     }
 
+    public function allOrganizationTypes()
+    {
+        $data = $this->organizations->getOrganizationTypes();
+        return response()->json($data);
+
+    }
+
+    public function showOrganizationType($code){
+        $data = $this->organizations->showOrganizationType($code);
+        return response()->json($data);
+    }
+
+    public function storeOrganizationType(Request $request){
+        $data = $this->organizations->postOrganizationType($request);
+        return response()->json($data);
+
+    }
+
+    public function updateOrganizationType(Request $request, $code){
+        $data = $this->organizations->putOrganizationType($request,$code);
+        return response()->json($data);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

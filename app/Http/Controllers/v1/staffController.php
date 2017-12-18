@@ -17,6 +17,7 @@ class staffController extends Controller
     public function index()
     {
         //
+
     }
 
     /**

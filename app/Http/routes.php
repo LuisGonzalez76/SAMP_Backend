@@ -25,11 +25,27 @@ Route::get('api/organizations','v1\organizationController@index');
 
 Route::post('api/facilities', 'v1\facilityController@store');
 
-ROute::get('api/facilities/{id}','v1\facilityController@show');
+Route::get('api/facilities/{id}','v1\facilityController@show');
+
+Route::get('api/departments','v1\facilityController@departments');
+
+Route::get('api/departments/{code}', 'v1\facilityController@showDepartment');
+
+Route::post('api/departments', 'v1\facilityController@storeDepartment');
+
+Route::put('api/departments/{code}','v1\facilityController@updateDepartment');
 
 Route::post('api/organizations','v1\organizationController@store');
 
-ROute::get('api/organizations/{id}','v1\organizationController@show');
+Route::get('api/organizations/{id}','v1\organizationController@show');
+
+Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
+
+Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');
+
+Route::post('api/organization_types','v1\organizationController@storeOrganizationType');
+
+Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
 
 Route::get('api/activities', 'v1\activityController@index');
 

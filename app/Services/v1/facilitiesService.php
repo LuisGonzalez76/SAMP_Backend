@@ -14,6 +14,7 @@ use DB;
 use App\facility;
 use App\facilitiesManager;
 use App\management;
+use App\facilityDepartment;
 
 
 
@@ -85,5 +86,38 @@ class facilitiesService
 
 
     }
+
+
+    public function getDepartments(){
+
+        $departments = facilityDepartment::all();
+        return $departments;
+
+    }
+
+    public function showDepartment($code){
+        $department = facilityDepartment::where('code',$code)
+                    ->get();
+        return $department;
+
+    }
+
+    public function postDepartment($request){
+        $department = new facilityDepartment;
+        $department->description = $request->description;
+        $department->save();
+
+    }
+
+    public function putDepartment($request, $code){
+        $department = facilityDepartment::where('code',$code)
+                    ->update(['description' => $request['description']]);
+
+    }
+
+
+
+
+    
 
 }

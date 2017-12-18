@@ -88,4 +88,33 @@ class organizationsService
 
     }
 
+
+
+    public function getOrganizationTypes(){
+
+        $organization_types = organizationType::all();
+        return $organization_types;
+
+    }
+
+    public function showOrganizationType($code){
+        $organization_type = organizationType::where('code',$code)
+                            ->get();
+        return $organization_type;
+    }
+
+    public function postOrganizationType($request){
+        $organization_type = new organizationType;
+        $organization_type->description = $request->description;
+        $organization_type->save();
+
+    }
+
+    public function putOrganizationType($request,$code){
+        $organization_type = organizationType::where('code',$code)
+                            ->update(['description' => $request['description']]);
+
+    }
+
+
 }
