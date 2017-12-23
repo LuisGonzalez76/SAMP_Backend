@@ -15,9 +15,7 @@ use App\facility;
 use App\facilitiesManager;
 use App\management;
 use App\facilityDepartment;
-
-
-
+use function MongoDB\BSON\fromJSON;
 
 
 class facilitiesService
@@ -36,39 +34,214 @@ class facilitiesService
 
     }
 
-    public function storeFacilities( $request){
-
-        $facility = new facility;
-        $facility = $request->all();
-
-         $facility_json= facility::create([
-            'building' => $request['building'],
-            'space' => $request['space'],
-            'facilityDepartment_code' => $request['facilityDepartment_code'],
+    public function storeFacilities( $request)
+    {
 
 
-        ]);
-
-         $facility_manager =  new facilitiesManager;
-         $facility_manager = $request->all();
-         $facility_manager_json= facilitiesManager::create([
-             'fullName' => $request['fullName'],
-             'managerEmail' => $request['managerEmail'],
-             'managerPhone' => $request['managerPhone'],
-
-         ]);
-
-         $f_id = json_decode($facility_json);
-         $m_id = json_decode($facility_manager_json);
-
-         $manages =  new management;
-         return management::create([
-             'facility_id' => $f_id->id,
-             'manager_id'  => $m_id->id,
-
-         ]);
+        if ($request != null) {
 
 
+
+
+            $facility = new facility;
+            $facility = $request->all();
+            //$f_id =null;
+            //$m_id =null;
+
+           /* $facility_json = facility::create([
+                'building' => $request['building'],
+                'space' => $request['space'],
+                'facilityDepartment_code' => $request['facilityDepartment_code'],
+
+
+            ]);
+            */
+
+
+            $facility_manager = new facilitiesManager;
+            $facility_manager = $request->all();
+            /*$facility_manager_json = facilitiesManager::create([
+                'fullName' => $request['fullName'],
+                'managerEmail' => $request['managerEmail'],
+                'managerPhone' => $request['managerPhone'],
+
+            ]);*/
+
+            if ( $this->hasFacility($request) and $this->hasManager($request)){
+
+                $facilities_json = DB::table('facilities')
+                    ->where('building',$request['building'])
+                    ->where ('space',$request['space'])
+                    ->where('facilityDepartment_code',$request['facilityDepartment_code'])
+                    ->value('id');
+
+                //$f_id = json_encode($facilities_json);
+
+                $managers_json =  DB::table('facilities_managers')
+
+                    ->where('fullName',$request['fullName'])
+                    ->where('managerEmail',$request['managerEmail'])
+                    ->where('managerPhone',$request['managerPhone'])
+                    ->value('id');
+
+                //echo $managers_json;
+
+                //return $managers_json;
+
+                //$m_id = json_encode($managers_json);
+
+
+                $manages = new management;
+                return management::create([
+                    'facility_id' => $facilities_json,
+                    'manager_id' => $managers_json,
+
+                ]);
+
+            }
+
+            else if ( $this->hasFacility($request) and !$this->hasManager($request)){
+
+                $facilities_json = DB::table('facilities')
+                    ->where('building',$request['building'])
+                    ->where ('space',$request['space'])
+                    ->where('facilityDepartment_code',$request['facilityDepartment_code'])
+                    ->value('id');
+
+                $manager_json = facilitiesManager::create([
+                    'fullName' => $request['fullName'],
+                    'managerEmail' => $request['managerEmail'],
+                    'managerPhone' => $request['managerPhone'],
+                ]);
+
+                $m_id = json_decode($manager_json);
+
+                $manages = new management;
+                return management::create([
+                    'facility_id' => $facilities_json,
+                    'manager_id' => $m_id->id,
+
+                ]);
+
+
+            }
+
+            else if (!$this->hasFacility($request) and $this->hasManager($request)){
+
+                $facilities_json = facility::create([
+                    'building' => $request['building'],
+                    'space' => $request['space'],
+                    'facilityDepartment_code' => $request['facilityDepartment_code'],
+
+
+                ]);
+
+                $f_id = json_decode($facilities_json);
+
+                $managers_json =  DB::table('facilities_managers')
+
+                    ->where('fullName',$request['fullName'])
+                    ->where('managerEmail',$request['managerEmail'])
+                    ->where('managerPhone',$request['managerPhone'])
+                    ->value('id');
+
+
+                $manages = new management;
+                return management::create([
+                    'facility_id' => $f_id->id,
+                    'manager_id' => $managers_json,
+
+                ]);
+
+            }
+
+            else{
+
+                $facilities_json = facility::create([
+                    'building' => $request['building'],
+                    'space' => $request['space'],
+                    'facilityDepartment_code' => $request['facilityDepartment_code'],
+                ]);
+
+                $f_id = json_decode($facilities_json);
+
+
+                $manager_json = facilitiesManager::create([
+                    'fullName' => $request['fullName'],
+                    'managerEmail' => $request['managerEmail'],
+                    'managerPhone' => $request['managerPhone'],
+                ]);
+
+                $m_id = json_decode($manager_json);
+
+                $manages = new management;
+                return management::create([
+                    'facility_id' => $f_id->id,
+                    'manager_id' => $m_id->id,
+
+                ]);
+
+            }
+
+
+
+
+            /*$f_id = json_decode($facility_json);
+            $m_id = json_decode($facility_manager_json);*/
+
+            /*$manages = new management;
+            return management::create([
+                'facility_id' => $f_id->id,
+                'manager_id' => $m_id->id,
+
+            ]);*/
+
+
+        }
+
+        else {
+
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+
+        }
+
+    }
+
+    public function hasFacility($request){
+
+        $facilities = DB::table('facilities')
+                    ->where('building',$request['building'])
+                    ->where ('space',$request['space'])
+                    ->where('facilityDepartment_code',$request['facilityDepartment_code'])
+                    ->get();
+
+        if(count($facilities) > 0){
+            return true;
+        }
+
+        else{
+
+            return false;
+        }
+
+
+    }
+
+    public function hasManager($request){
+        $managers =  DB::table('facilities_managers')
+                    ->where('fullName',$request['fullName'])
+                    ->where('managerEmail',$request['managerEmail'])
+                    ->where('managerPhone',$request['managerPhone'])
+                    ->get();
+
+        if(count($managers) > 0)
+        {
+            return true;
+        }
+
+        else{
+            return false;
+        }
     }
 
 

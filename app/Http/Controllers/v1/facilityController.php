@@ -49,6 +49,7 @@ class facilityController extends Controller
 
     public function storeDepartment(Request $request){
         $data = $this->facilities->postDepartment($request);
+        return response()->json($data);
     }
 
     public function updateDepartment(Request $request,$code){
@@ -79,6 +80,7 @@ class facilityController extends Controller
         //
 
         $data = $this->facilities->storeFacilities($request);
+        return response()->json($data);
     }
 
     /**

@@ -14,7 +14,7 @@ use App\organization;
 use App\counsel;
 use App\counselor;
 use App\organizationType;
-
+use function MongoDB\BSON\fromJSON;
 
 class organizationsService
 {
@@ -34,43 +34,209 @@ class organizationsService
 
     public function storeOrganization($request){
 
-        $organization = new organization;
-        $organization = $request->all();
+        if ($request != null) {
 
-        $organization_json = organization::create([
-            'organizationName' => $request['organizationName'],
-            'organizationInitials'  => $request['organizationInitials'],
-//            'organizationType_code' => $request['organizationType_code'],
-            'organizationType_code' => $request['organizationType_code'],
-            'organizationStatus_code' => $request['organizationStatus_code'],
+            $organization = new organization;
+            $organization = $request->all();
 
-        ]);
+            /*  $organization_json = organization::create([
+                  'organizationName' => $request['organizationName'],
+                  'organizationInitials'  => $request['organizationInitials'],
+                  'organizationType_code' => $request['organizationType_code'],
+                  'organizationStatus_code' => $request['organizationStatus_code'],
 
-        $counselor =  new counselor;
-        $counselor = $request->all();
-        $counselor_json = counselor::create([
-            'fullName' => $request['fullName'],
-            'counselorEmail' => $request['counselorEmail'],
-            'counselorPhone' => $request['counselorPhone'],
-            'counselorFaculty' => $request['counselorFaculty'],
-            'counselorDepartment' => $request['counselorDepartment'],
-            'counselorOffice' => $request['counselorOffice'],
+              ]);*/
 
-        ]);
+            $counselor = new counselor;
+            $counselor = $request->all();
+            /*$counselor_json = counselor::create([
+                'fullName' => $request['fullName'],
+                'counselorEmail' => $request['counselorEmail'],
+                'counselorPhone' => $request['counselorPhone'],
+                'counselorFaculty' => $request['counselorFaculty'],
+                'counselorDepartment' => $request['counselorDepartment'],
+                'counselorOffice' => $request['counselorOffice'],
 
-        echo $request;
+            ]);*/
 
-        $o_id = json_decode($organization_json);
-        $c_id = json_decode($counselor_json);
+            //echo $request;
 
-        $counsels =  new counsel;
-        return counsel::create([
-            'counselor_id' => $c_id->id,
-            'organization_id'  => $o_id->id,
+            //$o_id = json_decode($organization_json);
+            //$c_id = json_decode($counselor_json);
 
-        ]);
+            if ($this->hasOrganization($request) and $this->hasCounselor($request)) {
+
+                $organizations = DB::table('organizations')
+                    ->where('organizationName', $request['organizationName'])
+                    ->where('organizationInitials', $request['organizationInitials'])
+                    ->where('organizationType_code', $request['organizationType_code'])
+                    ->where('organizationStatus_code', $request['organizationStatus_code'])
+                    ->value('id');
+
+                $counselor = DB::table('counselors')
+                    ->where('fullName', $request['fullName'])
+                    ->where('counselorEmail', $request['counselorEmail'])
+                    ->where('counselorPhone', $request['counselorPhone'])
+                    ->where('counselorFaculty', $request['counselorFaculty'])
+                    ->where('counselorDepartment', $request['counselorDepartment'])
+                    ->where('counselorOffice', $request['counselorOffice'])
+                    ->value('id');
+
+                $counsels = new counsel;
+                return counsel::create([
+                    'counselor_id' => $counselor,
+                    'organization_id' => $organizations,
+
+                ]);
+
+            } else if ($this->hasOrganization($request) and !$this->hasCounselor($request)) {
+
+                $organizations = DB::table('organizations')
+                    ->where('organizationName', $request['organizationName'])
+                    ->where('organizationInitials', $request['organizationInitials'])
+                    ->where('organizationType_code', $request['organizationType_code'])
+                    ->where('organizationStatus_code', $request['organizationStatus_code'])
+                    ->value('id');
+
+                $counselor_json = counselor::create([
+                    'fullName' => $request['fullName'],
+                    'counselorEmail' => $request['counselorEmail'],
+                    'counselorPhone' => $request['counselorPhone'],
+                    'counselorFaculty' => $request['counselorFaculty'],
+                    'counselorDepartment' => $request['counselorDepartment'],
+                    'counselorOffice' => $request['counselorOffice'],
+
+                ]);
+
+                $c_id = json_decode($counselor_json);
+
+                $counsels = new counsel;
+                return counsel::create([
+                    'counselor_id' => $c_id->id,
+                    'organization_id' => $organizations,
+
+                ]);
+
+            } else if (!$this->hasOrganization($request) and $this->hasCounselor($request)) {
+
+                $organization_json = organization::create([
+                    'organizationName' => $request['organizationName'],
+                    'organizationInitials' => $request['organizationInitials'],
+                    'organizationType_code' => $request['organizationType_code'],
+                    'organizationStatus_code' => $request['organizationStatus_code'],
+
+                ]);
+
+                $o_id = json_decode($organization_json);
+
+                $counselor = DB::table('counselors')
+                    ->where('fullName', $request['fullName'])
+                    ->where('counselorEmail', $request['counselorEmail'])
+                    ->where('counselorPhone', $request['counselorPhone'])
+                    ->where('counselorFaculty', $request['counselorFaculty'])
+                    ->where('counselorDepartment', $request['counselorDepartment'])
+                    ->where('counselorOffice', $request['counselorOffice'])
+                    ->value('id');
+
+                $counsels = new counsel;
+                return counsel::create([
+                    'counselor_id' => $counselor,
+                    'organization_id' => $o_id->id,
+                ]);
+
+
+            } else {
+
+                $organization_json = organization::create([
+                    'organizationName' => $request['organizationName'],
+                    'organizationInitials' => $request['organizationInitials'],
+                    'organizationType_code' => $request['organizationType_code'],
+                    'organizationStatus_code' => $request['organizationStatus_code'],
+
+                ]);
+
+                $counselor_json = counselor::create([
+                    'fullName' => $request['fullName'],
+                    'counselorEmail' => $request['counselorEmail'],
+                    'counselorPhone' => $request['counselorPhone'],
+                    'counselorFaculty' => $request['counselorFaculty'],
+                    'counselorDepartment' => $request['counselorDepartment'],
+                    'counselorOffice' => $request['counselorOffice'],
+
+                ]);
+
+                $o_id = json_decode($organization_json);
+                $c_id = json_decode($counselor_json);
+
+                $counsels = new counsel;
+                return counsel::create([
+                    'organization_id' => $o_id->id,
+                    'counselor_id' => $c_id->id,
+                ]);
+
+
+            }
+
+
+            /*$counsels =  new counsel;
+            return counsel::create([
+                'counselor_id' => $c_id->id,
+                'organization_id'  => $o_id->id,
+
+            ]);*/
+        }
+
+        else {
+
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+
+        }
 
     }
+
+    public function hasOrganization($request){
+
+      $organizations = DB::table('organizations')
+                        ->where('organizationName',$request['organizationName'])
+                        ->where('organizationInitials',$request['organizationInitials'])
+                        ->where('organizationType_code',$request['organizationType_code'])
+                        ->where('organizationStatus_code',$request['organizationStatus_code'])
+                        ->get();
+
+      if(count($organizations) > 0){
+          return true;
+      }
+
+      else{
+          return false;
+      }
+
+
+    }
+
+    public function hasCounselor($request){
+
+        $counselor = DB::table('counselors')
+                    ->where('fullName', $request['fullName'])
+                    ->where('counselorEmail',$request['counselorEmail'])
+                    ->where('counselorPhone',$request['counselorPhone'])
+                    ->where('counselorFaculty', $request['counselorFaculty'])
+                    ->where('counselorDepartment', $request['counselorDepartment'])
+                    ->where('counselorOffice',$request['counselorOffice'])
+                    ->get();
+
+        if(count($counselor) > 0){
+            return true;
+        }
+
+        else{
+            return false;
+        }
+
+
+    }
+
+
 
     public function showOrganization($id){
 

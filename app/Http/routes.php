@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('sexo', 'v1\studentController@index');
+//Route::get('sexo', 'v1\studentController@index');
 
 Route::get('b/{id}', 'ActivityStatusController@show');
 
