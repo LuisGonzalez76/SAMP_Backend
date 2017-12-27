@@ -29,6 +29,12 @@ class facilitiesService
                       ->select('facilities.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
                       ->get();
 
+        /*$facilities = DB::table('managements')
+            ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
+            ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
+            ->select('managements.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
+            ->get();*/
+
         return $facilities;
 
 
@@ -254,6 +260,13 @@ class facilitiesService
             ->select('facilities.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
             ->where('facilities.id','=',$id)
             ->get();
+
+        /*$facilities = DB::table('managements')
+            ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
+            ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
+            ->select('managements.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
+            ->where('managements.id','=',$id)
+            ->get();*/
 
         return $facilities;
 
