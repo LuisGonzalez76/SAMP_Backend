@@ -34,4 +34,23 @@ class activityService{
             ->get();
         return $activity;
     }
+
+
+
+    public function getPending(){
+        $pending = activity::where('activityStatus_code', 1)->count('activityStatus_code');
+        return $pending;
+    }
+
+    public function getApproved(){
+        $approved = activity::where('activityStatus_code', 2)->count('activityStatus_code');
+        return $approved;
+    }
+
+    public function getDenied(){
+        $denied = activity::where('activityStatus_code', 3)->count('activityStatus_code');
+        return $denied;
+    }
+
+
 }

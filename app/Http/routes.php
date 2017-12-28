@@ -49,6 +49,13 @@ Route::put('api/organization_types/{code}','v1\organizationController@updateOrga
 
 Route::get('api/activities', 'v1\activityController@index');
 
+Route::get('api/activities/pending','v1\activityController@countPending');
+
+Route::get('api/activities/approved','v1\activityController@countApproved');
+
+Route::get('api/activities/denied','v1\activityController@countDenied');
+
 Route::get('api/activities/{id}','v1\activityController@show');
 
 Route::get('api/users','v1\userController@index');
+
