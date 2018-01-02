@@ -134,4 +134,24 @@ class activityController extends Controller
     {
         //
     }
+
+    public function countPending(){
+
+        $data = $this->activites->getPending();
+        return response()->json($data);
+
+    }
+
+    public function countApproved(){
+        $data = $this->activites->getApproved();
+        return response()->json($data);
+
+    }
+
+    public function countDenied(){
+        $data = $this->activites->getDenied();
+        return response()->json($data);
+    }
+
+
 }
