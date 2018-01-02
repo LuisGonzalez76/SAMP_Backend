@@ -56,10 +56,10 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($email)
     {
         //
-        $data = $this->users->getUser($id);
+        $data = $this->users->getUser($email);
         return response()->json($data);
     }
 

@@ -101,6 +101,11 @@ class activityController extends Controller
         return response()->json($data);
     }
 
+    public function showByUserEmail($email){
+        $data = $this->activites->getActivityByUser($email);
+        return response()->json($data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

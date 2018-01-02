@@ -24,9 +24,28 @@ class userService{
         //return $user;
     }
 
-    public function getUser($id){
-        $user = user::find($id);
-        return $user;
+    public function getUser($email){
+        $user = user::where('userEmail',$email)->get()->first();
+        $u_json = json_decode($user);
+        $type = $u_json->userType_code;
+
+        if($type == 1){
+            return user::where('userEmail',$email)->with('staff','type')->get()->first();
+        }
+        if($type == 2){
+            return user::where('userEmail',$email)->with('staff','type')->get()->first();
+        }
+        if($type == 3){
+            return user::where('userEmail',$email)->with('students','type')->get()->first();
+        }
+        if($type == 4){
+            return user::where('userEmail',$email)->with('counselors','type')->get()->first();
+        }
+        if($type == 5){
+            return user::where('userEmail',$email)->with('managers','type')->get()->first();
+        }
+
+
     }
 
     public function getStudents(){
@@ -36,6 +55,11 @@ class userService{
 
     public function getStudent($id){
         $student =student::find($id);
+        return $student;
+    }
+
+    public function getStudentByEmail($email){
+        $student = student::where('studentEmail',$email)->get()->first();
         return $student;
     }
 

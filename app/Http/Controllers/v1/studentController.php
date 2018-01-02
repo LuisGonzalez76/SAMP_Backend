@@ -67,6 +67,13 @@ class studentController extends Controller
         return response()->json($data);
     }
 
+    public function showByEmail($email){
+        $data = $this->students->getStudentByEmail($email);
+
+        return response()->json($data);
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      *

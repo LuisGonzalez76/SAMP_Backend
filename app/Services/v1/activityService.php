@@ -8,6 +8,7 @@ use App\counselor;
 use App\organization;
 use App\facility;
 use App\facilitiesManager;
+use App\user;
 
 class activityService{
     public function getActivities(){
@@ -30,6 +31,37 @@ class activityService{
             ->with('counselor_status')->with('manager_status')
             ->get();
         return $activity;
+    }
+
+    public function getActivityByUser($email){
+        $user = user::where('userEmail',$email)->get()->first();
+        $u_json = json_decode($user);
+        $type = $u_json->userType_code;
+
+        if($type == 1){
+            $admin = user::where('userEmail',$email)->with('staff','type')->get()->first();
+            $decoded = json_decode($admin);
+            //$u_id = $admin->;
+
+        }
+        if($type == 2){
+            $staff =  user::where('userEmail',$email)->with('staff','type')->get()->first();
+            $u_id = $staff->id;
+        }
+        if($type == 3){
+            $student = user::where('userEmail',$email)->with('students','type')->get()->first();
+            $decoded = json_decode($student);
+            $u_id = $decoded->students[0]->id;
+            return activity::where('student_id',$u_id)->get();
+        }
+        if($type == 4){
+            $counselor = user::where('userEmail',$email)->with('counselors','type')->get()->first();
+            $u_id = $counselor->id;
+        }
+        if($type == 5){
+            $manager = user::where('userEmail',$email)->with('managers','type')->get()->first();
+            $u_id = $manager->id;
+        }
     }
 
     public function storeActivity($request){
