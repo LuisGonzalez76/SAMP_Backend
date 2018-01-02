@@ -25,6 +25,8 @@ Route::get('api/organizations','v1\organizationController@index');
 
 Route::post('api/facilities', 'v1\facilityController@store');
 
+Route::put('api/facilities/{id}','v1\facilityController@update');
+
 Route::get('api/facilities/{id}','v1\facilityController@show');
 
 Route::get('api/departments','v1\facilityController@departments');
@@ -36,6 +38,8 @@ Route::post('api/departments', 'v1\facilityController@storeDepartment');
 Route::put('api/departments/{code}','v1\facilityController@updateDepartment');
 
 Route::post('api/organizations','v1\organizationController@store');
+
+Route::put('api/organizations/{id}','v1\organizationController@update');
 
 Route::get('api/organizations/{id}','v1\organizationController@show');
 

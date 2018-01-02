@@ -23,17 +23,17 @@ class facilitiesService
 
     public function getFacilities(){
 
-        $facilities = DB::table('managements')
+        /*$facilities = DB::table('managements')
                       ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
                       ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
                       ->select('facilities.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
-                      ->get();
+                      ->get();*/
 
-        /*$facilities = DB::table('managements')
+        $facilities = DB::table('managements')
             ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
             ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
             ->select('managements.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
-            ->get();*/
+            ->get();
 
         return $facilities;
 
@@ -254,19 +254,19 @@ class facilitiesService
     public function showFacility ($id){
 
       // return $facility = facility::find($id);
-        $facilities = DB::table('managements')
+        /*$facilities = DB::table('managements')
             ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
             ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
             ->select('facilities.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
             ->where('facilities.id','=',$id)
-            ->get();
+            ->get();*/
 
-        /*$facilities = DB::table('managements')
+        $facilities = DB::table('managements')
             ->join('facilities_managers', 'managements.manager_id', '=', 'facilities_managers.id')
             ->join('facilities', 'managements.facility_id', '=', 'facilities.id')
             ->select('managements.id','facilities.space','facilities.building','facilities.created_at','facilities_managers.fullName','facilities_managers.managerEmail')
             ->where('managements.id','=',$id)
-            ->get();*/
+            ->get();
 
         return $facilities;
 
@@ -301,7 +301,55 @@ class facilitiesService
 
     }
 
+    public function updateFacility($request,$id){
 
+        $manager_id = management::where('id',$id)->value('manager_id');
+        $facility_id = management::where('id',$id)->value('facility_id');
+
+        if ( $this->hasFacilityName($request) and $this->hasManagerEmail($request)){
+
+            return true;
+        }
+
+        else{
+            return false;
+        }
+
+
+
+    }
+
+    public function hasManagerEmail($request){
+
+        $email = facilitiesManager::where('managerEmail',$request['managerEmail'])
+                                    ->get();
+
+        if(count($email) > 0){
+            return true;
+        }
+
+        else {
+            return false;
+        }
+
+
+    }
+
+    public function hasFacilityName($request){
+
+        $facility = facility::where('building','like', '%' .$request['building'] . '%' )
+                            ->where('space','like', '%' .$request['space']. '%')
+                            ->get();
+
+        if(count($facility) > 0){
+            return true;
+        }
+
+        else{
+            return false;
+        }
+
+    }
 
 
     
