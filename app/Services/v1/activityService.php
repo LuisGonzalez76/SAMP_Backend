@@ -39,28 +39,57 @@ class activityService{
         $type = $u_json->userType_code;
 
         if($type == 1){
-            $admin = user::where('userEmail',$email)->with('staff','type')->get()->first();
-            $decoded = json_decode($admin);
-            //$u_id = $admin->;
+            return activity::with('student','organization','facility',
+                'status','counselor_status','manager_status')->get();
 
         }
         if($type == 2){
-            $staff =  user::where('userEmail',$email)->with('staff','type')->get()->first();
-            $u_id = $staff->id;
+            return activity::with('student','organization','facility',
+                'status','counselor_status','manager_status')->get();
         }
         if($type == 3){
             $student = user::where('userEmail',$email)->with('students','type')->get()->first();
             $decoded = json_decode($student);
             $u_id = $decoded->students[0]->id;
-            return activity::where('student_id',$u_id)->get();
+            return activity::where('student_id',$u_id)->with('student','organization','facility',
+                'status','counselor_status','manager_status')->get();
         }
         if($type == 4){
             $counselor = user::where('userEmail',$email)->with('counselors','type')->get()->first();
-            $u_id = $counselor->id;
+            $decoded = json_decode($counselor);
+            $u_id = $decoded->counselors[0]->id;
+            $orgs = counselor::where('id',$u_id)->with('organizations')->get()->first();
+            $o_json = json_decode($orgs);
+            $org_ids = [];
+            $size = sizeof($o_json->organizations);
+           // return $size;
+            for($i=0;$i<$size;$i++){
+                $org_ids [] = $o_json->organizations[$i]->id;
+            }
+
+            $activities = activity::whereIn('organization_id',$org_ids)->with('student','organization','facility',
+                'status','counselor_status','manager_status')->get();
+            return $activities;
+
         }
         if($type == 5){
             $manager = user::where('userEmail',$email)->with('managers','type')->get()->first();
-            $u_id = $manager->id;
+            $decoded = json_decode($manager);
+            $u_id = $decoded->managers[0]->id;
+
+            $fac = facilitiesManager::where('id',$u_id)->with('facilities')->get()->first();
+            $f_json = json_decode($fac);
+            $fac_ids = [];
+            $size = sizeof($f_json->facilities);
+
+            for($i=0;$i<$size;$i++){
+                $fac_ids [] = $f_json->facilities[$i]->id;
+            }
+
+            $activities = activity::whereIn('facility_id',$fac_ids)->with('student','organization','facility',
+                'status','counselor_status','manager_status')->get();
+            return $activities;
+
         }
     }
 
