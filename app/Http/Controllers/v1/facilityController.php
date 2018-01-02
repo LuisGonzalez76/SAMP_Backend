@@ -117,6 +117,8 @@ class facilityController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $this->facilities->updateFacility($request,$id);
+        return response()->json($data);
     }
 
     /**
