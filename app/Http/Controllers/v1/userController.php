@@ -59,6 +59,8 @@ class userController extends Controller
     public function show($id)
     {
         //
+        $data = $this->users->getUser($id);
+        return response()->json($data);
     }
 
     /**

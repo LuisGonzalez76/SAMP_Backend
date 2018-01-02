@@ -14,4 +14,8 @@ class counselor extends Model
         return $this->belongsToMany('App\organization','counsels',
             'counselor_id','organization_id');
     }
+
+    public function user(){
+        return $this->belongsTo('App\user','user_id');
+    }
 }

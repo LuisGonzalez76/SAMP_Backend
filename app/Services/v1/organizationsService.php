@@ -21,11 +21,13 @@ class organizationsService
 
     public function getOrganizations(){
 
-        $organizations = DB::select('select o.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
+        /*$organizations = DB::select('select o.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
         c.fullName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
         from organization_types as ot,counselors as c, counsels as cn,organizations as o
         where cn.counselor_id = c.id and cn.organization_id = o.id and ot.code = o.organizationType_code'
-        );
+        );*/
+
+       $organizations = organization::with('counselors')->get();
 
         return $organizations;
 

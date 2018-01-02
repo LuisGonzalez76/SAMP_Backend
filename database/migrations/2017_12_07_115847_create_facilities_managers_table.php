@@ -14,10 +14,14 @@ class CreateFacilitiesManagersTable extends Migration
     {
         Schema::create('facilities_managers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullName');
+            $table->string('managerName');
             $table->string('managerEmail')->unique();
             $table->string('managerPhone');
+            $table->integer('user_id')->unsigned()->unique();
             $table->timestamps();
+
+            //Foreign Keys
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

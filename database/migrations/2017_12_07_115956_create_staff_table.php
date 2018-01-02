@@ -19,13 +19,16 @@ class CreateStaffTable extends Migration
          */
             'staff', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullName');
+            $table->string('staffName');
             $table->string('staffEmail')->unique();
             $table->string('staffPhone');
             $table->integer('staffType_code')->unsigned();
+            $table->integer('user_id')->unsigned()->unique();
+            $table->boolean('isActive');
             $table->timestamps();
 
             //Foreign Keys
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('staffType_code')->references('code')->on('staff_types');
         });
     }

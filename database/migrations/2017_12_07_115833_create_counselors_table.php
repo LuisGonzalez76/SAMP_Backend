@@ -14,13 +14,17 @@ class CreateCounselorsTable extends Migration
     {
         Schema::create('counselors', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullName');
+            $table->string('counselorName');
             $table->string('counselorEmail')->unique();
             $table->string('counselorPhone');
             $table->string('counselorFaculty');
             $table->string('counselorDepartment');
             $table->string('counselorOffice');
+            $table->integer('user_id')->unsigned()->unique();
             $table->timestamps();
+
+            //Foreign Keys
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

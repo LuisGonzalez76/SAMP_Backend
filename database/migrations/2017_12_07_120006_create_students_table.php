@@ -14,7 +14,7 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('fullName');
+            $table->string('studentName');
             $table->string('studentEmail')->unique();
             $table->string('studentNo');
             $table->string('studentPhone');
@@ -22,8 +22,12 @@ class CreateStudentsTable extends Migration
             $table->string('studentCity');
             $table->string('studentCountry');
             $table->string('studentZipCode');
-
+            $table->integer('user_id')->unsigned()->unique();
+            $table->boolean('isActive');
             $table->timestamps();
+
+            //Foreign Keys
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }

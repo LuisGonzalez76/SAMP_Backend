@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Services\v1\userService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -9,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class counselorController extends Controller
 {
+    protected $counselors;
+    public function __construct(userService $service)
+    {
+        $this->counselors = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +23,8 @@ class counselorController extends Controller
     public function index()
     {
         //
+        $data = $this->counselors->getCounselors();
+        return response()->json($data);
     }
 
     /**
@@ -49,6 +57,8 @@ class counselorController extends Controller
     public function show($id)
     {
         //
+        $data = $this->counselors->getCounselor($id);
+        return response()->json($data);
     }
 
     /**

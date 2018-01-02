@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Services\v1\userService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -9,6 +10,11 @@ use App\Http\Controllers\Controller;
 
 class managerController extends Controller
 {
+    protected $managers;
+    public function __construct(userService $service)
+    {
+        $this->managers = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,6 +23,9 @@ class managerController extends Controller
     public function index()
     {
         //
+        $data = $this->managers->getManagers();
+
+        return response()->json($data);
     }
 
     /**
@@ -49,6 +58,9 @@ class managerController extends Controller
     public function show($id)
     {
         //
+        $data = $this->managers->getManager($id);
+
+        return response()->json($data);
     }
 
     /**

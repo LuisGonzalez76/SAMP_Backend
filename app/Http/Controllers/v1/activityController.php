@@ -47,6 +47,45 @@ class activityController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->activites->storeActivity($request);
+        return response()->json($data);
+
+    }
+
+    public function counselorApproved($id)
+    {
+        $data = $this->activites->counselorApproved($id);
+        return response()->json($data);
+    }
+
+    public function counselorDenied($id)
+    {
+        $data = $this->activites->counselorDenied($id);
+        return response()->json($data);
+    }
+
+    public function managerApproved($id)
+    {
+        $data = $this->activites->managerApproved($id);
+        return response()->json($data);
+    }
+
+    public function managerDenied($id)
+    {
+        $data = $this->activites->managerDenied($id);
+        return response()->json($data);
+    }
+
+    public function adminApproved($id)
+    {
+        $data = $this->activites->adminApproved($id);
+        return response()->json($data);
+    }
+
+    public function adminDenied($id)
+    {
+        $data = $this->activites->adminDenied($id);
+        return response()->json($data);
     }
 
     /**

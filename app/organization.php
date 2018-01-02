@@ -14,10 +14,6 @@ class organization extends Model
         return $this->belongsTo('App\organizationType','organizationType_code','code');
     }
 
-    public function status(){
-        return $this->belongsTo('App\organizationStatus','organizationStatus_code','code');
-    }
-
     public function members(){
         return $this->belongsToMany('App\student','memberships',
             'organization_id','student_id');

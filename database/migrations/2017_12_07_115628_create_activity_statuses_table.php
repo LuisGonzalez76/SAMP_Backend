@@ -14,7 +14,6 @@ class CreateActivityStatusesTable extends Migration
     {
         Schema::create('activity_statuses', function (Blueprint $table) {
             $table->increments('code');
-            //$table->integer('code')->unique();
             $table->string('description');
             $table->timestamps();
         });

@@ -13,4 +13,9 @@ class facilitiesManager extends Model
         return $this->belongsToMany('App\facility','managements',
             'manager_id','facility_id');
     }
+
+    public function user(){
+        return $this->belongsTo('App\user','user_id');
+    }
+
 }

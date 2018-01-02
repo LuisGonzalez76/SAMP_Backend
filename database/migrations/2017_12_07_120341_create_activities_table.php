@@ -24,12 +24,12 @@ class CreateActivitiesTable extends Migration
             $table->date('activityDate');
             $table->time('activityStart');
             $table->time('activityEnd');
-            $table->integer('activityStatus_code')->unsigned();
-            $table->integer('hasFood')->nullable();
+            $table->boolean('hasFood')->nullable();
             $table->string('guestName')->nullable();
+            $table->integer('activityStatus_code')->unsigned();
             $table->integer('counselorStatus_code')->unsigned();
             $table->integer('managerStatus_code')->unsigned();
-            $table->integer('activityType_code')->unsigned();
+            $table->integer('activityType_code')->unsigned()->nullable();
             $table->timestamps();
 
             //Foreign keys

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Services\v1\studentService;
+use App\Services\v1\userService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 class studentController extends Controller
 {
     protected $students;
-    public function __construct(studentService $service)
+    public function __construct(userService $service)
     {
         $this->students = $service;
     }
@@ -48,6 +48,9 @@ class studentController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->students->storeStudent($request);
+
+        return response()->json($data);
     }
 
     /**
@@ -59,6 +62,9 @@ class studentController extends Controller
     public function show($id)
     {
         //
+        $data = $this->students->getStudent($id);
+
+        return response()->json($data);
     }
 
     /**

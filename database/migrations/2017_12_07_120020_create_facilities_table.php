@@ -15,9 +15,12 @@ class CreateFacilitiesTable extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->increments('id');
             $table->string('building');
-            $table->string('space');
+            $table->string('space')->unique();
             $table->integer('facilityDepartment_code')->unsigned();
+            $table->boolean('isActive');
             $table->timestamps();
+
+            $table->unique(['building','space']);
 
             //Foreign keys
             $table->foreign('facilityDepartment_code')->references('code')->on('facility_departments');

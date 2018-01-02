@@ -17,12 +17,11 @@ class CreateOrganizationsTable extends Migration
             $table->string('organizationName');
             $table->string('organizationInitials');
             $table->integer('organizationType_code')->unsigned();
-            $table->integer('organizationStatus_code')->unsigned();
+            $table->boolean('isActive');
             $table->timestamps();
 
             //Foreign keys
             $table->foreign('organizationType_code')->references('code')->on('organization_types');
-            $table->foreign('organizationStatus_code')->references('code')->on('organization_statuses');
         });
     }
 
