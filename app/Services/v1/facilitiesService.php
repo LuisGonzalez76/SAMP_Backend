@@ -306,16 +306,224 @@ class facilitiesService
         $manager_id = management::where('id',$id)->value('manager_id');
         $facility_id = management::where('id',$id)->value('facility_id');
 
+        $manager_email = facilitiesManager::where('id',$manager_id)
+                        ->value('managerEmail');
+
+        $building = facility::where('id',$facility_id)
+                    ->value('building');
+
+        $space = facility::where('id',$facility_id)
+                ->value('space');
+
         if ( $this->hasFacilityName($request) and $this->hasManagerEmail($request)){
 
-            return true;
+
+           if ( ($manager_email == $request['managerEmail']) and ($building == $request['building']) and ($space == $request['space'])) {
+
+               $manager = facilitiesManager::where('id', $manager_id)->first();
+               $manager->fullName = $request->fullName;
+               $manager->managerEmail = $request->managerEmail;
+               $manager->managerPhone = $request->managerPhone;
+               $manager->save();
+
+
+               $facility = facility::where('id', $facility_id)->first();
+               $facility->building = $request->building;
+               $facility->space = $request->space;
+               $facility->facilityDepartment_code = $request->facilityDepartment_code;
+               $facility->save();
+
+           }
+
+           else if ( ($manager_email != $request['managerEmail']) and ($building == $request['building']) and ($space == $request['space']) ){
+
+               $manager_id = facilitiesManager::where('managerEmail',$request['managerEmail'])
+                            ->value('id');
+
+               $manager = facilitiesManager::where('id', $manager_id)->first();
+               $manager->fullName = $request->fullName;
+               $manager->managerEmail = $request->managerEmail;
+               $manager->managerPhone = $request->managerPhone;
+               $manager->save();
+
+               $facility = facility::where('id', $facility_id)->first();
+               $facility->building = $request->building;
+               $facility->space = $request->space;
+               $facility->facilityDepartment_code = $request->facilityDepartment_code;
+               $facility->save();
+
+               $managements_update = management::where('id',$id)
+                                    ->update(['manager_id' => $manager_id]);
+
+
+           }
+
+           else if ( ($manager_email == $request['managerEmail']) and ($building != $request['building']) and ($space != $request['space']) ){
+
+               $manager = facilitiesManager::where('id', $manager_id)->first();
+               $manager->fullName = $request->fullName;
+               $manager->managerEmail = $request->managerEmail;
+               $manager->managerPhone = $request->managerPhone;
+               $manager->save();
+
+               $facility_id = facility::where('building',$request['building'])
+                                        ->where('space', $request['space'])
+                                        ->value('id');
+
+               $facility = facility::where('id', $facility_id)->first();
+               $facility->building = $request->building;
+               $facility->space = $request->space;
+               $facility->facilityDepartment_code = $request->facilityDepartment_code;
+               $facility->save();
+
+               $managements_update = management::where('id',$id)
+                   ->update(['facility_id' => $facility_id]);
+
+           }
+
+           else{
+
+               $manager_id = facilitiesManager::where('managerEmail',$request['managerEmail'])
+                   ->value('id');
+
+               $manager = facilitiesManager::where('id', $manager_id)->first();
+               $manager->fullName = $request->fullName;
+               $manager->managerEmail = $request->managerEmail;
+               $manager->managerPhone = $request->managerPhone;
+               $manager->save();
+
+               $facility_id = facility::where('building',$request['building'])
+                   ->where('space', $request['space'])
+                   ->values('id');
+
+               $facility = facility::where('id', $facility_id)->first();
+               $facility->building = $request->building;
+               $facility->space = $request->space;
+               $facility->facilityDepartment_code = $request->facilityDepartment_code;
+               $facility->save();
+
+               $managements_update = management::where('id',$id)
+                   ->update(['manager_id' => $manager_id])
+                   ->update(['facility_id' => $facility_id]);
+
+           }
+
+
         }
+
+        else if ($this->hasFacilityName($request) and !$this->hasManagerEmail($request)){
+
+            if (($building == $request['building']) and ($space == $request['space'])){
+
+                $facility = facility::where('id', $facility_id)->first();
+                $facility->building = $request->building;
+                $facility->space = $request->space;
+                $facility->facilityDepartment_code = $request->facilityDepartment_code;
+                $facility->save();
+            }
+
+            else{
+
+                $facility_id = facility::where('building',$request['building'])
+                    ->where('space', $request['space'])
+                    ->values('id');
+
+                $facility = facility::where('id', $facility_id)->first();
+                $facility->building = $request->building;
+                $facility->space = $request->space;
+                $facility->facilityDepartment_code = $request->facilityDepartment_code;
+                $facility->save();
+
+                $managements_update = management::where('id',$id)
+                    ->update(['facility_id' => $facility_id]);
+
+            }
+
+
+            $manager_json = facilitiesManager::create([
+                'fullName' => $request['fullName'],
+                'managerEmail' => $request['managerEmail'],
+                'managerPhone' => $request['managerPhone'],
+
+            ]);
+
+            $m_id = json_decode($manager_json);
+
+            $managements_update = management::where('id',$id)
+                                ->update(['manager_id' => $m_id->id]);
+
+
+        }
+
+        else if (!$this->hasFacilityName($request) and $this->hasManagerEmail($request)){
+
+            if (($manager_email == $request['managerEmail'])){
+
+                $manager = facilitiesManager::where('id', $manager_id)->first();
+                $manager->fullName = $request->fullName;
+                $manager->managerEmail = $request->managerEmail;
+                $manager->managerPhone = $request->managerPhone;
+                $manager->save();
+
+            }
+
+            else{
+
+                $manager_id = facilitiesManager::where('managerEmail',$request['managerEmail'])
+                    ->value('id');
+
+                $manager = facilitiesManager::where('id', $manager_id)->first();
+                $manager->fullName = $request->fullName;
+                $manager->managerEmail = $request->managerEmail;
+                $manager->managerPhone = $request->managerPhone;
+                $manager->save();
+
+                $managements_update = management::where('id',$id)
+                    ->update(['manager_id' => $manager_id]);
+
+            }
+
+            $facility_json = facility::create([
+                'building' => $request['building'],
+                'space' => $request['space'],
+                'facilityDepartment_code' => $request['facilityDepartment_code'],
+            ]);
+
+            $f_id = json_decode($facility_json);
+
+
+            $managements_update = management::where('id',$id)
+                ->update(['facility_id' => $f_id->id]);
+        }
+
+
 
         else{
-            return false;
+
+            $manager_json = facilitiesManager::create([
+                'fullName' => $request['fullName'],
+                'managerEmail' => $request['managerEmail'],
+                'managerPhone' => $request['managerPhone'],
+
+            ]);
+
+            $facility_json = facility::create([
+                'building' => $request['building'],
+                'space' => $request['space'],
+                'facilityDepartment_code' => $request['facilityDepartment_code'],
+            ]);
+
+            $m_id = json_decode($manager_json);
+            $f_id = json_decode($facility_json);
+
+            $managements = new management;
+            return management::create([
+                'manager_id' => $m_id->id,
+                'facility_id' => $f_id->id,
+            ]);
+
+
         }
-
-
 
     }
 

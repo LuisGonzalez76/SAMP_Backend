@@ -298,11 +298,15 @@ class organizationsService
         $organization_initials = organization::where('id',$organization_id)
             ->value('organizationInitials');
 
+        $organization_name = organization::where('id',$organization_id)
+            ->value('organizationName');
+
         if ($this->hasOrganizationName($request,$organization_id)  and $this->hasCounselorEmail($request,$counselor_id)){
 
 
 
-            if ( ($counselor_email == $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])){
+            if ( ($counselor_email == $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])
+            and ($organization_name == $request['organizationName'])){
 
                 $organization = organization::where('id',$organization_id)->first();
                 $organization->organizationName = $request->organizationName;
@@ -323,7 +327,8 @@ class organizationsService
 
             }
 
-            else if (($counselor_email != $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])){
+            else if (($counselor_email != $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])
+            and ($organization_name == $request['organizationName'])){
 
 
                 $organization = organization::where('id', $organization_id)->first();
@@ -353,10 +358,12 @@ class organizationsService
 
             }
 
-            else if (($counselor_email == $request['counselorEmail']) and ($organization_initials != $request['organizationInitials'])){
+            else if (($counselor_email == $request['counselorEmail']) and ($organization_initials != $request['organizationInitials'])
+            and ($organization_name != $request['organizationName'])){
 
                 $organization_id = organization::where('organizationInitials',$request['organizationInitials'])
-                    ->value('id');
+                                                ->where('organizationName', $request['organizationName'])
+                                                ->value('id');
 
                 $organization = organization::where('id', $organization_id)->first();
                 $organization->organizationName = $request->organizationName;
@@ -429,7 +436,8 @@ class organizationsService
             else {
 
                 $organization_id = organization::where('organizationInitials',$request['organizationInitials'])
-                    ->value('id');
+                                                ->where('organizationName', $request['organizationName'])
+                                                ->value('id');
 
                 $organization = organization::where('id', $organization_id)->first();
                 $organization->organizationName = $request->organizationName;
