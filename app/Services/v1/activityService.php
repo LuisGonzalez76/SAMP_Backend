@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\v1;
 
+use App\activityType;
 use App\Providers\v1\studentServiceProvider;
 use App\student;
 use App\activity;
@@ -177,6 +178,10 @@ class activityService{
     public function getDenied(){
         $denied = activity::where('activityStatus_code', 3)->count('activityStatus_code');
         return $denied;
+    }
+
+    public function getTypes(){
+        return activityType::all();
     }
 
 

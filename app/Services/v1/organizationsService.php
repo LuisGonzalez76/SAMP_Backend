@@ -9,6 +9,7 @@
 namespace App\Services\v1;
 
 use App\Http\Requests\Request;
+use App\student;
 use DB;
 use App\organization;
 use App\counsel;
@@ -18,6 +19,14 @@ use function MongoDB\BSON\fromJSON;
 
 class organizationsService
 {
+
+    public function getOrganizationsByUser($email){
+        $student = student::where('studentEmail',$email)->with('organizations')->get()->first();
+
+        $s_json = json_decode($student);
+        $orgs = $s_json->organizations;
+        return $orgs;
+    }
 
     public function getOrganizations(){
 

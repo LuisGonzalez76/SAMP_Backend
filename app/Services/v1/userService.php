@@ -26,7 +26,7 @@ class userService{
 
     public function getUser($email){
         $user = user::where('userEmail',$email)->get()->first();
-        
+
         $u_json = json_decode($user);
         $type = $u_json->userType_code;
 

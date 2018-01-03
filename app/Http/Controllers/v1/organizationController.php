@@ -84,6 +84,15 @@ class organizationController extends Controller
 
     }
 
+    public function getByUser($email)
+    {
+        //
+        $data = $this->organizations->getOrganizationsByUser($email);
+
+        return response()->json($data);
+
+    }
+
     /**
      * Display the specified resource.
      *

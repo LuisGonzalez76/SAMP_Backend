@@ -169,5 +169,11 @@ class activityController extends Controller
         return response()->json($data);
     }
 
+    public function getTypes(){
+        $data = $this->activites->getTypes();
+        return response()->json($data);
+    }
+
+
 
 }

@@ -12,7 +12,7 @@ class student extends Model
     //
     public function organizations(){
         return $this->belongsToMany('App\organization','memberships',
-            'student_id','organization_id');
+            'student_id','organization_id')->withPivot('organizationRole_code');
     }
 
     public function activities(){

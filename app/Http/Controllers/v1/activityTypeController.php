@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 
 class activityTypeController extends Controller
 {
+    protected $activityType;
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +19,7 @@ class activityTypeController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

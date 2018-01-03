@@ -42,6 +42,7 @@ Route::post('api/organizations','v1\organizationController@store');
 Route::put('api/organizations/{id}','v1\organizationController@update');
 
 Route::get('api/organizations/{id}','v1\organizationController@show');
+Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
 
 Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
 
@@ -58,6 +59,8 @@ Route::get('api/activities/{id}','v1\activityController@show');
 Route::get('api/activity/{email}','v1\activityController@showByUserEmail');
 Route::put('api/hasFood/{id}','v1\activityController@hasFood');
 Route::put('api/activityType/{id}','v1\activityController@updateType');
+Route::get('api/activityType','v1\activityController@getTypes');
+
 
 
 Route::post('api/activities','v1\activityController@store');
