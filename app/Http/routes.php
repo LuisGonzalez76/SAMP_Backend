@@ -51,12 +51,15 @@ Route::post('api/organization_types','v1\organizationController@storeOrganizatio
 
 Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
 
+
+//Activities Routes
 Route::get('api/activities', 'v1\activityController@index');
 Route::get('api/activities/{id}','v1\activityController@show');
 Route::get('api/activity/{email}','v1\activityController@showByUserEmail');
+Route::put('api/hasFood/{id}','v1\activityController@hasFood');
+Route::put('api/activityType/{id}','v1\activityController@updateType');
 
-Route::get('api/users','v1\userController@index');
-Route::get('api/users/{email}','v1\userController@show');
+
 Route::post('api/activities','v1\activityController@store');
 Route::put('api/counselorApproved/{id}','v1\activityController@counselorApproved');
 Route::put('api/counselorDenied/{id}','v1\activityController@counselorDenied');
@@ -65,21 +68,31 @@ Route::put('api/managerDenied/{id}','v1\activityController@managerDenied');
 Route::put('api/adminApproved/{id}','v1\activityController@adminApproved');
 Route::put('api/adminDenied/{id}','v1\activityController@adminDenied');
 
+//User Routes
+Route::get('api/users','v1\userController@index');
+Route::get('api/users/{email}','v1\userController@show');
+
+//Student routes
 Route::get('api/students','v1\studentController@index');
 //Route::get('api/students/{id}','v1\studentController@show');
 Route::get('api/students/{email}','v1\studentController@showByEmail');
 Route::post('api/students','v1\studentController@store');
+Route::put('api/students/{id}','v1\studentController@update');
 
 
+//Counselor routes
 Route::get('api/counselors','v1\counselorController@index');
 Route::get('api/counselors/{id}','v1\counselorController@show');
 
+//Manager Routes
 Route::get('api/managers','v1\managerController@index');
 Route::get('api/managers/{id}','v1\managerController@show');
 
+//Staff Routes
 Route::get('api/staff','v1\staffController@staffIndex');
 Route::get('api/staff/{id}','v1\staffController@showStaff');
 Route::post('api/staff','v1\staffController@storeStaff');
+Route::put('api/staff/{id}','v1\staffController@update');
 
 Route::get('api/admin','v1\staffController@adminIndex');
 Route::get('api/admin/{id}','v1\staffController@showAdmin');

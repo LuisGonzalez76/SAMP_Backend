@@ -125,6 +125,9 @@ class staffController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $this->staff->updateStaff($request,$id);
+
+        return response()->json($data);
     }
 
     /**

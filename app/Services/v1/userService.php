@@ -26,6 +26,7 @@ class userService{
 
     public function getUser($email){
         $user = user::where('userEmail',$email)->get()->first();
+        
         $u_json = json_decode($user);
         $type = $u_json->userType_code;
 
@@ -91,6 +92,28 @@ class userService{
 
     }
 
+    public function updateStudent($request,$id){
+        $student = student::where('id',$id)->get()->first();
+        $s_json = json_decode($student);
+        $u_id = $s_json->user_id;
+        $user = user::where('id',$u_id)->get()->first();
+
+        $user->userEmail = $request->input('studentEmail');
+
+        $student->studentName = $request->input('studentName');
+        $student->studentEmail = $request->input('studentEmail');
+        $student->studentNo = $request->input('studentNo');
+        $student->studentPhone = $request->input('studentPhone');
+        $student->studentAddress = $request->input('studentAddress');
+        $student->studentCity = $request->input('studentCity');
+        $student->studentCountry = $request->input('studentCountry');
+        $student->studentZipCode = $request->input('studentZipCode');
+
+        $user->save();
+        $student->save();
+
+    }
+
 
 
     public function getCounselors(){
@@ -102,8 +125,6 @@ class userService{
         $counselor = counselor::find($id);
         return $counselor;
     }
-
-
 
     public function getManagers(){
         $manager = facilitiesManager::all();
@@ -179,6 +200,23 @@ class userService{
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
         }
+    }
+
+    public function updateStaff($request,$id){
+        $staff = staff::where('id',$id)->get()->first();
+        $s_json = json_decode($staff);
+        $u_id = $s_json->user_id;
+        $user = user::where('id',$u_id)->get()->first();
+
+        $user->userEmail = $request->input('staffEmail');
+
+        $staff->staffName = $request->input('staffName');
+        $staff->staffEmail = $request->input('staffEmail');
+        $staff->staffPhone = $request->input('staffPhone');
+
+        $user->save();
+        $staff->save();
+
     }
 
 

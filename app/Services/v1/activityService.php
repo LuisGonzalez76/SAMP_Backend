@@ -152,6 +152,18 @@ class activityService{
         $activity->save();
     }
 
+    public function hasFood($request,$id){
+        $activity = activity::where('id',$id)->get()->first();
+        $activity->hasFood = $request->input('hasFood');
+        $activity->save();
+    }
+
+    public function updateType($request,$id){
+        $activity = activity::where('id',$id)->get()->first();
+        $activity->activityType_code = $request->input('activityType_code');
+        $activity->save();
+    }
+
     public function getPending(){
         $pending = activity::where('activityStatus_code', 1)->count('activityStatus_code');
         return $pending;

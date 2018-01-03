@@ -95,6 +95,8 @@ class studentController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $this->students->updateStudent($request,$id);
+        return response()->json($data);
     }
 
     /**

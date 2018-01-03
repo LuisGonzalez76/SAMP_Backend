@@ -18,6 +18,7 @@ class CreateFacilitiesManagersTable extends Migration
             $table->string('managerEmail')->unique();
             $table->string('managerPhone');
             $table->integer('user_id')->unsigned()->unique();
+            $table->boolean('isActive');
             $table->timestamps();
 
             //Foreign Keys

@@ -88,6 +88,17 @@ class activityController extends Controller
         return response()->json($data);
     }
 
+    public function hasFood(Request $request,$id)
+    {
+        $data = $this->activites->hasFood($request,$id);
+        return response()->json($data);
+    }
+
+    public function updateType(Request $request,$id){
+        $data = $this->activites->updateType($request,$id);
+        return response()->json($data);
+    }
+
     /**
      * Display the specified resource.
      *

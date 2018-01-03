@@ -21,6 +21,7 @@ class CreateCounselorsTable extends Migration
             $table->string('counselorDepartment');
             $table->string('counselorOffice');
             $table->integer('user_id')->unsigned()->unique();
+            $table->boolean('isActive');
             $table->timestamps();
 
             //Foreign Keys

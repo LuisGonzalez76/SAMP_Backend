@@ -15,12 +15,26 @@ class activityTypeSeeder extends Seeder
         DB::table('activity_types')->insert([
             ['code' => 1,'description' => 'Profesional','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
-            ['code' => 2,'description' => 'Arte','created_at' => DB::raw('now()'),
+            ['code' => 2,'description' => 'Artística','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
             ['code' => 3,'description' => 'Religiosa','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
             ['code' => 4,'description' => 'Venta','created_at' => DB::raw('now()'),
-                'updated_at' => DB::raw('now()')]
+                'updated_at' => DB::raw('now()')],
+            ['code' => 5,'description' => 'Social','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 6,'description' => 'Académica','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 7,'description' => 'Educacional','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 8,'description' => 'Cívica','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 9,'description' => 'Deportiva','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 10,'description' => 'Política','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+
+
         ]);
     }
 }
