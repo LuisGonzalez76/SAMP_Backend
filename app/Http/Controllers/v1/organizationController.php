@@ -78,7 +78,7 @@ class organizationController extends Controller
     public function store(Request $request)
     {
         //
-        $data = $this->organizations->storeOrganization($request);
+        $data = $this->organizations->createOrganization($request);
 
         return response()->json($data);
 
