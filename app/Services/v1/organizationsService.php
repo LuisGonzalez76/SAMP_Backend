@@ -194,7 +194,14 @@ class organizationsService
     public function createOrganization($request){
         if ($request != null) {
 
-            if(!$this->hasOrganization($request)){
+            if($this->hasOrganization($request)){
+
+                return response() -> json(['message' => 'Organization already exists'], 200);
+
+            }
+
+            else{
+
 
                 $organization = organization::create([
                     'organizationName' => $request['organizationName'],
@@ -205,12 +212,6 @@ class organizationsService
                 ]);
 
                 return $organization;
-
-            }
-
-            else{
-
-                return response() -> json(['message' => 'Organization already exists'], 200);
 
             }
 
@@ -230,8 +231,8 @@ class organizationsService
       $organizations = DB::table('organizations')
                         ->where('organizationName',$request['organizationName'])
                         ->where('organizationInitials',$request['organizationInitials'])
-                        ->where('organizationType_code',$request['organizationType_code'])
-                        ->where('organizationStatus_code',$request['organizationStatus_code'])
+                        //->where('organizationType_code',$request['organizationType_code'])
+                        //->where('isActive',$request['isActive'])
                         ->get();
 
       if(count($organizations) > 0){
