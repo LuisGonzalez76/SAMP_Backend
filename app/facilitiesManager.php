@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class facilitiesManager extends Model
 {
     protected $hidden = ['created_at','updated_at','pivot'];
-    protected $fillable = ['fullName','managerEmail','managerPhone'];
+    protected $fillable = ['managerName','managerEmail','managerPhone','user_id','isActive'];
     //
     public function facilities(){
         return $this->belongsToMany('App\facility','managements',

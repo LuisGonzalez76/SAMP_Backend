@@ -91,6 +91,8 @@ Route::post('api/counselors','v1\counselorController@store');
 //Manager Routes
 Route::get('api/managers','v1\managerController@index');
 Route::get('api/managers/{id}','v1\managerController@show');
+Route::post('api/managers','v1\managerController@store');
+
 
 //Staff Routes
 Route::get('api/staff','v1\staffController@staffIndex');

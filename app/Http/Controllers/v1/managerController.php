@@ -47,6 +47,9 @@ class managerController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->managers->storeManager($request);
+
+        return response()->json($data);
     }
 
     /**

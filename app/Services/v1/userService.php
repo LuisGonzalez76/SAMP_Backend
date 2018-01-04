@@ -288,4 +288,27 @@ class userService{
     }
 
 
+    public function storeManager($request){
+        if($request!=null){
+            $user = user::create([
+                'userEmail'=> $request['managerEmail'],
+                'userType_code' => 5,
+            ]);
+            $u_id = json_decode($user);
+            // dd($request['counselorName']);
+            $counselor = facilitiesManager::create([
+
+                'managerName' => $request['managerName'],
+                'managerEmail' => $request['managerEmail'],
+                'managerPhone' => $request['managerPhone'],
+                'user_id' => $u_id->id,
+                //'isActive' => 1
+            ]);
+        }
+        else{
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+        }
+    }
+
+
 }
