@@ -15,9 +15,9 @@ class activityService{
     public function getActivities(){
         //esto sirve para encontar el user sin saber el id
         // $activity = student::where('studentEmail','lg@upr.edu')->get()->first()->id;
-        $activity  = activity::with('student')->with('organization.counselors')
-            ->with('facility.managers', 'facility.department')
-            ->get();
+        $activity  = activity::with('student','organization.counselors',
+            'facility.managers', 'facility.department','status','counselor_status',
+            'manager_status','type')->get();
         return $activity;
     }
 
@@ -28,7 +28,7 @@ class activityService{
             ->get();*/
 
         $activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
-            ->with('facility.managers', 'facility.department')->with('status')
+            ->with('facility.managers', 'facility.department')->with('status','type')
             ->with('counselor_status')->with('manager_status')
             ->get();
         return $activity;
@@ -41,19 +41,19 @@ class activityService{
 
         if($type == 1){
             return activity::with('student','organization','facility',
-                'status','counselor_status','manager_status')->get();
+                'status','counselor_status','manager_status','type')->get();
 
         }
         if($type == 2){
             return activity::with('student','organization','facility',
-                'status','counselor_status','manager_status')->get();
+                'status','counselor_status','manager_status','type')->get();
         }
         if($type == 3){
             $student = user::where('userEmail',$email)->with('students','type')->get()->first();
             $decoded = json_decode($student);
             $u_id = $decoded->students[0]->id;
             return activity::where('student_id',$u_id)->with('student','organization','facility',
-                'status','counselor_status','manager_status')->get();
+                'status','counselor_status','manager_status','type')->get();
         }
         if($type == 4){
             $counselor = user::where('userEmail',$email)->with('counselors','type')->get()->first();
@@ -69,7 +69,7 @@ class activityService{
             }
 
             $activities = activity::whereIn('organization_id',$org_ids)->with('student','organization','facility',
-                'status','counselor_status','manager_status')->get();
+                'status','counselor_status','manager_status','type')->get();
             return $activities;
 
         }
@@ -88,7 +88,7 @@ class activityService{
             }
 
             $activities = activity::whereIn('facility_id',$fac_ids)->with('student','organization','facility',
-                'status','counselor_status','manager_status')->get();
+                'status','counselor_status','manager_status','type')->get();
             return $activities;
 
         }

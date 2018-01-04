@@ -89,7 +89,6 @@ class userService{
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
         }
-
     }
 
     public function updateStudent($request,$id){
@@ -126,7 +125,7 @@ class userService{
         return $counselor;
     }
 
-    public function storeCounselor($request){
+   /* public function storeCounselor($request){
 
         //$counselor = new counselor;
         //$counselor = $request->all();
@@ -167,7 +166,7 @@ class userService{
             return false;
         }
 
-    }
+    }*/
 
     public function getManagers(){
         $manager = facilitiesManager::all();
@@ -260,6 +259,32 @@ class userService{
         $user->save();
         $staff->save();
 
+    }
+
+
+    public function storeCounselor($request){
+        if($request!=null){
+            $user = user::create([
+                'userEmail'=> $request['counselorEmail'],
+                'userType_code' => 4,
+            ]);
+            $u_id = json_decode($user);
+           // dd($request['counselorName']);
+            $counselor = counselor::create([
+
+                'counselorName' => $request['counselorName'],
+                'counselorEmail' => $request['counselorEmail'],
+                'counselorPhone' => $request['counselorPhone'],
+                'counselorFaculty' => $request['counselorFaculty'],
+                'counselorDepartment' => $request['counselorDepartment'],
+                'counselorOffice' => $request['counselorOffice'],
+                'user_id' => $u_id->id,
+                //'isActive' => 1
+            ]);
+        }
+        else{
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+        }
     }
 
 

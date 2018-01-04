@@ -8,7 +8,8 @@ class counselor extends Model
 {
     protected $hidden = ['created_at','updated_at','pivot'];
     //
-    protected $fillable = ['counselorName','counselorEmail','counselorPhone','counselorFaculty','counselorDepartment','counselorOffice'];
+    protected $fillable = ['counselorName','counselorEmail','counselorPhone','counselorFaculty',
+        'counselorDepartment','counselorOffice','user_id','isActive'];
 
     public function organizations(){
         return $this->belongsToMany('App\organization','counsels',
