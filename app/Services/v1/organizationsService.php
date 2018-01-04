@@ -200,7 +200,7 @@ class organizationsService
                     'organizationName' => $request['organizationName'],
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
-                    'organizationStatus_code' => $request['organizationStatus_code'],
+                    'isActive' => $request['isActive'],
 
                 ]);
 
