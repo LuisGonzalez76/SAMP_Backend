@@ -126,6 +126,49 @@ class userService{
         return $counselor;
     }
 
+    public function storeCounselor($request){
+
+        //$counselor = new counselor;
+        //$counselor = $request->all();
+
+        if(!$this->counselorEmailExist($request)){
+
+            $counselor = counselor::create([
+                'fullName' => $request['fullName'],
+                'counselorEmail' => $request['counselorEmail'],
+                'counselorPhone' => $request['counselorPhone'],
+                'counselorFaculty' => $request['counselorFaculty'],
+                'counselorDepartment' => $request['counselorDepartment'],
+                'counselorOffice' => $request['counselorOffice'],
+            ]);
+
+        }
+
+        else{
+
+            return response('User already exists', 200)
+                ->header('Content-Type', 'text/plain');
+
+        }
+
+
+    }
+
+    public function counselorEmailExist($request){
+
+        $email = counselor::where('counselorEmail',$request['counselorEmail'])
+            ->get();
+
+        if(count($email) > 0){
+            return true;
+        }
+
+        else{
+            return false;
+        }
+
+    }
+
     public function getManagers(){
         $manager = facilitiesManager::all();
         return $manager;

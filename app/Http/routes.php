@@ -86,6 +86,7 @@ Route::put('api/students/{id}','v1\studentController@update');
 //Counselor routes
 Route::get('api/counselors','v1\counselorController@index');
 Route::get('api/counselors/{id}','v1\counselorController@show');
+Route::post('api/counselors','v1\counselorController@store');
 
 //Manager Routes
 Route::get('api/managers','v1\managerController@index');

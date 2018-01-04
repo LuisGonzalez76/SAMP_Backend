@@ -46,7 +46,13 @@ class counselorController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $this->counselors->storeCounselor($request);
+        return response()->json($data);
+
+
     }
+
+
 
     /**
      * Display the specified resource.
