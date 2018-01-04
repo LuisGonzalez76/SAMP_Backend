@@ -134,7 +134,7 @@ class userService{
         if(!$this->counselorEmailExist($request)){
 
             $counselor = counselor::create([
-                'fullName' => $request['fullName'],
+                'counselorName' => $request['counselorName'],
                 'counselorEmail' => $request['counselorEmail'],
                 'counselorPhone' => $request['counselorPhone'],
                 'counselorFaculty' => $request['counselorFaculty'],
