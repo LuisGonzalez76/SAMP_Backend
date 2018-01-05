@@ -139,7 +139,6 @@ class facilitiesService
                     'space' => $request['space'],
                     'facilityDepartment_code' => $request['facilityDepartment_code'],
 
-
                 ]);
 
                 $f_id = json_decode($facilities_json);
@@ -206,6 +205,30 @@ class facilitiesService
         }
 
         else {
+
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+
+        }
+
+    }
+
+    public function createFacilities($request){
+
+        if ($request != null) {
+
+            $facilities = facility::create([
+                'building' => $request['building'],
+                'space' => $request['space'],
+                'facilityDepartment_code' => $request['facilityDepartment_code'],
+                'isActive' => $request['isActive'],
+
+                ]);
+
+            return $facilities;
+
+        }
+
+        else{
 
             return response() -> json(['message' => 'No data is present in request!'], 200);
 

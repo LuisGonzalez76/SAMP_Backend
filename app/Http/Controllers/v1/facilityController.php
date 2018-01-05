@@ -79,7 +79,7 @@ class facilityController extends Controller
     {
         //
 
-        $data = $this->facilities->storeFacilities($request);
+        $data = $this->facilities->createFacilities($request);
         return response()->json($data);
     }
 
