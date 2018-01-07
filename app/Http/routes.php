@@ -87,11 +87,13 @@ Route::put('api/students/{id}','v1\studentController@update');
 Route::get('api/counselors','v1\counselorController@index');
 Route::get('api/counselors/{id}','v1\counselorController@show');
 Route::post('api/counselors','v1\counselorController@store');
+Route::put('api/counselors/{id}','v1\counselorController@update');
 
 //Manager Routes
 Route::get('api/managers','v1\managerController@index');
 Route::get('api/managers/{id}','v1\managerController@show');
 Route::post('api/managers','v1\managerController@store');
+Route::put('api/managers/{id}','v1\managerController@update');
 
 
 //Staff Routes

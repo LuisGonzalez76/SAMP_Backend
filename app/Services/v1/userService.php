@@ -279,13 +279,34 @@ class userService{
                 'counselorDepartment' => $request['counselorDepartment'],
                 'counselorOffice' => $request['counselorOffice'],
                 'user_id' => $u_id->id,
-                //'isActive' => 1
+                'isActive' => 1
             ]);
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
         }
     }
+
+    public function updateCounselor($request,$id){
+        $counselor = counselor::where('id',$id)->get()->first();
+        $s_json = json_decode($counselor);
+        $u_id = $s_json->user_id;
+        $user = user::where('id',$u_id)->get()->first();
+
+        $user->userEmail = $request->input('counselorEmail');
+
+        $counselor->counselorName = $request->input('counselorName');
+        $counselor->counselorEmail = $request->input('counselorEmail');
+        $counselor->counselorPhone = $request->input('counselorPhone');
+        $counselor->counselorFaculty = $request->input('counselorFaculty');
+        $counselor->counselorDepartment = $request->input('counselorDepartment');
+        $counselor->counselorOffice = $request->input('counselorOffice');
+
+        $user->save();
+        $counselor->save();
+
+    }
+
 
 
     public function storeManager($request){
@@ -302,12 +323,30 @@ class userService{
                 'managerEmail' => $request['managerEmail'],
                 'managerPhone' => $request['managerPhone'],
                 'user_id' => $u_id->id,
-                //'isActive' => 1
+                'isActive' => 1
             ]);
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
         }
+    }
+
+
+    public function updateManager($request,$id){
+        $manager = facilitiesManager::where('id',$id)->get()->first();
+        $s_json = json_decode($manager);
+        $u_id = $s_json->user_id;
+        $user = user::where('id',$u_id)->get()->first();
+
+        $user->userEmail = $request->input('managerEmail');
+
+        $manager->managerName = $request->input('managerName');
+        $manager->managerEmail = $request->input('managerEmail');
+        $manager->managerPhone = $request->input('managerPhone');
+
+        $user->save();
+        $manager->save();
+
     }
 
 

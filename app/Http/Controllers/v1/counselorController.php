@@ -84,6 +84,8 @@ class counselorController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $this->counselors->updateCounselor($request,$id);
+        return response()->json($data);
     }
 
     /**
