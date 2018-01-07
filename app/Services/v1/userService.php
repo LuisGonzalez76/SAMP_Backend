@@ -279,7 +279,7 @@ class userService{
                 'counselorDepartment' => $request['counselorDepartment'],
                 'counselorOffice' => $request['counselorOffice'],
                 'user_id' => $u_id->id,
-                'isActive' => 1
+                //'isActive' => 1
             ]);
         }
         else{
@@ -323,7 +323,7 @@ class userService{
                 'managerEmail' => $request['managerEmail'],
                 'managerPhone' => $request['managerPhone'],
                 'user_id' => $u_id->id,
-                'isActive' => 1
+                //'isActive' => 1
             ]);
         }
         else{

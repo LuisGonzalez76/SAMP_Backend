@@ -21,7 +21,8 @@ class organizationsService
 {
 
     public function getOrganizationsByUser($email){
-        $student = student::where('studentEmail',$email)->with('organizations','counselors')->get()->first();
+//        $student = student::where('studentEmail',$email)->with('organizations','counselors')->get()->first();
+        $student = student::where('studentEmail',$email)->with('organizations.counselors')->get()->first();
 
         $s_json = json_decode($student);
         $orgs = $s_json->organizations;
