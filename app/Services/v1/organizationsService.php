@@ -57,30 +57,9 @@ class organizationsService
             $organization = new organization;
             $organization = $request->all();
 
-            /*  $organization_json = organization::create([
-                  'organizationName' => $request['organizationName'],
-                  'organizationInitials'  => $request['organizationInitials'],
-                  'organizationType_code' => $request['organizationType_code'],
-                  'organizationStatus_code' => $request['organizationStatus_code'],
-
-              ]);*/
-
             $counselor = new counselor;
             $counselor = $request->all();
-            /*$counselor_json = counselor::create([
-                'fullName' => $request['fullName'],
-                'counselorEmail' => $request['counselorEmail'],
-                'counselorPhone' => $request['counselorPhone'],
-                'counselorFaculty' => $request['counselorFaculty'],
-                'counselorDepartment' => $request['counselorDepartment'],
-                'counselorOffice' => $request['counselorOffice'],
 
-            ]);*/
-
-            //echo $request;
-
-            //$o_id = json_decode($organization_json);
-            //$c_id = json_decode($counselor_json);
 
             if ($this->hasOrganization($request) and $this->hasCounselor($request)) {
 
@@ -212,13 +191,48 @@ class organizationsService
 
     }
 
+    public function createOrganization($request){
+        if ($request != null) {
+
+            if($this->hasOrganization($request)){
+
+                return response() -> json(['message' => 'Organization already exists'], 200);
+
+            }
+
+            else{
+
+
+                $organization = organization::create([
+                    'organizationName' => $request['organizationName'],
+                    'organizationInitials' => $request['organizationInitials'],
+                    'organizationType_code' => $request['organizationType_code'],
+                    'isActive' => $request['isActive'],
+
+                ]);
+
+                return $organization;
+
+            }
+
+
+        }
+
+        else{
+
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+
+        }
+
+    }
+
     public function hasOrganization($request){
 
       $organizations = DB::table('organizations')
                         ->where('organizationName',$request['organizationName'])
                         ->where('organizationInitials',$request['organizationInitials'])
-                        ->where('organizationType_code',$request['organizationType_code'])
-                        ->where('organizationStatus_code',$request['organizationStatus_code'])
+                        //->where('organizationType_code',$request['organizationType_code'])
+                        //->where('isActive',$request['isActive'])
                         ->get();
 
       if(count($organizations) > 0){
