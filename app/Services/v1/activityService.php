@@ -96,6 +96,10 @@ class activityService{
 
     public function storeActivity($request){
         if($request!=null){
+            $start = $request['activityStart'];
+            $end = $request['activityEnd'];
+            $startA = strtotime($start);
+            $endA = strtotime($end);
             $activity = activity::create([
                 'student_id'=>$request['student_id'],
                 'organization_id'=>$request['organization_id'],
@@ -105,8 +109,8 @@ class activityService{
                 'activityDescription'=>$request['activityDescription'],
                 'attendantsNumber'=>$request['attendantsNumber'],
                 'activityDate'=>$request['activityDate'],
-                'activityStart'=>$request['activityStart'],
-                'activityEnd'=>$request['activityEnd'],
+                'activityStart'=>$startA,
+                'activityEnd'=>$endA,
                 'hasFood'=>$request['hasFood'],
                 'guestName'=>$request['guestName'],
                 'activityStatus_code'=>$request['activityStatus_code'],
