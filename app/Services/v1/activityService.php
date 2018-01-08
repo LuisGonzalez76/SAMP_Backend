@@ -16,7 +16,7 @@ class activityService{
         //esto sirve para encontar el user sin saber el id
         // $activity = student::where('studentEmail','lg@upr.edu')->get()->first()->id;
         $activity  = activity::with('student','organization.counselors',
-            'facility.managers', 'facility.department','status','counselor_status',
+            'facility.managers','status','counselor_status',
             'manager_status','type')->get();
         return $activity;
     }
@@ -28,7 +28,7 @@ class activityService{
             ->get();*/
 
         $activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
-            ->with('facility.managers', 'facility.department')->with('status','type')
+            ->with('facility.managers')->with('status','type')
             ->with('counselor_status')->with('manager_status')
             ->get();
         return $activity;

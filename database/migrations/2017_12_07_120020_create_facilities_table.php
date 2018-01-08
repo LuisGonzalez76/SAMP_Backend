@@ -16,14 +16,13 @@ class CreateFacilitiesTable extends Migration
             $table->increments('id');
             $table->string('building');
             $table->string('space')->unique();
-            $table->integer('facilityDepartment_code')->unsigned();
+            $table->string('facilityDepartment');
             $table->boolean('isActive');
             $table->timestamps();
 
             $table->unique(['building','space']);
 
-            //Foreign keys
-            $table->foreign('facilityDepartment_code')->references('code')->on('facility_departments');
+
         });
     }
 

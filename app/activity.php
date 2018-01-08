@@ -9,7 +9,8 @@ class activity extends Model
     protected $hidden = ['student_id','organization_id','staff_id','facility_id','created_at','updated_at'];
     protected $fillable = ['student_id','organization_id','staff_id','facility_id',
         'activityName','activityDescription','attendantsNumber','activityDate','activityStatus_code',
-        'hasFood','hasGuest','guestName','counselorStatus_code','managerStatus_code','activityType_code'];
+        'hasFood','hasGuest','guestName','counselorStatus_code','managerStatus_code','activityType_code',
+        'activityStart','activityEnd'];
     //Statuses and Types
     public function status(){
         return $this->belongsTo('App\activityStatus','activityStatus_code','code');

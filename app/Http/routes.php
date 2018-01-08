@@ -19,37 +19,22 @@ Route::get('/', function () {
 
 Route::get('b/{id}', 'ActivityStatusController@show');
 
-Route::get('api/facilities','v1\facilityController@index');
-
-Route::get('api/organizations','v1\organizationController@index');
-
-Route::post('api/facilities', 'v1\facilityController@store');
-
+//Facility Routes
+Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities
+Route::post('api/facilities', 'v1\facilityController@store'); //bien-createFacilities
 Route::put('api/facilities/{id}','v1\facilityController@update');
+Route::get('api/facilities/{id}','v1\facilityController@show');//bien
 
-Route::get('api/facilities/{id}','v1\facilityController@show');
-
-Route::get('api/departments','v1\facilityController@departments');
-
-Route::get('api/departments/{code}', 'v1\facilityController@showDepartment');
-
-Route::post('api/departments', 'v1\facilityController@storeDepartment');
-
-Route::put('api/departments/{code}','v1\facilityController@updateDepartment');
-
+//Organization Routes
+Route::get('api/organizations','v1\organizationController@index');
 Route::post('api/organizations','v1\organizationController@store');
-
 Route::put('api/organizations/{id}','v1\organizationController@update');
-
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
 
 Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
-
 Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');
-
 Route::post('api/organization_types','v1\organizationController@storeOrganizationType');
-
 Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
 
 
@@ -60,8 +45,6 @@ Route::get('api/activity/{email}','v1\activityController@showByUserEmail');
 Route::put('api/hasFood/{id}','v1\activityController@hasFood');
 Route::put('api/activityType/{id}','v1\activityController@updateType');
 Route::get('api/activityType','v1\activityController@getTypes');
-
-
 
 Route::post('api/activities','v1\activityController@store');
 Route::put('api/counselorApproved/{id}','v1\activityController@counselorApproved');
@@ -77,8 +60,8 @@ Route::get('api/users/{email}','v1\userController@show');
 
 //Student routes
 Route::get('api/students','v1\studentController@index');
-//Route::get('api/students/{id}','v1\studentController@show');
-Route::get('api/students/{email}','v1\studentController@showByEmail');
+Route::get('api/students/{id}','v1\studentController@show');
+//Route::get('api/students/{email}','v1\studentController@showByEmail');
 Route::post('api/students','v1\studentController@store');
 Route::put('api/students/{id}','v1\studentController@update');
 

@@ -30,33 +30,9 @@ class facilityController extends Controller
     {
         //
         $data = $this->facilities->getFacilities();
-        return response()
-            ->json($data);
-
-    }
-
-    public function departments(){
-        $data = $this->facilities->getDepartments();
         return response()->json($data);
 
     }
-
-    public function showDepartment($code){
-        $data = $this->facilities->showDepartment($code);
-        return response()->json($data);
-
-    }
-
-    public function storeDepartment(Request $request){
-        $data = $this->facilities->postDepartment($request);
-        return response()->json($data);
-    }
-
-    public function updateDepartment(Request $request,$code){
-        $data = $this->facilities->putDepartment($request,$code);
-        return $data;
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -78,7 +54,6 @@ class facilityController extends Controller
     public function store(Request $request)
     {
         //
-
         $data = $this->facilities->createFacilities($request);
         return response()->json($data);
     }

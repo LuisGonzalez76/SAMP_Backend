@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class facility extends Model
 {
-    protected $hidden = ['created_at','updated_at','facilityDepartment_code'];
-    protected $fillable =['building','space','facilityDepartment_code'];
-
-    //
-    public function department(){
-        return $this->belongsTo('App\facilityDepartment','facilityDepartment_code','code');
-    }
+    protected $hidden = ['created_at','updated_at','isActive'];
+    protected $fillable =['building','space','facilityDepartment','isActive'];
 
     public function managers(){
         return $this->belongsToMany('App\facilitiesManager','managements',
