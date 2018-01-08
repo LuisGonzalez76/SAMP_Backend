@@ -106,4 +106,13 @@ class facilityController extends Controller
     {
         //
     }
+
+    public function managerToFacility($fid,$mid){
+
+        $data = $this->facilities->addManager($fid,$mid);
+        return response()->json($data);
+
+    }
+
+
 }

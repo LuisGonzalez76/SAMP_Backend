@@ -24,6 +24,7 @@ Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities
 Route::post('api/facilities', 'v1\facilityController@store'); //bien-createFacilities
 Route::put('api/facilities/{id}','v1\facilityController@update');
 Route::get('api/facilities/{id}','v1\facilityController@show');//bien
+Route::post('api/facilities/addManager','v1\facilityController@managerToFacility');//new route
 
 //Organization Routes
 Route::get('api/organizations','v1\organizationController@index');
@@ -31,6 +32,7 @@ Route::post('api/organizations','v1\organizationController@store');
 Route::put('api/organizations/{id}','v1\organizationController@update');
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
+Route::post('api/facilities/addCounselor','v1\organizationControler@counselorToOrganization');// new route
 
 Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
 Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');

@@ -19,6 +19,8 @@
                //$query->select('id','fullName');
           // }))->with('organization')->get();
 
+
+
             $activity  = activity::with('student')->with('organization.counselors')
                 ->with('facility.managers', 'facility.department')
                 ->get();
