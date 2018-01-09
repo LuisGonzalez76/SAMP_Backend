@@ -26,8 +26,8 @@ class userService{
 
     public function getUser($email){
         $user = user::where('userEmail',$email)->get()->first();
-
         $u_json = json_decode($user);
+
         $type = $u_json->userType_code;
 
         if($type == 1){
@@ -50,7 +50,7 @@ class userService{
     }
 
     public function getStudents(){
-        $student = student::all();
+        $student = student::where('isActive',1)->get();
         return $student;
     }
 
@@ -66,25 +66,86 @@ class userService{
 
     public function storeStudent($request){
         if($request!=null){
-            $user = user::create([
-                'userEmail'=> $request['studentEmail'],
-                'userType_code' => 3,
-            ]);
-            $u_id = json_decode($user);
+            $userTemp = user::where('userEmail',$request['studentEmail'])->get()->first();
+            $userCount = count($userTemp);
+            if($userCount==0){
+                $user = user::create([
+                    'userEmail'=> $request['studentEmail'],
+                    'userType_code' => 3,
+                ]);
+                $u_id = json_decode($user);
+                $student = student::create([
+                    'studentName' => $request['studentName'],
+                    'studentEmail' => $request['studentEmail'],
+                    'studentNo' => $request['studentNo'],
+                    'studentPhone' => $request['studentPhone'],
+                    'studentAddress' => $request['studentAddress'],
+                    'studentCity' => $request['studentCity'],
+                    'studentCountry' => $request['studentCountry'],
+                    'studentZipCode' => $request['studentZipCode'],
+                    'user_id' => $u_id->id,
+                    'isActive' => 1,
 
-            $student = student::create([
-                'studentName' => $request['studentName'],
-                'studentEmail' => $request['studentEmail'],
-                'studentNo' => $request['studentNo'],
-                'studentPhone' => $request['studentPhone'],
-                'studentAddress' => $request['studentAddress'],
-                'studentCity' => $request['studentCity'],
-                'studentCountry' => $request['studentCountry'],
-                'studentZipCode' => $request['studentZipCode'],
-                'user_id' => $u_id->id,
-                'isActive' => 1,
+                ]);
+                return $student;
+            }
+            else{
+                $u_id = $userTemp->id;
+                $u_type = $userTemp->userType_code;
 
-            ]);
+                if($u_type==1){
+                    $admin = staff::where('staffEmail',$request['studentEmail'])->get()->first();
+                    $admin->isActive = 0;
+                    $admin->save();
+
+                }
+                if($u_type==2){
+                    $staff = staff::where('staffEmail',$request['studentEmail'])->get()->first();
+                    $staff->isActive = 0;
+                    $staff->save();
+                }
+                if($u_type==3){
+
+                }
+                if($u_type==4){
+                    $counselor = counselor::where('counselorEmail',$request['studentEmail'])->get()->first();
+                    $counselor->isActive = 0;
+                    $counselor->save();
+                }
+                if($u_type==5){
+                    $manager = facilitiesManager::where('managerEmail',$request['studentEmail'])->get()->first();
+                    $manager->isActive = 0;
+                    $manager->save();
+                }
+
+                $userTemp->userType_code = 3;
+                $userTemp->save();
+
+                $studentTemp = student::where('studentEmail',$request['studentEmail'])->get()->first();
+
+                if(count($studentTemp)==0){
+
+                    $student = student::create([
+                        'studentName' => $request['studentName'],
+                        'studentEmail' => $request['studentEmail'],
+                        'studentNo' => $request['studentNo'],
+                        'studentPhone' => $request['studentPhone'],
+                        'studentAddress' => $request['studentAddress'],
+                        'studentCity' => $request['studentCity'],
+                        'studentCountry' => $request['studentCountry'],
+                        'studentZipCode' => $request['studentZipCode'],
+                        'user_id' => $u_id,
+                        'isActive' => 1,
+                    ]);
+                    return $student;
+                }
+                else{
+                    $studentTemp->isActive = 1;
+                    $studentTemp->save();
+                    return $studentTemp;
+                }
+            }
+
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -116,7 +177,7 @@ class userService{
 
 
     public function getCounselors(){
-        $counselor = counselor::all();
+        $counselor = counselor::where('isActive',1)->get();
             return $counselor;
     }
 
@@ -125,51 +186,8 @@ class userService{
         return $counselor;
     }
 
-   /* public function storeCounselor($request){
-
-        //$counselor = new counselor;
-        //$counselor = $request->all();
-
-        if(!$this->counselorEmailExist($request)){
-
-            $counselor = counselor::create([
-                'counselorName' => $request['counselorName'],
-                'counselorEmail' => $request['counselorEmail'],
-                'counselorPhone' => $request['counselorPhone'],
-                'counselorFaculty' => $request['counselorFaculty'],
-                'counselorDepartment' => $request['counselorDepartment'],
-                'counselorOffice' => $request['counselorOffice'],
-            ]);
-
-        }
-
-        else{
-
-            return response('User already exists', 200)
-                ->header('Content-Type', 'text/plain');
-
-        }
-
-
-    }
-
-    public function counselorEmailExist($request){
-
-        $email = counselor::where('counselorEmail',$request['counselorEmail'])
-            ->get();
-
-        if(count($email) > 0){
-            return true;
-        }
-
-        else{
-            return false;
-        }
-
-    }*/
-
     public function getManagers(){
-        $manager = facilitiesManager::all();
+        $manager = facilitiesManager::where('isActive',1)->get();
         return $manager;
     }
 
@@ -178,9 +196,8 @@ class userService{
         return $manager;
     }
     public function getStaffs(){
-        $staff = staff::where('staffType_code',2)->get();
+        $staff = staff::where('staffType_code',2)->where('isActive',1)->get();
         return $staff;
-
     }
 
     public function getStaff($id){
@@ -190,20 +207,82 @@ class userService{
 
     public function storeStaff($request){
         if($request!=null){
-            $user = user::create([
-                'userEmail'=> $request['staffEmail'],
-                'userType_code' => 2,
-            ]);
-            $u_id = json_decode($user);
 
-            $staff = staff::create([
-                'staffName' => $request['staffName'],
-                'staffEmail' => $request['staffEmail'],
-                'staffPhone' => $request['staffPhone'],
-                'staffType_code' => 2,
-                'user_id' => $u_id->id,
-                'isActive' => 1,
-            ]);
+            $userTemp = user::where('userEmail',$request['staffEmail'])->get()->first();
+            $userCount = count($userTemp);
+            if($userCount==0){
+                $user = user::create([
+                    'userEmail'=> $request['staffEmail'],
+                    'userType_code' => 2,
+                ]);
+                $u_id = json_decode($user);
+
+                $staff = staff::create([
+                    'staffName' => $request['staffName'],
+                    'staffEmail' => $request['staffEmail'],
+                    'staffPhone' => $request['staffPhone'],
+                    'staffType_code' => 2,
+                    'user_id' => $u_id->id,
+                    'isActive' => 1,
+                ]);
+                return $staff;
+            }
+            else{
+                $u_id = $userTemp->id;
+                $u_type = $userTemp->userType_code;
+
+                if($u_type==1){
+                    $admin = staff::where('staffEmail',$request['staffEmail'])->get()->first();
+                    $admin->staffType_code = 2;
+                    $admin->save();
+
+                }
+                if($u_type==2){
+
+                }
+                if($u_type==3){
+                    $student = student::where('studentEmail',$request['staffEmail'])->get()->first();
+                    $student->isActive = 0;
+                    $student->save();
+                }
+                if($u_type==4){
+                    $counselor = counselor::where('counselorEmail',$request['staffEmail'])->get()->first();
+                    $counselor->isActive = 0;
+                    $counselor->save();
+                }
+                if($u_type==5){
+                    $manager = facilitiesManager::where('managerEmail',$request['staffEmail'])->get()->first();
+                    $manager->isActive = 0;
+                    $manager->save();
+                }
+
+                $userTemp->userType_code = 2;
+                $userTemp->save();
+
+                $staffTemp = staff::where('staffEmail',$request['staffEmail'])->get()->first();
+
+                if(count($staffTemp)==0){
+                    $staff = staff::create([
+                        'staffName' => $request['staffName'],
+                        'staffEmail' => $request['staffEmail'],
+                        'staffPhone' => $request['staffPhone'],
+                        'staffType_code' => 2,
+                        'user_id' => $u_id,
+                        'isActive' => 1,
+                    ]);
+                    return $staff;
+                }
+                else{
+                    $staffTemp->isActive = 1;
+                    $staffTemp->staffType_code = 2;
+                    $staffTemp->save();
+                    return $staffTemp;
+                }
+
+
+            }
+
+
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -213,7 +292,7 @@ class userService{
 
 
     public function getAdmins(){
-        $admin = staff::where('staffType_code',1)->get();
+        $admin = staff::where('staffType_code',1)->where('isActive',1)->get();
         return $admin;
     }
 
@@ -224,20 +303,82 @@ class userService{
 
     public function storeAdmin($request){
         if($request!=null){
-            $user = user::create([
-                'userEmail'=> $request['staffEmail'],
-                'userType_code' => 1,
-            ]);
-            $u_id = json_decode($user);
 
-            $staff = staff::create([
-                'staffName' => $request['staffName'],
-                'staffEmail' => $request['staffEmail'],
-                'staffPhone' => $request['staffPhone'],
-                'staffType_code' => 1,
-                'user_id' => $u_id->id,
-                'isActive' => 1,
-            ]);
+            $userTemp = user::where('userEmail',$request['staffEmail'])->get()->first();
+            $userCount = count($userTemp);
+            if($userCount==0){
+                $user = user::create([
+                    'userEmail'=> $request['staffEmail'],
+                    'userType_code' => 1,
+                ]);
+                $u_id = json_decode($user);
+
+                $staff = staff::create([
+                    'staffName' => $request['staffName'],
+                    'staffEmail' => $request['staffEmail'],
+                    'staffPhone' => $request['staffPhone'],
+                    'staffType_code' => 1,
+                    'user_id' => $u_id->id,
+                    'isActive' => 1,
+                ]);
+                return $staff;
+            }
+            else{
+                $u_id = $userTemp->id;
+                $u_type = $userTemp->userType_code;
+
+                if($u_type==1){
+
+
+                }
+                if($u_type==2){
+                    $admin = staff::where('staffEmail',$request['staffEmail'])->get()->first();
+                    $admin->staffType_code = 1;
+                    $admin->save();
+                }
+                if($u_type==3){
+                    $student = student::where('studentEmail',$request['staffEmail'])->get()->first();
+                    $student->isActive = 0;
+                    $student->save();
+                }
+                if($u_type==4){
+                    $counselor = counselor::where('counselorEmail',$request['staffEmail'])->get()->first();
+                    $counselor->isActive = 0;
+                    $counselor->save();
+                }
+                if($u_type==5){
+                    $manager = facilitiesManager::where('managerEmail',$request['staffEmail'])->get()->first();
+                    $manager->isActive = 0;
+                    $manager->save();
+                }
+
+                $userTemp->userType_code = 1;
+                $userTemp->save();
+
+                $staffTemp = staff::where('staffEmail',$request['staffEmail'])->get()->first();
+
+                if(count($staffTemp)==0){
+                    $staff = staff::create([
+                        'staffName' => $request['staffName'],
+                        'staffEmail' => $request['staffEmail'],
+                        'staffPhone' => $request['staffPhone'],
+                        'staffType_code' => 1,
+                        'user_id' => $u_id,
+                        'isActive' => 1,
+                    ]);
+                    return $staff;
+                }
+                else{
+                    $staffTemp->isActive = 1;
+                    $staffTemp->staffType_code = 1;
+                    $staffTemp->save();
+                    return $staffTemp;
+                }
+
+
+            }
+
+
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -264,23 +405,83 @@ class userService{
 
     public function storeCounselor($request){
         if($request!=null){
-            $user = user::create([
-                'userEmail'=> $request['counselorEmail'],
-                'userType_code' => 4,
-            ]);
-            $u_id = json_decode($user);
-           // dd($request['counselorName']);
-            $counselor = counselor::create([
+            $userTemp = user::where('userEmail',$request['counselorEmail'])->get()->first();
+            $userCount = count($userTemp);
+            if($userCount==0){
+                $user = user::create([
+                    'userEmail'=> $request['counselorEmail'],
+                    'userType_code' => 4,
+                ]);
+                $u_id = json_decode($user);
+                // dd($request['counselorName']);
+                $counselor = counselor::create([
 
-                'counselorName' => $request['counselorName'],
-                'counselorEmail' => $request['counselorEmail'],
-                'counselorPhone' => $request['counselorPhone'],
-                'counselorFaculty' => $request['counselorFaculty'],
-                'counselorDepartment' => $request['counselorDepartment'],
-                'counselorOffice' => $request['counselorOffice'],
-                'user_id' => $u_id->id,
-                'isActive' => 1
-            ]);
+                    'counselorName' => $request['counselorName'],
+                    'counselorEmail' => $request['counselorEmail'],
+                    'counselorPhone' => $request['counselorPhone'],
+                    'counselorFaculty' => $request['counselorFaculty'],
+                    'counselorDepartment' => $request['counselorDepartment'],
+                    'counselorOffice' => $request['counselorOffice'],
+                    'user_id' => $u_id->id,
+                    'isActive' => 1
+                ]);
+                return $counselor;
+            }
+            else{
+                $u_id = $userTemp->id;
+                $u_type = $userTemp->userType_code;
+
+                if($u_type==1){
+                    $admin = staff::where('staffEmail',$request['counselorEmail'])->get()->first();
+                    $admin->isActive = 0;
+                    $admin->save();
+
+                }
+                if($u_type==2){
+                    $staff = staff::where('staffEmail',$request['counselorEmail'])->get()->first();
+                    $staff->isActive = 0;
+                    $staff->save();
+                }
+                if($u_type==3){
+                    $counselor = student::where('studentEmail',$request['counselorEmail'])->get()->first();
+                    $counselor->isActive = 0;
+                    $counselor->save();
+                }
+                if($u_type==4){
+
+                }
+                if($u_type==5){
+                    $manager = facilitiesManager::where('managerEmail',$request['counselorEmail'])->get()->first();
+                    $manager->isActive = 0;
+                    $manager->save();
+                }
+
+                $userTemp->userType_code = 4;
+                $userTemp->save();
+
+                $counselorTemp = counselor::where('counselorEmail',$request['counselorEmail'])->get()->first();
+
+                if(count($counselorTemp)==0){
+                    $counselor = counselor::create([
+
+                        'counselorName' => $request['counselorName'],
+                        'counselorEmail' => $request['counselorEmail'],
+                        'counselorPhone' => $request['counselorPhone'],
+                        'counselorFaculty' => $request['counselorFaculty'],
+                        'counselorDepartment' => $request['counselorDepartment'],
+                        'counselorOffice' => $request['counselorOffice'],
+                        'user_id' => $u_id,
+                        'isActive' => 1
+                    ]);
+                    return $counselor;
+                }
+                else{
+                    $counselorTemp->isActive = 1;
+                    $counselorTemp->save();
+                    return $counselorTemp;
+                }
+            }
+
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -311,20 +512,78 @@ class userService{
 
     public function storeManager($request){
         if($request!=null){
-            $user = user::create([
-                'userEmail'=> $request['managerEmail'],
-                'userType_code' => 5,
-            ]);
-            $u_id = json_decode($user);
-            // dd($request['counselorName']);
-            $counselor = facilitiesManager::create([
+            $userTemp = user::where('userEmail',$request['managerEmail'])->get()->first();
+            $userCount = count($userTemp);
+            if($userCount==0){
+                $user = user::create([
+                    'userEmail'=> $request['managerEmail'],
+                    'userType_code' => 5,
+                ]);
+                $u_id = json_decode($user);
+                // dd($request['counselorName']);
+                $manager = facilitiesManager::create([
 
-                'managerName' => $request['managerName'],
-                'managerEmail' => $request['managerEmail'],
-                'managerPhone' => $request['managerPhone'],
-                'user_id' => $u_id->id,
-                'isActive' => 1
-            ]);
+                    'managerName' => $request['managerName'],
+                    'managerEmail' => $request['managerEmail'],
+                    'managerPhone' => $request['managerPhone'],
+                    'user_id' => $u_id->id,
+                    'isActive' => 1
+                ]);
+                return $manager;
+            }
+            else{
+                $u_id = $userTemp->id;
+                $u_type = $userTemp->userType_code;
+
+                if($u_type==1){
+                    $admin = staff::where('staffEmail',$request['managerEmail'])->get()->first();
+                    $admin->isActive = 0;
+                    $admin->save();
+
+                }
+                if($u_type==2){
+                    $staff = staff::where('staffEmail',$request['managerEmail'])->get()->first();
+                    $staff->isActive = 0;
+                    $staff->save();
+                }
+                if($u_type==3){
+                    $student = student::where('studentEmail',$request['managerEmail'])->get()->first();
+                    $student->isActive = 0;
+                    $student->save();
+                }
+                if($u_type==4){
+                    $counselor = counselor::where('counselorEmail',$request['managerEmail'])->get()->first();
+                    $counselor->isActive = 0;
+                    $counselor->save();
+                }
+                if($u_type==5){
+
+                }
+                $userTemp->userType_code = 5;
+                $userTemp->save();
+
+                $managerTemp = facilitiesManager::where('managerEmail',$request['managerEmail'])->get()->first();
+
+                if(count($managerTemp)==0){
+                    $manager = facilitiesManager::create([
+
+                        'managerName' => $request['managerName'],
+                        'managerEmail' => $request['managerEmail'],
+                        'managerPhone' => $request['managerPhone'],
+                        'user_id' => $u_id,
+                        'isActive' => 1
+                    ]);
+                    return $manager;
+                }
+
+                else{
+                    $managerTemp->isActive = 1;
+                    $managerTemp->save();
+                    return $managerTemp;
+                }
+
+            }
+
         }
         else{
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -348,6 +607,4 @@ class userService{
         $manager->save();
 
     }
-
-
 }
