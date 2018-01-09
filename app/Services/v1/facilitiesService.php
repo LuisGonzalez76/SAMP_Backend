@@ -65,4 +65,13 @@ class facilitiesService
         $facility->save();
     }
 
+    public function addManager($fid,$mid){
+
+        $manages = management::create([
+            'facility_id' => $fid,
+            'manager_id' => $mid,
+        ]);
+
+    }
+
 }

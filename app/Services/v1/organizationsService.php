@@ -207,7 +207,7 @@ class organizationsService
                     'organizationName' => $request['organizationName'],
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
-                    'isActive' => $request['isActive'],
+                    'isActive' => 1,
 
                 ]);
 
@@ -299,8 +299,8 @@ class organizationsService
 
     }
 
-
-    public function updateOrganization($request,$id){
+    //NO borrar
+    /*public function updateOrganization($request,$id){
 
 
         $counselor_id = counsel::where('id',$id)->value('counselor_id');
@@ -577,6 +577,17 @@ class organizationsService
 
 
 
+    }*/
+
+    public function updateOrganization($request,$id){
+        $organization = organization::where('id',$id)->get()->first();
+        $organization->organizationName = $request->input('organizationName');
+        $organization->organizationInitials = $request->input('organizationInitials');
+        $organization->organizationTYpe_code = $request->input('organizationType_code');
+
+        $organization->save();
+
+
     }
 
     public function hasCounselorEmail($request,$id){
@@ -655,5 +666,14 @@ class organizationsService
 
     }
 
+    public function addCounselor($cid,$oid){
+
+        $counsels = counsel::create([
+            'counselor_id' => $cid,
+            'organization_id' => $oid,
+        ]);
+
+
+    }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\organization;
 use App\Services\v1\organizationsService;
 use Illuminate\Http\Request;
 
@@ -146,4 +147,13 @@ class organizationController extends Controller
     {
         //
     }
+
+    public function counselorToOrganization($cid,$oid){
+
+        $data = $this->organizations->addCounselor($cid,$oid);
+        return response()->json($data);
+
+    }
+
+
 }
