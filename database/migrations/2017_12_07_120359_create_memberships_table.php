@@ -19,6 +19,8 @@ class CreateMembershipsTable extends Migration
             $table->integer('organizationRole_code')->unsigned();
             $table->timestamps();
 
+            $table->unique(['student_id','organization_id']);
+
             //Foreign keys
             $table->foreign('student_id')->references('id')->on('students');
             $table->foreign('organization_id')->references('id')->on('organizations');

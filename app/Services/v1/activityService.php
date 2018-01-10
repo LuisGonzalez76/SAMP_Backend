@@ -13,8 +13,6 @@ use App\user;
 
 class activityService{
     public function getActivities(){
-        //esto sirve para encontar el user sin saber el id
-        // $activity = student::where('studentEmail','lg@upr.edu')->get()->first()->id;
         $activity  = activity::with('student','organization.counselors',
             'facility.managers','status','counselor_status',
             'manager_status','type')->get();
@@ -22,11 +20,6 @@ class activityService{
     }
 
     public function getActivity($id){
-
-        /*$activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
-            ->with('facility.managers', 'facility.department')
-            ->get();*/
-
         $activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
             ->with('facility.managers')->with('status','type')
             ->with('counselor_status')->with('manager_status')
@@ -117,58 +110,65 @@ class activityService{
                 'counselorStatus_code'=>$request['counselorStatus_code'],
                 'managerStatus_code'=>$request['managerStatus_code'],
                 'activityType_code'=>$request['activityType_code'],
+                'counselorComment'=>$request['counselorComment'],
+                'managerComment'=>$request['managerComment'],
+                'staffComment'=>$request['staffComment'],
                 ]);
+            return $activity;
         }
         else {
             return response() -> json(['message' => 'No data is present in request!'], 200);
         }
     }
 
-    public function counselorApproved($id){
+    public function counselorApproved($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->counselorStatus_code = 2;
+        $activity->counselorComment = $request['counselorComment'];
         $activity->save();
+        return $activity;
     }
-    public function counselorDenied($id){
+    public function counselorDenied($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->counselorStatus_code = 3;
+        $activity->counselorComment = $request['counselorComment'];
         $activity->save();
+        return $activity;
     }
 
-    public function managerApproved($id){
+    public function managerApproved($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->managerStatus_code = 2;
+        $activity->managerComment = $request['managerComment'];
         $activity->save();
+        return $activity;
     }
-    public function managerDenied($id){
+    public function managerDenied($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->managerStatus_code = 3;
+        $activity->managerComment = $request['managerComment'];
         $activity->save();
+        return $activity;
     }
 
-    public function adminApproved($id){
+    public function adminApproved($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->activityStatus_code = 2;
+        $activity->staffComment = $request['staffComment'];
+        $activity->hasFood = $request['hasFood'];
+        $activity->activityType_code = $request['activityType_code'];
         $activity->save();
+        return $activity;
     }
-    public function adminDenied($id){
+    public function adminDenied($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->activityStatus_code = 3;
+        $activity->staffComment = $request['staffComment'];
+        $activity->hasFood = $request['hasFood'];
+        $activity->activityType_code = $request['activityType_code'];
         $activity->save();
+        return $activity;
     }
-
-    public function hasFood($request,$id){
-        $activity = activity::where('id',$id)->get()->first();
-        $activity->hasFood = $request->input('hasFood');
-        $activity->save();
-    }
-
-    public function updateType($request,$id){
-        $activity = activity::where('id',$id)->get()->first();
-        $activity->activityType_code = $request->input('activityType_code');
-        $activity->save();
-    }
-
     public function getPending(){
         $pending = activity::where('activityStatus_code', 1)->count('activityStatus_code');
         return $pending;
@@ -187,6 +187,4 @@ class activityService{
     public function getTypes(){
         return activityType::all();
     }
-
-
 }

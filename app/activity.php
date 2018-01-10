@@ -10,7 +10,7 @@ class activity extends Model
     protected $fillable = ['student_id','organization_id','staff_id','facility_id',
         'activityName','activityDescription','attendantsNumber','activityDate','activityStatus_code',
         'hasFood','hasGuest','guestName','counselorStatus_code','managerStatus_code','activityType_code',
-        'activityStart','activityEnd'];
+        'activityStart','activityEnd','counselorComment','managerComment','staffComment'];
     //Statuses and Types
     public function status(){
         return $this->belongsTo('App\activityStatus','activityStatus_code','code');

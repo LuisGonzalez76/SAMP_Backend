@@ -30,6 +30,9 @@ class CreateActivitiesTable extends Migration
             $table->integer('counselorStatus_code')->unsigned();
             $table->integer('managerStatus_code')->unsigned();
             $table->integer('activityType_code')->unsigned()->nullable();
+            $table->string('counselorComment')->nullable();
+            $table->string('managerComment')->nullable();
+            $table->string('staffComment')->nullable();
             $table->timestamps();
 
             //Foreign keys

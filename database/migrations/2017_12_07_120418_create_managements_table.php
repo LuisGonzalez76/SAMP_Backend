@@ -18,6 +18,7 @@ class CreateManagementsTable extends Migration
             $table->integer('manager_id')->unsigned();
             $table->timestamps();
 
+            $table->unique(['manager_id','facility_id']);
             //Foreign keys
             $table->foreign('facility_id')->references('id')->on('facilities');
             $table->foreign('manager_id')->references('id')->on('facilities_managers');

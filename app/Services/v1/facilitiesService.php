@@ -74,4 +74,8 @@ class facilitiesService
 
     }
 
+    public function managedByStaff($id){
+
+    }
+
 }

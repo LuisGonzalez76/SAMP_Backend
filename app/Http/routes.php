@@ -44,8 +44,6 @@ Route::put('api/organization_types/{code}','v1\organizationController@updateOrga
 Route::get('api/activities', 'v1\activityController@index');
 Route::get('api/activities/{id}','v1\activityController@show');
 Route::get('api/activity/{email}','v1\activityController@showByUserEmail');
-Route::put('api/hasFood/{id}','v1\activityController@hasFood');
-Route::put('api/activityType/{id}','v1\activityController@updateType');
 Route::get('api/activityType','v1\activityController@getTypes');
 
 Route::post('api/activities','v1\activityController@store');

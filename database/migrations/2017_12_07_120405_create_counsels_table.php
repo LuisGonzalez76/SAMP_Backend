@@ -17,7 +17,7 @@ class CreateCounselsTable extends Migration
             $table->integer('counselor_id')->unsigned();
             $table->integer('organization_id')->unsigned();
             $table->timestamps();
-
+            $table->unique(['counselor_id','organization_id']);
             //Foreign keys
             $table->foreign('counselor_id')->references('id')->on('counselors');
             $table->foreign('organization_id')->references('id')->on('organizations');

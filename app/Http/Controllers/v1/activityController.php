@@ -52,50 +52,39 @@ class activityController extends Controller
 
     }
 
-    public function counselorApproved($id)
+    public function counselorApproved(Request $request,$id)
     {
-        $data = $this->activites->counselorApproved($id);
+        $data = $this->activites->counselorApproved($request,$id);
         return response()->json($data);
     }
 
-    public function counselorDenied($id)
+    public function counselorDenied(Request $request,$id)
     {
-        $data = $this->activites->counselorDenied($id);
+        $data = $this->activites->counselorDenied($request,$id);
         return response()->json($data);
     }
 
-    public function managerApproved($id)
+    public function managerApproved(Request $request,$id)
     {
-        $data = $this->activites->managerApproved($id);
+        $data = $this->activites->managerApproved($request,$id);
         return response()->json($data);
     }
 
-    public function managerDenied($id)
+    public function managerDenied(Request $request,$id)
     {
-        $data = $this->activites->managerDenied($id);
+        $data = $this->activites->managerDenied($request,$id);
         return response()->json($data);
     }
 
-    public function adminApproved($id)
+    public function adminApproved(Request $request,$id)
     {
-        $data = $this->activites->adminApproved($id);
+        $data = $this->activites->adminApproved($request,$id);
         return response()->json($data);
     }
 
-    public function adminDenied($id)
+    public function adminDenied(Request $request,$id)
     {
-        $data = $this->activites->adminDenied($id);
-        return response()->json($data);
-    }
-
-    public function hasFood(Request $request,$id)
-    {
-        $data = $this->activites->hasFood($request,$id);
-        return response()->json($data);
-    }
-
-    public function updateType(Request $request,$id){
-        $data = $this->activites->updateType($request,$id);
+        $data = $this->activites->adminDenied($request,$id);
         return response()->json($data);
     }
 
