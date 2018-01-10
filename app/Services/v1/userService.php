@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\v1;
 
+use App\management;
 use App\Providers\v1\userServiceProvider;
 use App\activity;
 use App\user;

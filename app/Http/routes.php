@@ -53,6 +53,7 @@ Route::put('api/managerApproved/{id}','v1\activityController@managerApproved');
 Route::put('api/managerDenied/{id}','v1\activityController@managerDenied');
 Route::put('api/adminApproved/{id}','v1\activityController@adminApproved');
 Route::put('api/adminDenied/{id}','v1\activityController@adminDenied');
+Route::post('api/adminStore','v1\activityController@storeByAdmin');
 
 //User Routes
 Route::get('api/users','v1\userController@index');

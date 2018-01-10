@@ -2,6 +2,7 @@
 namespace App\Services\v1;
 
 use App\activityType;
+use App\management;
 use App\Providers\v1\studentServiceProvider;
 use App\student;
 use App\activity;
@@ -89,32 +90,65 @@ class activityService{
 
     public function storeActivity($request){
         if($request!=null){
-            $start = $request['activityStart'];
-            $end = $request['activityEnd'];
-            $startA = strtotime($start);
-            $endA = strtotime($end);
-            $activity = activity::create([
-                'student_id'=>$request['student_id'],
-                'organization_id'=>$request['organization_id'],
-                'facility_id'=>$request['facility_id'],
-                'staff_id'=>$request['staff_id'],
-                'activityName'=>$request['activityName'],
-                'activityDescription'=>$request['activityDescription'],
-                'attendantsNumber'=>$request['attendantsNumber'],
-                'activityDate'=>$request['activityDate'],
-                'activityStart'=>$startA,
-                'activityEnd'=>$endA,
-                'hasFood'=>$request['hasFood'],
-                'guestName'=>$request['guestName'],
-                'activityStatus_code'=>$request['activityStatus_code'],
-                'counselorStatus_code'=>$request['counselorStatus_code'],
-                'managerStatus_code'=>$request['managerStatus_code'],
-                'activityType_code'=>$request['activityType_code'],
-                'counselorComment'=>$request['counselorComment'],
-                'managerComment'=>$request['managerComment'],
-                'staffComment'=>$request['staffComment'],
+
+            if($this->staffManages($request['facility_id'])){
+                $start = $request['activityStart'];
+                $end = $request['activityEnd'];
+                $startA = strtotime($start);
+                $endA = strtotime($end);
+                $activity = activity::create([
+                    'student_id'=>$request['student_id'],
+                    'organization_id'=>$request['organization_id'],
+                    'facility_id'=>$request['facility_id'],
+                    'staff_id'=>$request['staff_id'],
+                    'activityName'=>$request['activityName'],
+                    'activityDescription'=>$request['activityDescription'],
+                    'attendantsNumber'=>$request['attendantsNumber'],
+                    'activityDate'=>$request['activityDate'],
+                    'activityStart'=>$startA,
+                    'activityEnd'=>$endA,
+                    'hasFood'=>$request['hasFood'],
+                    'guestName'=>$request['guestName'],
+                    'activityStatus_code'=>1,
+                    'counselorStatus_code'=>1,
+                    'managerStatus_code'=>2,
+                    'activityType_code'=>$request['activityType_code'],
+                    'counselorComment'=>$request['counselorComment'],
+                    'managerComment'=>$request['managerComment'],
+                    'staffComment'=>$request['staffComment'],
                 ]);
-            return $activity;
+                return $activity;
+            }
+
+            else{
+                $start = $request['activityStart'];
+                $end = $request['activityEnd'];
+                $startA = strtotime($start);
+                $endA = strtotime($end);
+                $activity = activity::create([
+                    'student_id'=>$request['student_id'],
+                    'organization_id'=>$request['organization_id'],
+                    'facility_id'=>$request['facility_id'],
+                    'staff_id'=>$request['staff_id'],
+                    'activityName'=>$request['activityName'],
+                    'activityDescription'=>$request['activityDescription'],
+                    'attendantsNumber'=>$request['attendantsNumber'],
+                    'activityDate'=>$request['activityDate'],
+                    'activityStart'=>$startA,
+                    'activityEnd'=>$endA,
+                    'hasFood'=>$request['hasFood'],
+                    'guestName'=>$request['guestName'],
+                    'activityStatus_code'=>1,
+                    'counselorStatus_code'=>1,
+                    'managerStatus_code'=>1,
+                    'activityType_code'=>$request['activityType_code'],
+                    'counselorComment'=>$request['counselorComment'],
+                    'managerComment'=>$request['managerComment'],
+                    'staffComment'=>$request['staffComment'],
+                ]);
+                return $activity;
+            }
+
         }
         else {
             return response() -> json(['message' => 'No data is present in request!'], 200);
@@ -187,4 +221,79 @@ class activityService{
     public function getTypes(){
         return activityType::all();
     }
+
+    public function staffManages($id){
+        $temp = management::where('facility_id',$id)->get()->first();
+        $manager = facilitiesManager::where('id',$temp->manager_id)->get()->first();
+        $user = user::where('id',$manager->user_id)->get()->first();
+        return ($user->userType_code==1)||($user->userType_code==2);
+    }
+
+    public function storeByAdmin($request){
+        if($request!=null){
+
+            if($this->staffManages($request['facility_id'])){
+                $start = $request['activityStart'];
+                $end = $request['activityEnd'];
+                $startA = strtotime($start);
+                $endA = strtotime($end);
+                $activity = activity::create([
+                    'student_id'=>$request['student_id'],
+                    'organization_id'=>$request['organization_id'],
+                    'facility_id'=>$request['facility_id'],
+                    'staff_id'=>$request['staff_id'],
+                    'activityName'=>$request['activityName'],
+                    'activityDescription'=>$request['activityDescription'],
+                    'attendantsNumber'=>$request['attendantsNumber'],
+                    'activityDate'=>$request['activityDate'],
+                    'activityStart'=>$startA,
+                    'activityEnd'=>$endA,
+                    'hasFood'=>$request['hasFood'],
+                    'guestName'=>$request['guestName'],
+                    'activityStatus_code'=>2,
+                    'counselorStatus_code'=>2,
+                    'managerStatus_code'=>2,
+                    'activityType_code'=>$request['activityType_code'],
+                    'counselorComment'=>$request['counselorComment'],
+                    'managerComment'=>$request['managerComment'],
+                    'staffComment'=>$request['staffComment'],
+                ]);
+                return $activity;
+            }
+
+            else{
+                $start = $request['activityStart'];
+                $end = $request['activityEnd'];
+                $startA = strtotime($start);
+                $endA = strtotime($end);
+                $activity = activity::create([
+                    'student_id'=>$request['student_id'],
+                    'organization_id'=>$request['organization_id'],
+                    'facility_id'=>$request['facility_id'],
+                    'staff_id'=>$request['staff_id'],
+                    'activityName'=>$request['activityName'],
+                    'activityDescription'=>$request['activityDescription'],
+                    'attendantsNumber'=>$request['attendantsNumber'],
+                    'activityDate'=>$request['activityDate'],
+                    'activityStart'=>$startA,
+                    'activityEnd'=>$endA,
+                    'hasFood'=>$request['hasFood'],
+                    'guestName'=>$request['guestName'],
+                    'activityStatus_code'=>1,
+                    'counselorStatus_code'=>2,
+                    'managerStatus_code'=>1,
+                    'activityType_code'=>$request['activityType_code'],
+                    'counselorComment'=>$request['counselorComment'],
+                    'managerComment'=>$request['managerComment'],
+                    'staffComment'=>$request['staffComment'],
+                ]);
+                return $activity;
+            }
+
+        }
+        else {
+            return response() -> json(['message' => 'No data is present in request!'], 200);
+        }
+    }
+
 }

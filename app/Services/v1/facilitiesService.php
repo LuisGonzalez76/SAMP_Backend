@@ -10,6 +10,7 @@ namespace App\Services\v1;
 
 use App\Http\Requests\Request;
 
+use App\user;
 use DB;
 use App\facility;
 use App\facilitiesManager;

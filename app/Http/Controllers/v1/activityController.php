@@ -52,6 +52,11 @@ class activityController extends Controller
 
     }
 
+    public function storeByAdmin(Request $request){
+        $data = $this->activites->storeByAdmin($request);
+        return response()->json($data);
+    }
+
     public function counselorApproved(Request $request,$id)
     {
         $data = $this->activites->counselorApproved($request,$id);
