@@ -225,6 +225,15 @@ class userService{
                     'user_id' => $u_id->id,
                     'isActive' => 1,
                 ]);
+
+                $manager = facilitiesManager::create([
+
+                    'managerName' => $request['staffName'],
+                    'managerEmail' => $request['staffEmail'],
+                    'managerPhone' => $request['staffPhone'],
+                    'user_id' => $u_id->id,
+                    'isActive' => 0,
+                ]);
                 return $staff;
             }
             else{
@@ -270,6 +279,18 @@ class userService{
                         'user_id' => $u_id,
                         'isActive' => 1,
                     ]);
+                    $managerTemp = facilitiesManager::where('managerEmail',$request['staffEmail'])->get()->first();
+
+                    if(count($managerTemp)==0){
+                        $manager = facilitiesManager::create([
+
+                            'managerName' => $request['staffName'],
+                            'managerEmail' => $request['staffEmail'],
+                            'managerPhone' => $request['staffPhone'],
+                            'user_id' => $u_id,
+                            'isActive' => 0
+                        ]);
+                    }
                     return $staff;
                 }
                 else{
@@ -321,6 +342,15 @@ class userService{
                     'user_id' => $u_id->id,
                     'isActive' => 1,
                 ]);
+
+                $manager = facilitiesManager::create([
+
+                    'managerName' => $request['staffName'],
+                    'managerEmail' => $request['staffEmail'],
+                    'managerPhone' => $request['staffPhone'],
+                    'user_id' => $u_id->id,
+                    'isActive' => 0,
+                ]);
                 return $staff;
             }
             else{
@@ -366,6 +396,19 @@ class userService{
                         'user_id' => $u_id,
                         'isActive' => 1,
                     ]);
+
+                    $managerTemp = facilitiesManager::where('managerEmail',$request['staffEmail'])->get()->first();
+
+                    if(count($managerTemp)==0){
+                        $manager = facilitiesManager::create([
+
+                            'managerName' => $request['staffName'],
+                            'managerEmail' => $request['staffEmail'],
+                            'managerPhone' => $request['staffPhone'],
+                            'user_id' => $u_id,
+                            'isActive' => 0
+                        ]);
+                    }
                     return $staff;
                 }
                 else{
