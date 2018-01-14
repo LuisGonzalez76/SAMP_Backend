@@ -168,8 +168,8 @@ class activityController extends Controller
         return response()->json($data);
     }
 
-    public function resume(){
-        $data = $this->activites->getResume();
+    public function report(Request $request){
+        $data = $this->activites->getReport($request);
         return response()->json($data);
 
     }

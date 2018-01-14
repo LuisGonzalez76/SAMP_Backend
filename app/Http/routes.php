@@ -32,7 +32,7 @@ Route::post('api/organizations','v1\organizationController@store');
 Route::put('api/organizations/{id}','v1\organizationController@update');
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
-Route::post('api/facilities/addCounselor','v1\organizationControler@counselorToOrganization');// new route
+Route::post('api/organizations/addCounselor','v1\organizationControler@counselorToOrganization');// new route
 
 Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
 Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');
@@ -89,3 +89,9 @@ Route::put('api/staff/{id}','v1\staffController@update');
 Route::get('api/admin','v1\staffController@adminIndex');
 Route::get('api/admin/{id}','v1\staffController@showAdmin');
 Route::post('api/admin','v1\staffController@storeAdmin');
+
+//Statistic Routes
+Route::get('api/report','v1\activityController@report');
+Route::get('api/denied','v1\activityController@countDenied');
+Route::get('api/approved','v1\activityController@countApproved');
+Route::get('api/pending','v1\activityController@countPending');
