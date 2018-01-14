@@ -205,7 +205,9 @@ class activityService{
         return $activity;
     }
     public function getPending(){
-        $pending = activity::where('activityStatus_code', 1)->count('activityStatus_code');
+        $pending = DB::select('select count(*) as pending
+                            from activities
+                            where activityStatus_code = 1 or counselorStatus_code = 1 or managerStatus_code =1');
         return $pending;
     }
 
