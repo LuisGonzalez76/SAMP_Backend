@@ -298,9 +298,10 @@ class organizationsService
         $organization = DB::table('organizations')
                         ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
                         ->select('organizations.id','organizations.organizationName','organizations.organizationInitials',
-                            'organization_types.description','organizations.isActive')
+                            'organizations.organizationType_code','organizations.isActive')
                         ->where('organizations.id',$id)
                         ->get();
+
 
         return $organization;
 
