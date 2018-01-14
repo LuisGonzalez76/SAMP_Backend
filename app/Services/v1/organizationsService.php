@@ -289,7 +289,7 @@ class organizationsService
             ->join('organizations','counsels.organization_id','=','organizations.id')
             ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
             ->select('counsels.id','organizations.organizationName','organization_types.description',
-                'organizations.organizationInitials','organizations.created_at','counselors.fullName',
+                'organizations.organizationInitials','organizations.created_at','counselors.counselorName',
                 'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
                 'counselors.counselorDepartment','counselors.counselorOffice')
             ->where('counsels.id', $id)
