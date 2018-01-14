@@ -284,7 +284,7 @@ class organizationsService
                         ->get();*/
 
 
-        $organization = DB::table('counsels')
+        /*$organization = DB::table('counsels')
             ->join('counselors','counsels.counselor_id','=','counselors.id')
             ->join('organizations','counsels.organization_id','=','organizations.id')
             ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
@@ -293,7 +293,9 @@ class organizationsService
                 'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
                 'counselors.counselorDepartment','counselors.counselorOffice')
             ->where('counsels.id', $id)
-            ->get();
+            ->get();*/
+
+        $organization = organization::find($id);
 
         return $organization;
 
