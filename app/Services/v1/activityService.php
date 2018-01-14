@@ -207,14 +207,14 @@ class activityService{
     public function getPending(){
         $pending = DB::select('select count(*) as pending
                             from activities
-                            where activityStatus_code = 1 or counselorStatus_code = 1 or managerStatus_code =1');
+                            where activityStatus_code = 1 and counselorStatus_code != 3 and managerStatus_code != 3');
         return $pending;
     }
 
     public function getApproved(){
         $approved = DB::select('select count(*) as approved
                             from activities
-                            where activityStatus_code = 2 or counselorStatus_code = 2 or managerStatus_code =2');
+                            where activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2');
         return $approved;
     }
 
