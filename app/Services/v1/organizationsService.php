@@ -295,7 +295,8 @@ class organizationsService
             ->where('counsels.id', $id)
             ->get();*/
 
-        $organization = organization::find($id);
+        $organization = organization::find($id)
+                      ->with('organization_types')->get();
 
         return $organization;
 
