@@ -174,5 +174,17 @@ class activityController extends Controller
 
     }
 
+    public function FacilityRequests(){
+        $data = $this->activites->getRequested();
+        return response()->json($data);
+    }
+
+    public function ActivitiesStatus(){
+        $data = $this->activites->getStatuses();
+        return response()->json($data);
+    }
+
+
+
 
 }

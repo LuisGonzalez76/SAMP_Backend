@@ -247,6 +247,30 @@ class activityService{
 
     }
 
+    public function getRequested(){
+
+        $requested = DB::select('select building,space,sum(case when activityStatus_code = 1 then 1 when activityStatus_code = 2 then 1 when activityStatus_code = 3 then 1 else 0 end) as Requested
+        from activities as a, facilities as f where a.facility_id = f.id
+        group by building,space');
+
+        return $requested;
+
+
+    }
+
+    public function getStatuses(){
+
+        $statuses = DB::select('select building, space, activityName, ActivityDescription,CASE WHEN activityStatus_code = 1 then\'pending\' WHEN activityStatus_code = 2 then \'approved\' WHEN activityStatus_code =3 or counselorStatus_code =3 or managerStatus_code = 3 then \'denied\' else \'unclassified\' end as Status 
+        from activities as a, facilities as f 
+        where a.facility_id = f.id');
+
+        return $statuses;
+
+
+    }
+
+
+
 
     public function staffManages($id){
         $temp = management::where('facility_id',$id)->get()->first();
