@@ -295,8 +295,12 @@ class organizationsService
             ->where('counsels.id', $id)
             ->get();*/
 
-        $organization = organization::find($id)
-                      ->with('organization_types')->get();
+        $organization = DB::table('organizations')
+                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
+                        ->select('organizations.id','organizations.organizationName','organizations.organizationInitials',
+                            'organization_types.description','organizations.isActive')
+                        ->where('organizations.id',$id)
+                        ->get();
 
         return $organization;
 
