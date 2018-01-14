@@ -210,7 +210,9 @@ class activityService{
     }
 
     public function getApproved(){
-        $approved = activity::where('activityStatus_code', 2)->count('activityStatus_code');
+        $approved = DB::select('select count(*) as approved
+                            from activities
+                            where activityStatus_code = 2 or counselorStatus_code = 2 or managerStatus_code =2');
         return $approved;
     }
 
