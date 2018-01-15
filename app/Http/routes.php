@@ -26,6 +26,7 @@ Route::put('api/facilities/{id}','v1\facilityController@update');
 Route::get('api/facilities/{id}','v1\facilityController@show');//bien
 Route::post('api/facilities/addManager','v1\facilityController@managerToFacility');//new route
 Route::get('api/facilities/managers/{id}','v1\facilityController@facilitiesManagers');
+Route::delete('api/facilities/managers/{fid}/{mid}','v1\facilityController@facilitiesManagerRemove');
 
 //Organization Routes
 Route::get('api/organizations','v1\organizationController@index');
@@ -36,6 +37,7 @@ Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser'
 Route::post('api/organizations/addCounselor','v1\organizationController@counselorToOrganization');// new route
 Route::delete('api/organizations/members/delete/{sid}/{oid}','v1\organizationController@organizationMemberRemove');
 Route::get('api/organizations/members/{id}','v1\organizationController@organizationMembers');
+Route::delete('api/organizations/counselors/{cid}/{oid}','v1\organizationController@organizationCounselorRemove');
 Route::get('api/organizations/counselors/{id}','v1\organizationController@organizationCounselors');
 Route::get('api/organizations/activities/{id}','v1\organizationController@organizationActivities');
 

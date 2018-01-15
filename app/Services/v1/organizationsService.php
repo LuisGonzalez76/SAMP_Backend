@@ -720,6 +720,15 @@ class organizationsService
 
     }
 
+    public function removeOrganizationCounselor($cid,$oid){
+
+        $members = counsel::where('counselor_id',$cid)
+            ->where('organization_id',$oid)
+            ->delete();
+
+
+    }
+
     public function getOrganizationActivities($id){
 
         $activities = DB::select('select a.id,a.activityName,a.activityDescription,o.organizationName,f.building,f.space, ac.description
@@ -730,5 +739,9 @@ class organizationsService
 
 
     }
+
+
+
+
 
 }

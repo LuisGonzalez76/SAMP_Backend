@@ -85,6 +85,14 @@ class facilitiesService
 
     }
 
+    public function removeFacilitiesManager($fid,$mid){
+
+            $managers = management::where('facility_id',$fid)
+                ->where('manager_id',$mid)
+                ->delete();
+
+    }
+
     public function managedByStaff($id){
 
     }
