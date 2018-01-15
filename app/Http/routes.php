@@ -63,6 +63,7 @@ Route::post('api/adminStore','v1\activityController@storeByAdmin');
 
 Route::get('api/activityByOrg/{id}','v1\activityController@activityByOrg');
 Route::get('api/activityByFacility/{id}','v1\activityController@activityByFacility');
+Route::put('api/updateType/{id}','v1\activityController@updateType');
 
 
 //User Routes
