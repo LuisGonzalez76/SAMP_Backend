@@ -189,6 +189,11 @@ class activityController extends Controller
         return response()->json($data);
     }
 
+    public function activityByFacility($id){
+        $data = $this->activites->activityByFacility($id);
+        return response()->json($data);
+    }
+
 
 
 

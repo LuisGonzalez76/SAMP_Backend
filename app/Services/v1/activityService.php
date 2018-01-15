@@ -243,17 +243,12 @@ class activityService{
         $startDate = (string) $request['startDate'];
         $endDate = (string) $request['endDate'];
 
-        /*$report = DB::select(' SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,a.activityStart,convert(\'16:30:00\',TIME))/60 WHEN a.activityEnd < \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,convert(\'16:30:00\',TIME),a.activityEnd)/60 WHEN a.activityStart > \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end )as Nocturno,
+        $report = DB::select(' SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,a.activityStart,convert(\'16:30:00\',TIME))/60 WHEN a.activityEnd < \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,convert(\'16:30:00\',TIME),a.activityEnd)/60 WHEN a.activityStart > \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end )as Nocturno,
         sum(case when at.description = \'Academica\' then 1 else 0 end) as Academica,sum(case when at.description = \'Arte\' then 1 else 0 end) as Arte,sum(case when at.description = \'Civica\' then 1 else 0 end) as Civica,sum(case when at.description = \'Deportiva\' then 1 else 0 end) as Deportiva,sum(case when at.description = \'Educativa\' then 1 else 0 end) as Educativa, sum(case when at.description = \'Profesional\' then 1 else 0 end) as Profesional,sum(case when at.description = \'Venta\' then 1 else 0 end) as Venta, sum(case when at.description = \'Religiosa\' then 1 else 0 end) as Religiosa,
         sum(case when at.description = \'Social\' then 1 else 0 end) as Social,sum(case when at.description = \'Politica\' then 1 else 0 end) as Politica,count(at.description)as Total
         from facilities as f , activities as a , activity_types as at 
         where a.facility_id = f.id and a.activityType_code = at.code and activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2 and activityDate BETWEEN ? and ?
-        group by building, space',[$startDate,$endDate]);*/
-
-        $report = DB::select('SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityEnd < \'16:30:00\' then 1 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityStart > \'16:30:00\' then 1 ELSE 0 end )as Nocturno, 
-        sum(case when at.description = \'Academica\' then 1 else 0 end) as Academica,sum(case when at.description = \'Arte\' then 1 else 0 end) as Arte,sum(case when at.description = \'Civica\' then 1 else 0 end) as Civica,sum(case when at.description = \'Deportiva\' then 1 else 0 end) as Deportiva,sum(case when at.description = \'Educativa\' then 1 else 0 end) as Educativa, sum(case when at.description = \'Profesional\' then 1 else 0 end) as Profesional,sum(case when at.description = \'Venta\' then 1 else 0 end) as Venta,sum(case when at.description = \'Religiosa\' then 1 else 0 end) as Religiosa,sum(case when at.description = \'Social\' then 1 else 0 end) as Social,sum(case when at.description = \'Politica\' then 1 else 0 end) as Politica,count(at.description)as Total  
-        from facilities as f , activities as a , activity_types as at 
-        where a.facility_id = f.id and a.activityType_code = at.code and activityDate between ? and ? group by building,space',[$startDate,$endDate]);
+        group by building, space',[$startDate,$endDate]);
 
         return $report;
 
@@ -361,6 +356,11 @@ class activityService{
 
     public function activityByOrg($id){
         return activity::where('organization_id',$id)->with('student','organization',
+            'facility','status','counselor_status','manager_status')->get();
+    }
+
+    public function activityByFacility($id){
+        return activity::where('facility_id',$id)->with('student','organization',
             'facility','status','counselor_status','manager_status')->get();
     }
 }
