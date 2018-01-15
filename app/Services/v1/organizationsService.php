@@ -685,10 +685,15 @@ class organizationsService
 
     }
 
+    public function addMember(){
+
+
+    }
+
 
     public function getOrganizationMembers($id){
 
-        $members = DB::select('select s.id,s.studentName, oo.description, s.studentNo, s.studentPhone, s.studentAddress, s.studentCity, s.studentCountry, s.studentZipCode
+        $members = DB::select('select s.id,s.studentName,s.studentEmail, oo.description, s.studentNo, s.studentPhone, s.studentAddress, s.studentCity, s.studentCountry, s.studentZipCode
         from organizations as o, students as s , organization_roles as oo, memberships as m 
         where m.organization_id = o.id and m.student_id = s.id and m.organizationRole_code = oo.code and o.id = ?',[$id]);
 
