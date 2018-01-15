@@ -60,6 +60,9 @@ Route::put('api/adminApproved/{id}','v1\activityController@adminApproved');
 Route::put('api/adminDenied/{id}','v1\activityController@adminDenied');
 Route::post('api/adminStore','v1\activityController@storeByAdmin');
 
+Route::get('api/activityByOrg/{id}','v1\activityController@activityByOrg');
+
+
 //User Routes
 Route::get('api/users','v1\userController@index');
 Route::get('api/users/{email}','v1\userController@show');

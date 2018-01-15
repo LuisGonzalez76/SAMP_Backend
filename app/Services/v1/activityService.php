@@ -353,4 +353,9 @@ class activityService{
         }
     }
 
+
+    public function activityByOrg($id){
+        return activity::where('organization_id',$id)->with('student','organization',
+            'facility','status','counselor_status','manager_status')->get();
+    }
 }
