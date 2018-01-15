@@ -211,23 +211,74 @@ class activityService{
         return $activity;
     }
     public function getPending(){
-        $pending = activity::where('activityStatus_code', 1)->count('activityStatus_code');
+        $pending = DB::select('select count(*) as pending
+                            from activities
+                            where activityStatus_code = 1 and counselorStatus_code != 3 and managerStatus_code != 3');
         return $pending;
     }
 
     public function getApproved(){
-        $approved = activity::where('activityStatus_code', 2)->count('activityStatus_code');
+        $approved = DB::select('select count(*) as approved
+                            from activities
+                            where activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2');
         return $approved;
     }
 
     public function getDenied(){
-        $denied = activity::where('activityStatus_code', 3)->count('activityStatus_code');
+
+        $denied = DB::select('select count(*) as Denied
+                            from activities
+                            where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 ');
+
         return $denied;
     }
+
+
 
     public function getTypes(){
         return activityType::all();
     }
+
+    public function getReport($request){
+
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
+
+        $report = DB::select(' SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,a.activityStart,convert(\'16:30:00\',TIME))/60 WHEN a.activityEnd < \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then timestampdiff(minute,convert(\'16:30:00\',TIME),a.activityEnd)/60 WHEN a.activityStart > \'16:30:00\' then timestampdiff(minute,a.activityStart,a.activityEnd)/60 ELSE 0 end )as Nocturno,
+        sum(case when at.description = \'Academica\' then 1 else 0 end) as Academica,sum(case when at.description = \'Arte\' then 1 else 0 end) as Arte,sum(case when at.description = \'Civica\' then 1 else 0 end) as Civica,sum(case when at.description = \'Deportiva\' then 1 else 0 end) as Deportiva,sum(case when at.description = \'Educativa\' then 1 else 0 end) as Educativa, sum(case when at.description = \'Profesional\' then 1 else 0 end) as Profesional,sum(case when at.description = \'Venta\' then 1 else 0 end) as Venta, sum(case when at.description = \'Religiosa\' then 1 else 0 end) as Religiosa,
+        sum(case when at.description = \'Social\' then 1 else 0 end) as Social,sum(case when at.description = \'Politica\' then 1 else 0 end) as Politica,count(at.description)as Total
+        from facilities as f , activities as a , activity_types as at 
+        where a.facility_id = f.id and a.activityType_code = at.code and activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2 and activityDate BETWEEN ? and ?
+        group by building, space',[$startDate,$endDate]);
+
+        return $report;
+
+    }
+
+    public function getRequested(){
+
+        $requested = DB::select('select building,space,sum(case when activityStatus_code = 1 then 1 when activityStatus_code = 2 then 1 when activityStatus_code = 3 then 1 else 0 end) as Requested
+        from activities as a, facilities as f where a.facility_id = f.id
+        group by building,space');
+
+        return $requested;
+
+
+    }
+
+    public function getStatuses(){
+
+        $statuses = DB::select('select building, space, activityName, ActivityDescription,CASE WHEN activityStatus_code = 1 then\'pending\' WHEN activityStatus_code = 2 then \'approved\' WHEN activityStatus_code =3 or counselorStatus_code =3 or managerStatus_code = 3 then \'denied\' else \'unclassified\' end as Status 
+        from activities as a, facilities as f 
+        where a.facility_id = f.id');
+
+        return $statuses;
+
+
+    }
+
+
+
 
     public function staffManages($id){
         $temp = management::where('facility_id',$id)->get()->first();

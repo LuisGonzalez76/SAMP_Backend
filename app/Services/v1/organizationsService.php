@@ -10,6 +10,8 @@ namespace App\Services\v1;
 
 use App\Http\Requests\Request;
 use App\student;
+use App\membership;
+use App\organizationRole;
 use DB;
 use App\organization;
 use App\counsel;
@@ -284,16 +286,24 @@ class organizationsService
                         ->get();*/
 
 
-        $organization = DB::table('counsels')
+        /*$organization = DB::table('counsels')
             ->join('counselors','counsels.counselor_id','=','counselors.id')
             ->join('organizations','counsels.organization_id','=','organizations.id')
             ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
             ->select('counsels.id','organizations.organizationName','organization_types.description',
-                'organizations.organizationInitials','organizations.created_at','counselors.fullName',
+                'organizations.organizationInitials','organizations.created_at','counselors.counselorName',
                 'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
                 'counselors.counselorDepartment','counselors.counselorOffice')
             ->where('counsels.id', $id)
-            ->get();
+            ->get();*/
+
+        $organization = DB::table('organizations')
+                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
+                        ->select('organizations.id','organizations.organizationName','organizations.organizationInitials',
+                            'organizations.organizationType_code','organizations.isActive')
+                        ->where('organizations.id',$id)
+                        ->get();
+
 
         return $organization;
 
@@ -672,6 +682,37 @@ class organizationsService
             'counselor_id' => $cid,
             'organization_id' => $oid,
         ]);
+
+    }
+
+
+    public function getOrganizationMembers($id){
+
+        $members = DB::select('select s.id,s.studentName, oo.description, s.studentNo, s.studentPhone, s.studentAddress, s.studentCity, s.studentCountry, s.studentZipCode
+        from organizations as o, students as s , organization_roles as oo, memberships as m 
+        where m.organization_id = o.id and m.student_id = s.id and m.organizationRole_code = oo.code and o.id = ?',[$id]);
+
+        return $members;
+
+    }
+
+    public function getOrganizationCounselors($id){
+
+        $counselors = DB::select('select c.id,c.counselorName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
+        from counselors as c, counsels as co, organizations as o
+        where co.counselor_id = c.id and co.organization_id = o.id and o.id = ?',[$id]);
+
+        return $counselors;
+
+    }
+
+    public function getOrganizationActivities($id){
+
+        $activities = DB::select('select a.id,a.activityName,a.activityDescription,o.organizationName,f.building,f.space, ac.description
+        from activities as a, organizations as o, facilities as f, activity_statuses as ac
+        where a.organization_id = o.id and a.facility_id = f.id and a.activityStatus_code = ac.code and o.id = ?',[$id]);
+
+        return $activities;
 
 
     }
