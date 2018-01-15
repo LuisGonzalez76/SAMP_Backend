@@ -75,6 +75,16 @@ class facilitiesService
 
     }
 
+    public function getFacilitiesManagers($id){
+
+        $managers = DB::select('select fm.id, fm.managerName, fm.managerEmail, fm.managerPhone 
+        from facilities_managers as fm, managements as m, facilities as f
+        where m.facility_id = f.id and m.manager_id = fm.id and f.id = ?',[$id]);
+
+        return $managers;
+
+    }
+
     public function managedByStaff($id){
 
     }

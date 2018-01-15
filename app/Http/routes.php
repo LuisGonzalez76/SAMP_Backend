@@ -25,6 +25,7 @@ Route::post('api/facilities', 'v1\facilityController@store'); //bien-createFacil
 Route::put('api/facilities/{id}','v1\facilityController@update');
 Route::get('api/facilities/{id}','v1\facilityController@show');//bien
 Route::post('api/facilities/addManager','v1\facilityController@managerToFacility');//new route
+Route::get('api/facilities/managers/{id}','v1\facilityController@facilitiesManagers');
 
 //Organization Routes
 Route::get('api/organizations','v1\organizationController@index');
