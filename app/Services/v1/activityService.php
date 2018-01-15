@@ -209,6 +209,12 @@ class activityService{
         $activity->save();
         return $activity;
     }
+
+    public function changeType($request,$id){
+        $activity = activity::where('id',$id)->get()->first();
+        $activity->activityType_code = $request['activityType_code'];
+        $activity->save();
+    }
     public function getPending(){
         $pending = DB::select('select count(*) as pending
                             from activities
@@ -363,4 +369,6 @@ class activityService{
         return activity::where('facility_id',$id)->with('student','organization',
             'facility','status','counselor_status','manager_status')->get();
     }
+
+
 }
