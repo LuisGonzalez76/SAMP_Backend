@@ -25,11 +25,10 @@ class activityService{
     }
 
     public function getActivity($id){
-        $activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
+        return activity::where('id','=',$id)->with('student')->with('staff')->with('organization.counselors')
             ->with('facility.managers')->with('status','type')
             ->with('counselor_status')->with('manager_status')
             ->get()->first();
-        return $activity;
     }
 
     public function getActivityByUser($email){
