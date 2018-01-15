@@ -250,11 +250,11 @@ class activityService{
         $endDate = (string) $request['endDate'];
 
 
-        $report = DB::select('SELECT facility_id,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityEnd < \'16:30:00\' then 1 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityStart > \'16:30:00\' then 1 ELSE 0 end )as Nocturno, 
+        $report = DB::select('SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityEnd < \'16:30:00\' then 1 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityStart > \'16:30:00\' then 1 ELSE 0 end )as Nocturno, 
         sum(case when at.description = \'Academica\' then 1 else 0 end) as Academica,sum(case when at.description = \'Arte\' then 1 else 0 end) as Arte,sum(case when at.description = \'Civica\' then 1 else 0 end) as Civica,sum(case when at.description = \'Deportiva\' then 1 else 0 end) as Deportiva ,sum(case when at.description = \'Educativa\' then 1 else 0 end) as Educativa,
         sum(case when at.description = \'Profesional\' then 1 else 0 end) as Profesional ,sum(case when at.description = \'Venta\' then 1 else 0 end) as Venta ,sum(case when at.description = \'Religiosa\' then 1 else 0 end) as Religiosa ,sum(case when at.description = \'Social\' then 1 else 0 end) as Social ,sum(case when at.description = \'Politica\' then 1 else 0 end) as Politica,count(at.description)as Total  
         from facilities as f , activities as a , activity_types as at 
-        where a.facility_id = f.id and a.activityType_code = at.code and activityDate between ? and ? group by facility_id,space',[$startDate,$endDate]);
+        where a.facility_id = f.id and a.activityType_code = at.code and activityDate between ? and ? group by building,space',[$startDate,$endDate]);
 
         return $report;
 
