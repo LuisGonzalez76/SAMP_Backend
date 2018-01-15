@@ -701,6 +701,15 @@ class organizationsService
 
     }
 
+    public function removeOrganizationMember($sid,$oid){
+
+        $members = membership::where('student_id',$sid)
+                            ->where('organization_id',$oid)
+                            ->delete();
+
+
+    }
+
     public function getOrganizationCounselors($id){
 
         $counselors = DB::select('select c.id,c.counselorName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
