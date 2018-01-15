@@ -194,6 +194,11 @@ class activityController extends Controller
         return response()->json($data);
     }
 
+    public function updateType(Request $request,$id){
+        $data = $this->activites->changeType($request,$id);
+        return response()->json($data);
+    }
+
 
 
 
