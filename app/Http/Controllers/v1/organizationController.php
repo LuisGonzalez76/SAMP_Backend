@@ -162,6 +162,11 @@ class organizationController extends Controller
 
     }
 
+    public function organizationMemberRemove($sid,$oid){
+        $data = $this->organizations->removeOrganizationMember($sid,$oid);
+        return response()->json($data);
+    }
+
     public function organizationCounselors($id){
 
         $data = $this->organizations->getOrganizationCounselors($id);
