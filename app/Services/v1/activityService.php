@@ -11,9 +11,13 @@ use App\organization;
 use App\facility;
 use App\facilitiesManager;
 use App\user;
+use DB;
 
 class activityService{
     public function getActivities(){
+        //$temp = activity::orderBy('activityStatus_code')->get();
+        //return $temp;
+
         $activity  = activity::with('student','organization.counselors',
             'facility.managers','status','counselor_status',
             'manager_status','type')->get();
@@ -24,7 +28,7 @@ class activityService{
         $activity = activity::where('id','=',$id)->with('student')->with('organization.counselors')
             ->with('facility.managers')->with('status','type')
             ->with('counselor_status')->with('manager_status')
-            ->get();
+            ->get()->first();
         return $activity;
     }
 
@@ -165,6 +169,8 @@ class activityService{
     public function counselorDenied($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->counselorStatus_code = 3;
+        $activity->managerStatus_code = 3;
+        $activity->activityStatus_code = 3;
         $activity->counselorComment = $request['counselorComment'];
         $activity->save();
         return $activity;
@@ -180,6 +186,7 @@ class activityService{
     public function managerDenied($request,$id){
         $activity = activity::where('id',$id)->get()->first();
         $activity->managerStatus_code = 3;
+        $activity->activityStatus_code = 3;
         $activity->managerComment = $request['managerComment'];
         $activity->save();
         return $activity;

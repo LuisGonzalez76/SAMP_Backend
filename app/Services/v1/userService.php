@@ -56,7 +56,7 @@ class userService{
     }
 
     public function getStudent($id){
-        $student =student::find($id);
+        $student =student::find($id)->with('organizations')->get()->first();
         return $student;
     }
 
