@@ -703,7 +703,7 @@ class organizationsService
 
     public function removeOrganizationMember($sid,$oid){
 
-        $members = counsel::where('student_id',$sid)
+        $members = membership::where('student_id',$sid)
                             ->where('organization_id',$oid)
                             ->delete();
 

@@ -33,9 +33,8 @@ Route::put('api/organizations/{id}','v1\organizationController@update');
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
 Route::post('api/organizations/addCounselor','v1\organizationController@counselorToOrganization');// new route
-
+Route::delete('api/organizations/members/delete/{sid}/{oid}','v1\organizationController@organizationMemberRemove');
 Route::get('api/organizations/members/{id}','v1\organizationController@organizationMembers');
-ROute::delete('api/organizations/members/delete','v1\organizationController@organizationMemberRemove');
 Route::get('api/organizations/counselors/{id}','v1\organizationController@organizationCounselors');
 Route::get('api/organizations/activities/{id}','v1\organizationController@organizationActivities');
 
