@@ -698,8 +698,8 @@ class organizationsService
 
     public function getOrganizationCounselors($id){
 
-        $counselors = DB::select('select c.id,counselorName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
-        from counselors as c, counsels as co, organization as o
+        $counselors = DB::select('select c.id,c.counselorName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
+        from counselors as c, counsels as co, organizations as o
         where co.counselor_id = c.id and co.organization_id = o.id and o.id = ?',[$id]);
 
         return $counselors;
