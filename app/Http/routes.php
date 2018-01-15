@@ -33,11 +33,16 @@ Route::put('api/organizations/{id}','v1\organizationController@update');
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
 Route::post('api/organizations/addCounselor','v1\organizationController@counselorToOrganization');// new route
+Route::get('api/organizations/members/{id}','v1\organizationController@organizationMembers');
+Route::get('api/organizations/counselors/{id}','v1\organizationController@organizationCounselors');
+Route::get('api/organizations/activities/{id}','v1\organizationController@organizationActivities');
+
 
 Route::get('api/organization_types', 'v1\organizationController@allOrganizationTypes');
 Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');
 Route::post('api/organization_types','v1\organizationController@storeOrganizationType');
 Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
+
 
 
 //Activities Routes

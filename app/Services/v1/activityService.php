@@ -219,12 +219,10 @@ class activityService{
     }
 
     public function getDenied(){
-        /*$denied = activity::where('activityStatus_code', 3)->count('activityStatus_code')
-                            ->orWhere('counselorStatus_code',3)->count('counselorStatus_code')
-                            ->orWhere('managerStatus_code',3)->count('managerStatus_code');*/
+
         $denied = DB::select('select count(*) as Denied
                             from activities
-                            where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code =3 ');
+                            where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 ');
 
         return $denied;
     }

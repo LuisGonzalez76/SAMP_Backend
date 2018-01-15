@@ -155,5 +155,25 @@ class organizationController extends Controller
 
     }
 
+    public function organizationMembers($id){
+
+        $data = $this->organizations->getOrganizationMembers($id);
+        return response()->json($data);
+
+    }
+
+    public function organizationCounselors($id){
+
+        $data = $this->organizations->getOrganizationCounselors($id);
+        return response()->json($data);
+    }
+
+    public function organizationActivities($id){
+
+        $data = $this->organizations->getOrganizationActivities($id);
+        return response()->json($data);
+
+    }
+
 
 }
