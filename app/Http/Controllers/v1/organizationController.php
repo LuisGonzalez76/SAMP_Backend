@@ -163,7 +163,7 @@ class organizationController extends Controller
 
     public function memberToOrganization($oid,$sid,$rid){
 
-        $data = $this->organizations->addMember($sid,$oid,$rid);
+        $data = $this->organizations->addMember($oid,$sid,$rid);
         return response()->json($data);
 
     }

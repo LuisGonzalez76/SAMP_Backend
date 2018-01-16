@@ -692,8 +692,9 @@ class organizationsService
     }
 
     public function addMember($oid,$sid,$rid){
+
         $member = membership::create([
-            'student)id' => $sid,
+            'student_id' => $sid,
             'organization_id' => $oid,
             'organizationRole_code' => $rid,
         ]);
