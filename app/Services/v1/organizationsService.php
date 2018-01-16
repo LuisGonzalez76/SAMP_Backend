@@ -676,7 +676,13 @@ class organizationsService
 
     }
 
-    public function addCounselor($cid,$oid){
+    public function getOrganizationRoles(){
+        $organization_roles = organizationRole::all();
+        return $organization_roles;
+
+    }
+
+    public function addCounselor($oid,$cid){
 
         $counsels = counsel::create([
             'counselor_id' => $cid,
@@ -685,9 +691,12 @@ class organizationsService
 
     }
 
-    public function addMember(){
-
-
+    public function addMember($oid,$sid,$rid){
+        $member = membership::create([
+            'student)id' => $sid,
+            'organization_id' => $oid,
+            'organizationRole_code' => $rid,
+        ]);
     }
 
 

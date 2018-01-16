@@ -24,7 +24,7 @@ Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities
 Route::post('api/facilities', 'v1\facilityController@store'); //bien-createFacilities
 Route::put('api/facilities/{id}','v1\facilityController@update');
 Route::get('api/facilities/{id}','v1\facilityController@show');//bien
-Route::post('api/facilities/addManager','v1\facilityController@managerToFacility');//new route
+Route::post('api/facilities/{fid}/addManager/{mid}','v1\facilityController@managerToFacility');//new route
 Route::get('api/facilities/managers/{id}','v1\facilityController@facilitiesManagers');
 Route::delete('api/facilities/managers/{fid}/{mid}','v1\facilityController@facilitiesManagerRemove');
 
@@ -34,10 +34,11 @@ Route::post('api/organizations','v1\organizationController@store');
 Route::put('api/organizations/{id}','v1\organizationController@update');
 Route::get('api/organizations/{id}','v1\organizationController@show');
 Route::get('api/userOrganizations/{email}','v1\organizationController@getByUser');
-Route::post('api/organizations/addCounselor','v1\organizationController@counselorToOrganization');// new route
+Route::post('api/organizations/{oid}/addCounselor/{cid}','v1\organizationController@counselorToOrganization');// new route
+Route::post('api/organization/{oid}/addMember/{sid}/role/{rid}','v1\organizationController@memberToOrganization');
 Route::delete('api/organizations/members/delete/{sid}/{oid}','v1\organizationController@organizationMemberRemove');
 Route::get('api/organizations/members/{id}','v1\organizationController@organizationMembers');
-Route::delete('api/organizations/counselors/{cid}/{oid}','v1\organizationController@organizationCounselorRemove');
+Route::delete('api/organizations/counselors/delete/{cid}/{oid}','v1\organizationController@organizationCounselorRemove');
 Route::get('api/organizations/counselors/{id}','v1\organizationController@organizationCounselors');
 Route::get('api/organizations/activities/{id}','v1\organizationController@organizationActivities');
 
@@ -46,6 +47,7 @@ Route::get('api/organization_types', 'v1\organizationController@allOrganizationT
 Route::get('api/organization_types/{code}','v1\organizationController@showOrganizationType');
 Route::post('api/organization_types','v1\organizationController@storeOrganizationType');
 Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
+Route::get('api/organization_roles','v1\organizationController@allOrganizationRoles');
 
 
 

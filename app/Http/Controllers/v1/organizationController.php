@@ -57,6 +57,12 @@ class organizationController extends Controller
         return response()->json($data);
     }
 
+    public function allOrganizationRoles(){
+
+        $data = $this->organizations->getOrganizationRoles();
+        return response()->json($data);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -148,9 +154,16 @@ class organizationController extends Controller
         //
     }
 
-    public function counselorToOrganization($cid,$oid){
+    public function counselorToOrganization($oid,$cid){
 
-        $data = $this->organizations->addCounselor($cid,$oid);
+        $data = $this->organizations->addCounselor($oid,$cid);
+        return response()->json($data);
+
+    }
+
+    public function memberToOrganization($oid,$sid,$rid){
+
+        $data = $this->organizations->addMember($sid,$oid,$rid);
         return response()->json($data);
 
     }
