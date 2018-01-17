@@ -27,4 +27,5 @@ class organization extends Model
     public function activities(){
         return $this->hasMany('App\activity','organization_id');
     }
+
 }

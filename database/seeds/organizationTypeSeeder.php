@@ -13,11 +13,21 @@ class organizationTypeSeeder extends Seeder
     {
         //
         DB::table('organization_types')->insert([
-            ['code' => 1,'description' => 'Profesional','created_at' => DB::raw('now()'),
+            ['code' => 1,'description' => 'Académica','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
-            ['code' => 2,'description' => 'Honor','created_at' => DB::raw('now()'),
+            ['code' => 2,'description' => 'Artes','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
-            ['code' => 3,'description' => 'Arte','created_at' => DB::raw('now()'),
+            ['code' => 3,'description' => 'Profesional','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 4,'description' => 'Cívica','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 5,'description' => 'Religiosa','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 6,'description' => 'Deportiva','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 7,'description' => 'Política','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 8,'description' => 'Social','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')]
         ]);
     }
