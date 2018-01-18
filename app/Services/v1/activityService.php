@@ -215,25 +215,36 @@ class activityService{
         $activity->activityType_code = $request['activityType_code'];
         $activity->save();
     }
-    public function getPending(){
+    public function getPending($request){
+
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
+
         $pending = DB::select('select count(*) as pending
                             from activities
-                            where activityStatus_code = 1 and counselorStatus_code != 3 and managerStatus_code != 3');
+                            where activityStatus_code = 1 and counselorStatus_code != 3 and managerStatus_code != 3 and activityDate between ? and ?',[$startDate,$endDate]);
         return $pending;
     }
 
-    public function getApproved(){
+    public function getApproved($request){
+
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
+
         $approved = DB::select('select count(*) as approved
                             from activities
-                            where activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2');
+                            where activityStatus_code = 2 and counselorStatus_code = 2 and managerStatus_code = 2 and activityDate between ? and ?',[$startDate,$endDate]);
         return $approved;
     }
 
-    public function getDenied(){
+    public function getDenied($request){
+
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
 
         $denied = DB::select('select count(*) as Denied
                             from activities
-                            where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 ');
+                            where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 and activityDate between ? and ? ',[$startDate,$endDate]);
 
         return $denied;
     }
@@ -260,22 +271,28 @@ class activityService{
 
     }
 
-    public function getRequested(){
+    public function getRequested($request){
+
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
 
         $requested = DB::select('select building,space,sum(case when activityStatus_code = 1 then 1 when activityStatus_code = 2 then 1 when activityStatus_code = 3 then 1 else 0 end) as Requested
-        from activities as a, facilities as f where a.facility_id = f.id
-        group by building,space');
+        from activities as a, facilities as f where a.facility_id = f.id and activityDate between ? and ?
+        group by building,space',[$startDate,$endDate]);
 
         return $requested;
 
 
     }
 
-    public function getStatuses(){
+    public function getStatuses($request){
 
-        $statuses = DB::select('select building, space, activityName, ActivityDescription,CASE WHEN activityStatus_code = 1 then\'pending\' WHEN activityStatus_code = 2 then \'approved\' WHEN activityStatus_code =3 or counselorStatus_code =3 or managerStatus_code = 3 then \'denied\' else \'unclassified\' end as Status 
+        $startDate = (string) $request['startDate'];
+        $endDate = (string) $request['endDate'];
+
+        $statuses = DB::select('select building, space, activityName, activityDescription,CASE WHEN activityStatus_code = 1 then\'pending\' WHEN activityStatus_code = 2 then \'approved\' WHEN activityStatus_code =3 or counselorStatus_code =3 or managerStatus_code = 3 then \'denied\' else \'unclassified\' end as Status 
         from activities as a, facilities as f 
-        where a.facility_id = f.id');
+        where a.facility_id = f.id and activityDate between ? and ?',[$startDate,$endDate]);
 
         return $statuses;
 

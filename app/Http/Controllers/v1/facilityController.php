@@ -107,6 +107,12 @@ class facilityController extends Controller
         //
     }
 
+    /**
+     * Adds facility and managers id to pivot tables managementts.
+     *
+     * @param  int  $fid, $mid
+     * @return \Illuminate\Http\Response
+     */
     public function managerToFacility($fid,$mid){
 
         $data = $this->facilities->addManager($fid,$mid);
@@ -114,11 +120,23 @@ class facilityController extends Controller
 
     }
 
+    /**
+     * Fetches all managers associated to a specific facility.
+     *
+     * @param  int  $id,
+     * @return \Illuminate\Http\Response
+     */
     public function facilitiesManagers($id){
         $data = $this->facilities->getFacilitiesManagers($id);
         return response()->json($data);
     }
 
+    /**
+     * Removes manager id and facility id references in managements table.
+     *
+     * @param  int  $fid,$mid
+     * @return \Illuminate\Http\Response
+     */
     public function facilitiesManagerRemove($fid,$mid){
         $data = $this->facilities->removeFacilitiesManager($fid,$mid);
         return response()->json($data);

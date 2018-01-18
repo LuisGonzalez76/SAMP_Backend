@@ -145,21 +145,21 @@ class activityController extends Controller
         //
     }
 
-    public function countPending(){
+    public function countPending(Request $request){
 
-        $data = $this->activites->getPending();
+        $data = $this->activites->getPending($request);
         return response()->json($data);
 
     }
 
-    public function countApproved(){
-        $data = $this->activites->getApproved();
+    public function countApproved(Request $request){
+        $data = $this->activites->getApproved($request);
         return response()->json($data);
 
     }
 
-    public function countDenied(){
-        $data = $this->activites->getDenied();
+    public function countDenied(Request $request){
+        $data = $this->activites->getDenied($request);
         return response()->json($data);
     }
 
@@ -174,13 +174,13 @@ class activityController extends Controller
 
     }
 
-    public function FacilityRequests(){
-        $data = $this->activites->getRequested();
+    public function FacilityRequests(Request $request){
+        $data = $this->activites->getRequested($request);
         return response()->json($data);
     }
 
-    public function ActivitiesStatus(){
-        $data = $this->activites->getStatuses();
+    public function ActivitiesStatus(Request $request){
+        $data = $this->activites->getStatuses($request);
         return response()->json($data);
     }
 

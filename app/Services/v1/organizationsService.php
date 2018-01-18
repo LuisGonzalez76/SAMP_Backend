@@ -8,6 +8,7 @@
 
 namespace App\Services\v1;
 
+use App\activity;
 use App\Http\Requests\Request;
 use App\student;
 use App\membership;
@@ -18,6 +19,7 @@ use App\counsel;
 use App\counselor;
 use App\organizationType;
 use function MongoDB\BSON\fromJSON;
+use function MongoDB\BSON\toJSON;
 
 class organizationsService
 {
@@ -741,9 +743,23 @@ class organizationsService
 
     public function getOrganizationActivities($id){
 
-        $activities = DB::select('select a.id,a.activityName,a.activityDescription,o.organizationName,f.building,f.space, ac.description
+        /*$activities = DB::select('select a.id,a.activityName,a.activityDescription,o.organizationName,f.building,f.space, ac.description
         from activities as a, organizations as o, facilities as f, activity_statuses as ac
-        where a.organization_id = o.id and a.facility_id = f.id and a.activityStatus_code = ac.code and o.id = ?',[$id]);
+        where a.organization_id = o.id and a.facility_id = f.id and a.activityStatus_code = ac.code and o.id = ?',[$id]);*/
+
+        $activities = DB::table('activities')
+                    ->join('organizations','activities.organization_id','=','organizations.id')
+                    ->join('facilities','activities.facility_id','=','facilities.id')
+                    ->join('activity_statuses','activities.activityStatus_code','=','activity_statuses.code')
+                    ->select('activities.id','activities.activityName','activities.activityDescription','organizations.organizationName',
+                        'facilities.building','facilities.space','activity_statuses.description')
+                    ->where('organizations.id',$id)
+                    ->get();
+
+
+
+
+
 
         return $activities;
 
