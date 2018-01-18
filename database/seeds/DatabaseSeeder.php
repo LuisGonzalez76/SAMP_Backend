@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         $this->call(organizationSeeder::class);
         $this->call(facilitiesSeeder::class);
+        //
     }
 }
