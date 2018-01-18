@@ -22,5 +22,13 @@ class AdminSeeder extends Seeder
                 'staffEmail'=>'jesmarie.hernandez@upr.edu','staffPhone'=>'7871234567',
                 'staffType_code'=>1,'user_id'=>1,'isActive'=>1]
         ]);
+
+        DB::table('facilities_managers')->insert([
+            ['id'=>1,'managerName'=>'Jesmarie Hernandez',
+                'managerEmail'=>'jesmarie.hernandez@upr.edu','managerPhone'=>'7871234567',
+                'user_id'=>1,'isActive'=>0]
+        ]);
+
+
     }
 }

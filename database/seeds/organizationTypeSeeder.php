@@ -28,6 +28,8 @@ class organizationTypeSeeder extends Seeder
             ['code' => 7,'description' => 'Política','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')],
             ['code' => 8,'description' => 'Social','created_at' => DB::raw('now()'),
+                'updated_at' => DB::raw('now()')],
+            ['code' => 9,'description' => 'Otros','created_at' => DB::raw('now()'),
                 'updated_at' => DB::raw('now()')]
         ]);
     }
