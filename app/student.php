@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class student extends Model
 {
     protected $hidden = ['created_at','updated_at'];
+    protected $casts = ['id'=>'integer' ,'user_id'=>'integer','isActive'=>'integer'];
     protected $fillable = ['studentName','studentEmail','studentNo','studentPhone','studentAddress',
         'studentCity','studentCountry','studentZipCode','user_id','isActive'];
     //

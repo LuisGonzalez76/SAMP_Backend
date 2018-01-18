@@ -8,6 +8,7 @@ class user extends Model
 {
     protected $hidden = ['created_at','updated_at'];
     protected $fillable = ['userEmail','userType_code'];
+    protected $casts = ['id'=>'integer' ,'userType_code'=>'integer'];
     //
     public function type(){
         return $this->belongsTo('App\userType','userType_code','code');

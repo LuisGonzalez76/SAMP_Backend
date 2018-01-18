@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class activity extends Model
 {
+    protected $casts = ['id'=>'integer' ,'student_id'=>'integer',
+        'organization_id'=>'integer','facility_id'=>'integer','staff_id'=>'integer',
+        'attendantsNumber'=>'integer','activityStatus_code'=>'integer',
+        'counselorStatus_code'=>'integer','managerStatus_code'=>'integer',
+        'activityType_code'=>'integer'];
+
     protected $hidden = ['student_id','organization_id','staff_id','facility_id','created_at','updated_at'];
     protected $fillable = ['student_id','organization_id','staff_id','facility_id',
         'activityName','activityDescription','attendantsNumber','activityDate','activityStatus_code',

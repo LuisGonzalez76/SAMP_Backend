@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class facilitiesManager extends Model
 {
     protected $hidden = ['created_at','updated_at','pivot'];
+    protected $casts = ['id'=>'integer' ,'user_id'=>'integer','isActive'=>'integer'];
     protected $fillable = ['managerName','managerEmail','managerPhone','user_id','isActive'];
     //
     public function facilities(){

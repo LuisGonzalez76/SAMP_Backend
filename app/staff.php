@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class staff extends Model
 {
     protected $hidden = ['created_at','updated_at'];
+    protected $casts = ['id'=>'integer' ,'user_id'=>'integer','isActive'=>'integer',
+        'staffType_code'=>'integer'];
     protected $fillable = ['staffName','staffEmail','staffPhone','staffType_code','user_id','isActive'];
     //
     public function type(){

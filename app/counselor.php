@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class counselor extends Model
 {
     protected $hidden = ['created_at','updated_at','pivot'];
+    protected $casts = ['id'=>'integer' ,'user_id'=>'integer','isActive'=>'integer'];
     //
     protected $fillable = ['counselorName','counselorEmail','counselorPhone','counselorFaculty',
         'counselorDepartment','counselorOffice','user_id','isActive'];
