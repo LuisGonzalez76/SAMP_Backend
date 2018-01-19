@@ -29,7 +29,16 @@ class organizationsService
 
         $s_json = json_decode($student);
         $orgs = $s_json->organizations;
-        return $orgs;
+        $numberofOrgs =  sizeof($orgs);
+        $orgsWithCounselor = [];
+        for($i=0;$i<$numberofOrgs;$i++){
+            $aa = $orgs[$i];
+            if(sizeof($aa->counselors)>0){
+                $orgsWithCounselor [] = $orgs[$i];
+            }
+        }
+        return $orgsWithCounselor;
+        
     }
 
     public function getOrganizations(){
@@ -767,7 +776,7 @@ class organizationsService
     }
 
     public function organizationsWithCounselors(){
-        $orgs =  organization::has('counselors')->get();
+        $orgs =  organization::has('counselors')->with('counselors')->get();
         return $orgs;
 
     }
