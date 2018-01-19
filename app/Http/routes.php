@@ -50,6 +50,8 @@ Route::post('api/organization_types','v1\organizationController@storeOrganizatio
 Route::put('api/organization_types/{code}','v1\organizationController@updateOrganizationType');
 Route::get('api/organization_roles','v1\organizationController@allOrganizationRoles');
 
+Route::get('api/organizationCounselors','v1\organizationController@organizationsWithCounselor');
+
 
 
 //Activities Routes
@@ -114,3 +116,4 @@ Route::get('api/approved','v1\activityController@countApproved');
 Route::get('api/pending','v1\activityController@countPending');
 Route::get('api/request','v1\activityController@FacilityRequests');
 Route::get('api/status','v1\activityController@ActivitiesStatus');
+

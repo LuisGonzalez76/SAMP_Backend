@@ -766,6 +766,12 @@ class organizationsService
 
     }
 
+    public function organizationsWithCounselors(){
+        $orgs =  organization::has('counselors')->get();
+        return $orgs;
+
+    }
+
 
 
 

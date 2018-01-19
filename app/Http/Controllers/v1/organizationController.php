@@ -199,5 +199,10 @@ class organizationController extends Controller
 
     }
 
+    public function organizationsWithCounselor(){
+        $data = $this->organizations->organizationsWithCounselors();
+        return response()->json($data);
+    }
+
 
 }
