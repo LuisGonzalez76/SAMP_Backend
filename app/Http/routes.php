@@ -54,6 +54,7 @@ Route::put('api/organization_types/{code}','v1\organizationController@updateOrga
 Route::get('api/organization_roles','v1\organizationController@allOrganizationRoles');
 
 Route::get('api/organizationCounselors','v1\organizationController@organizationsWithCounselor');
+Route::get('api/facilitiesWithManager','v1\facilityController@facilitiesWithManager');
 
 
 
