@@ -110,10 +110,10 @@ Route::get('api/admin/{id}','v1\staffController@showAdmin');
 Route::post('api/admin','v1\staffController@storeAdmin');
 
 //Statistic Routes
-Route::get('api/report','v1\activityController@report');
-Route::get('api/denied','v1\activityController@countDenied');
-Route::get('api/approved','v1\activityController@countApproved');
-Route::get('api/pending','v1\activityController@countPending');
-Route::get('api/request','v1\activityController@FacilityRequests');
-Route::get('api/status','v1\activityController@ActivitiesStatus');
+Route::post('api/report','v1\activityController@report');
+Route::post('api/denied','v1\activityController@countDenied');
+Route::post('api/approved','v1\activityController@countApproved');
+Route::post('api/pending','v1\activityController@countPending');
+Route::post('api/request','v1\activityController@FacilityRequests');
+Route::post('api/status','v1\activityController@ActivitiesStatus');
 
