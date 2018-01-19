@@ -142,5 +142,10 @@ class facilityController extends Controller
         return response()->json($data);
     }
 
+    public function facilitiesWithManager(){
+        $data = $this->facilities->facilitiesWithManager();
+        return response()->json($data);
+    }
+
 
 }

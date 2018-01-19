@@ -97,4 +97,9 @@ class facilitiesService
 
     }
 
+    public function facilitiesWithManager(){
+        $facilities =  facility::has('managers')->get();
+        return $facilities;
+    }
+
 }
