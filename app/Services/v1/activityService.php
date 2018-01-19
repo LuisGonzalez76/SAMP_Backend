@@ -242,7 +242,7 @@ class activityService{
         $startDate =  $request['startDate'];
         $endDate =  $request['endDate'];
 
-        $denied = DB::select('select count(*) as Denied
+        $denied = DB::select('select count(*) as denied
                             from activities
                             where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 and activityDate between ? and ? ',[$startDate,$endDate]);
 
