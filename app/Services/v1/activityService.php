@@ -217,8 +217,8 @@ class activityService{
     }
     public function getPending($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
         $pending = DB::select('select count(*) as pending
                             from activities
@@ -228,8 +228,8 @@ class activityService{
 
     public function getApproved($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
         $approved = DB::select('select count(*) as approved
                             from activities
@@ -239,10 +239,10 @@ class activityService{
 
     public function getDenied($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
-        $denied = DB::select('select count(*) as Denied
+        $denied = DB::select('select count(*) as denied
                             from activities
                             where activityStatus_code = 3 or counselorStatus_code = 3 or managerStatus_code = 3 and activityDate between ? and ? ',[$startDate,$endDate]);
 
@@ -257,8 +257,8 @@ class activityService{
 
     public function getReport($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
 
         $report = DB::select('SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityEnd < \'16:30:00\' then 1 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityStart > \'16:30:00\' then 1 ELSE 0 end )as Nocturno, 
@@ -273,8 +273,8 @@ class activityService{
 
     public function getRequested($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
         /*$requested = DB::select('select building,space,sum(case when activityStatus_code = 1 then 1 when activityStatus_code = 2 then 1 when activityStatus_code = 3 then 1 else 0 end) as Requested
         from activities as a, facilities as f where a.facility_id = f.id and activityDate between ? and ?
