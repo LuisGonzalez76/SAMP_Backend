@@ -16,8 +16,11 @@ Route::get('/', function () {
 });
 
 //Route::get('sexo', 'v1\studentController@index');
-
 //Route::get('b/{id}', 'ActivityStatusController@show');
+Route::get('api/sendCM/{email}','v1\userController@sendEmailCM');
+
+Route::get('api/sendSA/{email}','v1\userController@sendEmailStudentAp');
+Route::get('api/sendSD/{email}','v1\userController@sendEmailStudentDen');
 
 //Facility Routes
 Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities

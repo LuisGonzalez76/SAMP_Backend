@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\v1;
 
 use App\Services\v1\userService;
+use App\user;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Mail;
 
 
 class userController extends Controller
@@ -95,5 +96,41 @@ class userController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function sendEmailCM($email){
+        $user = user::where('userEmail',$email)->get()->first();
+
+        Mail::send('emails.test',[],
+            function ($message) use ($user)
+            {
+                $message->from('dsca.uprm@gmail.com','DSCA');
+                $message->to($user->userEmail)->subject('Notificación de Actividad Pendiente');
+            });
+        return response()->json(['message' => 'Request completed']);
+    }
+
+    public function sendEmailStudentAp($email){
+        $user = user::where('userEmail',$email)->get()->first();
+
+        Mail::send('emails.studentAp',[],
+            function ($message) use ($user)
+            {
+                $message->from('dsca.uprm@gmail.com','DSCA');
+                $message->to($user->userEmail)->subject('Notificación de Actividad Aprobada');
+            });
+        return response()->json(['message' => 'Request completed']);
+    }
+
+    public function sendEmailStudentDen($email){
+        $user = user::where('userEmail',$email)->get()->first();
+
+        Mail::send('emails.studentDen',[],
+            function ($message) use ($user)
+            {
+                $message->from('dsca.uprm@gmail.com','DSCA');
+                $message->to($user->userEmail)->subject('Notificación de Actividad Rechazada');
+            });
+        return response()->json(['message' => 'Request completed']);
     }
 }

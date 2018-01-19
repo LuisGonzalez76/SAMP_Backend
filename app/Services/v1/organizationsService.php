@@ -38,7 +38,7 @@ class organizationsService
             }
         }
         return $orgsWithCounselor;
-        
+
     }
 
     public function getOrganizations(){

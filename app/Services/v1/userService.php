@@ -11,6 +11,10 @@ use App\staff;
 use App\facilitiesManager;
 
 class userService{
+
+
+
+
     public function getUsers(){
         $temp = [];
         $student =array_add($temp,'students',user::with('students','type')->where('userType_code',3)->get()); ;
