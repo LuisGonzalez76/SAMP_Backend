@@ -257,8 +257,8 @@ class activityService{
 
     public function getReport($request){
 
-        $startDate = (string) $request['startDate'];
-        $endDate = (string) $request['endDate'];
+        $startDate =  $request['startDate'];
+        $endDate =  $request['endDate'];
 
 
         $report = DB::select('SELECT building,space, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityEnd < \'16:30:00\' then 1 ELSE 0 end)as Diurno, sum(CASE WHEN a.activityEnd > \'16:30:00\' and a.activityStart < \'16:30:00\' then 0.5  WHEN a.activityStart > \'16:30:00\' then 1 ELSE 0 end )as Nocturno, 
