@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 //Route::get('sexo', 'v1\studentController@index');
 
-Route::get('b/{id}', 'ActivityStatusController@show');
+//Route::get('b/{id}', 'ActivityStatusController@show');
 
 //Facility Routes
 Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities
