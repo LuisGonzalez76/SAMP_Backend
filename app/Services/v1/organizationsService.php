@@ -42,25 +42,8 @@ class organizationsService
     }
 
     public function getOrganizations(){
-
-        /*$organizations = DB::select('select o.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
-        c.fullName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
-        from organization_types as ot,counselors as c, counsels as cn,organizations as o
-        where cn.counselor_id = c.id and cn.organization_id = o.id and ot.code = o.organizationType_code'
-        );*/
-
        $organizations = organization::with('counselors')->get();
-
-       /* $organizations = DB::select('select cn.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
-        c.fullName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
-        from organization_types as ot,counselors as c, counsels as cn,organizations as o
-        where cn.counselor_id = c.id and cn.organization_id = o.id and ot.code = o.organizationType_code'
-        );*/
-
-
         return $organizations;
-
-
     }
 
     public function storeOrganization($request){
@@ -186,14 +169,6 @@ class organizationsService
 
 
             }
-
-
-            /*$counsels =  new counsel;
-            return counsel::create([
-                'counselor_id' => $c_id->id,
-                'organization_id'  => $o_id->id,
-
-            ]);*/
         }
 
         else {
@@ -220,6 +195,7 @@ class organizationsService
                     'organizationName' => $request['organizationName'],
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
+                    'url' => $request['url'],
                     'isActive' => 1,
 
                 ]);
@@ -285,37 +261,13 @@ class organizationsService
 
     public function showOrganization($id){
 
-        /*$organization = DB::table('counsels')
-                        ->join('counselors','counsels.counselor_id','=','counselors.id')
-                        ->join('organizations','counsels.organization_id','=','organizations.id')
-                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
-                        ->select('organizations.id','organizations.organizationName','organization_types.description',
-                            'organizations.organizationInitials','organizations.created_at','counselors.fullName',
-                            'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
-                            'counselors.counselorDepartment','counselors.counselorOffice')
-                        ->where('organizations.id', $id)
-                        ->get();*/
-
-
-        /*$organization = DB::table('counsels')
-            ->join('counselors','counsels.counselor_id','=','counselors.id')
-            ->join('organizations','counsels.organization_id','=','organizations.id')
-            ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
-            ->select('counsels.id','organizations.organizationName','organization_types.description',
-                'organizations.organizationInitials','organizations.created_at','counselors.counselorName',
-                'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
-                'counselors.counselorDepartment','counselors.counselorOffice')
-            ->where('counsels.id', $id)
-            ->get();*/
-
+       // return organization::find($id)->with('type')->get()->first();
         $organization = DB::table('organizations')
                         ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
                         ->select('organizations.id','organizations.organizationName','organizations.organizationInitials',
                             'organizations.organizationType_code','organizations.isActive')
                         ->where('organizations.id',$id)
                         ->get();
-
-
         return $organization;
 
     }

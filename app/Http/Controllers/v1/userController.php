@@ -133,4 +133,22 @@ class userController extends Controller
             });
         return response()->json(['message' => 'Request completed']);
     }
+
+    public function sendEmailText($email){
+
+        $user = user::where('userEmail', $email)->get()->first();
+
+        Mail::send('welcome',[],
+            function ($message) use ($user)
+            {
+                $message->from('dsca.uprm@gmail.com','DSCA');
+                $message->to($user->userEmail)->subject('Notificación de Actividad Rechazada');
+            });
+
+        //        Mail::raw('Text to e-mail', function ($message) use ($user) {
+        //            $message->from('dsca.uprm@gmail.com','DSCA');
+        //            $message->to($user->userEmail)->subject('Notificación de Actividad Rechazada');
+        //        });
+        return response()->json(['message' => 'Request completed']);
+    }
 }
