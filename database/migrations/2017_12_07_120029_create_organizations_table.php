@@ -17,6 +17,7 @@ class CreateOrganizationsTable extends Migration
             $table->string('organizationName');
             $table->string('organizationInitials');
             $table->integer('organizationType_code')->unsigned();
+            $table->string('url')->nullable();
             $table->boolean('isActive');
             $table->timestamps();
 

@@ -42,26 +42,9 @@ class organizationsService
     }
 
     public function getOrganizations(){
-
-        /*$organizations = DB::select('select o.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
-        c.fullName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
-        from organization_types as ot,counselors as c, counsels as cn,organizations as o
-        where cn.counselor_id = c.id and cn.organization_id = o.id and ot.code = o.organizationType_code'
-        );*/
-
-       $organizations = organization::with('counselors')->get();
-
-       /* $organizations = DB::select('select cn.id, o.organizationName,ot.description,o.organizationInitials,o.created_at,
-        c.fullName,c.counselorEmail,c.counselorPhone,c.counselorFaculty,c.counselorDepartment,c.counselorOffice
-        from organization_types as ot,counselors as c, counsels as cn,organizations as o
-        where cn.counselor_id = c.id and cn.organization_id = o.id and ot.code = o.organizationType_code'
-        );*/
-
-
-        return $organizations;
-
-
-    }
+        $organizations = organization::with('counselors')->get();
+       return $organizations;
+}
 
     public function storeOrganization($request){
 
@@ -134,6 +117,7 @@ class organizationsService
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
                     'organizationStatus_code' => $request['organizationStatus_code'],
+                    'url' => $request['url'],
 
                 ]);
 
@@ -162,6 +146,7 @@ class organizationsService
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
                     'organizationStatus_code' => $request['organizationStatus_code'],
+                    'url' => $request['url'],
 
                 ]);
 
@@ -281,334 +266,20 @@ class organizationsService
 
     }
 
-
-
     public function showOrganization($id){
-
-        /*$organization = DB::table('counsels')
-                        ->join('counselors','counsels.counselor_id','=','counselors.id')
-                        ->join('organizations','counsels.organization_id','=','organizations.id')
-                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
-                        ->select('organizations.id','organizations.organizationName','organization_types.description',
-                            'organizations.organizationInitials','organizations.created_at','counselors.fullName',
-                            'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
-                            'counselors.counselorDepartment','counselors.counselorOffice')
-                        ->where('organizations.id', $id)
-                        ->get();*/
-
-
-        /*$organization = DB::table('counsels')
-            ->join('counselors','counsels.counselor_id','=','counselors.id')
-            ->join('organizations','counsels.organization_id','=','organizations.id')
-            ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
-            ->select('counsels.id','organizations.organizationName','organization_types.description',
-                'organizations.organizationInitials','organizations.created_at','counselors.counselorName',
-                'counselors.counselorEmail','counselors.counselorPhone','counselors.counselorFaculty',
-                'counselors.counselorDepartment','counselors.counselorOffice')
-            ->where('counsels.id', $id)
-            ->get();*/
-
-        $organization = DB::table('organizations')
-                        ->join('organization_types','organizations.organizationType_code','=','organization_types.code')
-                        ->select('organizations.id','organizations.organizationName','organizations.organizationInitials',
-                            'organizations.organizationType_code','organizations.isActive')
-                        ->where('organizations.id',$id)
-                        ->get();
-
-
-        return $organization;
-
+        return organization::where('id',$id)->get();
     }
-
-    //NO borrar
-    /*public function updateOrganization($request,$id){
-
-
-        $counselor_id = counsel::where('id',$id)->value('counselor_id');
-        $organization_id = counsel::where('id',$id)->value('organization_id');
-
-        $counselor_email = counselor::where('id',$counselor_id)
-            ->value('counselorEmail');
-
-        $organization_initials = organization::where('id',$organization_id)
-            ->value('organizationInitials');
-
-        $organization_name = organization::where('id',$organization_id)
-            ->value('organizationName');
-
-        if ($this->hasOrganizationName($request,$organization_id)  and $this->hasCounselorEmail($request,$counselor_id)){
-
-
-
-            if ( ($counselor_email == $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])
-            and ($organization_name == $request['organizationName'])){
-
-                $organization = organization::where('id',$organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-
-                $counselor = counselor::where('id',$counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-
-            }
-
-            else if (($counselor_email != $request['counselorEmail']) and ($organization_initials == $request['organizationInitials'])
-            and ($organization_name == $request['organizationName'])){
-
-
-                $organization = organization::where('id', $organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-                $counselor_id = counselor::where('counselorEmail', $request['counselorEmail'])
-                    ->value('id');
-
-
-                $counselor = counselor::where('id', $counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-
-                $counsels_update = counsel::where('id', $id)
-                    ->update(['counselor_id' => $counselor_id]);
-
-                return response()->json(['message' => 'Succesfully update data!'], 200);
-
-            }
-
-            else if (($counselor_email == $request['counselorEmail']) and ($organization_initials != $request['organizationInitials'])
-            and ($organization_name != $request['organizationName'])){
-
-                $organization_id = organization::where('organizationInitials',$request['organizationInitials'])
-                                                ->where('organizationName', $request['organizationName'])
-                                                ->value('id');
-
-                $organization = organization::where('id', $organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-                $counsels_update = counsel::where('id',$id)
-                    ->update(['organization_id' => $organization_id]);
-
-                $counselor = counselor::where('id', $counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-
-            }
-
-            else {
-
-                $organization_id = organization::where('organizationInitials',$request['organizationInitials'])
-                    ->value('id');
-
-                $organization = organization::where('id', $organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-                $counselor_id = counselor::where('counselorEmail', $request['counselorEmail'])
-                    ->value('id');
-
-
-                $counselor = counselor::where('id', $counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-
-                $counsels_update = counsel::where('id',$id)
-                    ->update(['organization_id' => $organization_id])
-                    ->update(['counselor_id' => $counselor_id]);
-
-            }
-
-        }
-
-
-        else if ( $this->hasOrganizationName($request,$organization_id)  and  !$this->hasCounselorEmail($request,$counselor_id)){
-
-            if (($organization_initials == $request['organizationInitials'])) {
-
-                $organization = organization::where('id', $organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-            }
-
-            else {
-
-                $organization_id = organization::where('organizationInitials',$request['organizationInitials'])
-                                                ->where('organizationName', $request['organizationName'])
-                                                ->value('id');
-
-                $organization = organization::where('id', $organization_id)->first();
-                $organization->organizationName = $request->organizationName;
-                $organization->organizationInitials = $request->organizationInitials;
-                $organization->organizationType_code = $request->organizationType_code;
-                $organization->organizationStatus_code = $request->organizationStatus_code;
-                $organization->save();
-
-                $counsels_update = counsel::where('id',$id)
-                    ->update(['organization_id' => $organization_id]);
-
-
-            }
-
-            $counselor_json = counselor::create([
-                'fullName' => $request['fullName'],
-                'counselorEmail' => $request['counselorEmail'],
-                'counselorPhone' => $request['counselorPhone'],
-                'counselorFaculty' => $request['counselorFaculty'],
-                'counselorDepartment' => $request['counselorDepartment'],
-                'counselorOffice' => $request['counselorOffice'],
-
-            ]);
-
-            $c_id = json_decode($counselor_json);
-
-            $counsels_update = counsel::where('id',$id)
-                ->update (['counselor_id' => $c_id->id]);
-
-            return response() -> json(['message' => 'Succesfully update data!'], 200);
-
-        }
-
-
-
-        else if (!$this->hasOrganizationName($request,$organization_id) and $this->hasCounselorEmail($request,$counselor_id) ){
-
-            if(($counselor_email == $request['counselorEmail'])) {
-
-                $counselor = counselor::where('id', $counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-            }
-
-            else{
-
-                $counselor_id = counselor::where('counselorEmail', $request['counselorEmail'])
-                    ->value('id');
-
-
-                $counselor = counselor::where('id', $counselor_id)->first();
-                $counselor->fullName = $request->fullName;
-                $counselor->counselorEmail = $request->counselorEmail;
-                $counselor->counselorPhone = $request->counselorPhone;
-                $counselor->counselorFaculty = $request->counselorFaculty;
-                $counselor->counselorDepartment = $request->counselorDepartment;
-                $counselor->counselorOffice = $request->counselorOffice;
-                $counselor->save();
-
-                $counsels_update = counsel::where('id', $id)
-                    ->update(['counselor_id' => $counselor_id]);
-            }
-
-
-            $organization_json = organization::create([
-                'organizationName' => $request['organizationName'],
-                'organizationInitials' => $request['organizationInitials'],
-                'organizationType_code' => $request['organizationType_code'],
-                'organizationStatus_code' => $request['organizationStatus_code'],
-
-            ]);
-
-            $o_id = json_decode($organization_json);
-
-            $counsels_update = counsel::where('id',$id)
-                ->update(['organization_id' => $o_id->id]);
-
-            return response() -> json(['message' => 'Succesfully update data!'], 200);
-
-        }
-
-        else if (!$this->hasOrganizationName($request,$organization_id) and !$this->hasCounselorEmail($request,$counselor_id)){
-
-            $organization_json = organization::create([
-                'organizationName' => $request['organizationName'],
-                'organizationInitials' => $request['organizationInitials'],
-                'organizationType_code' => $request['organizationType_code'],
-                'organizationStatus_code' => $request['organizationStatus_code'],
-
-            ]);
-
-            $counselor_json = counselor::create([
-                'fullName' => $request['fullName'],
-                'counselorEmail' => $request['counselorEmail'],
-                'counselorPhone' => $request['counselorPhone'],
-                'counselorFaculty' => $request['counselorFaculty'],
-                'counselorDepartment' => $request['counselorDepartment'],
-                'counselorOffice' => $request['counselorOffice'],
-
-            ]);
-
-            $o_id = json_decode($organization_json);
-            $c_id = json_decode($counselor_json);
-
-            $counsels = new counsel;
-            return counsel::create([
-                'organization_id' => $o_id->id,
-                'counselor_id' => $c_id->id,
-            ]);
-
-            return response() -> json(['message' => 'Succesfully update data!'], 200);
-
-        }
-
-        else{
-            return "no funciona";
-        }
-
-
-
-    }*/
 
     public function updateOrganization($request,$id){
         $organization = organization::where('id',$id)->get()->first();
         $organization->organizationName = $request->input('organizationName');
         $organization->organizationInitials = $request->input('organizationInitials');
         $organization->organizationTYpe_code = $request->input('organizationType_code');
+        $organization->url = $request->input('url');
 
         $organization->save();
 
-
+        return $organization;
     }
 
     public function hasCounselorEmail($request,$id){
@@ -617,13 +288,7 @@ class organizationsService
         $email = counselor::where('counselorEmail',$request['counselorEmail'])
             ->get();
 
-        /*$email = DB::table('counselors')
-            ->where('id',$id)
-            ->where('counselorEmail',$request['counselorEmail'])
-            ->get();*/
-
-
-        if(count($email) > 0){
+       if(count($email) > 0){
             return true;
         }
 
@@ -751,11 +416,6 @@ class organizationsService
     }
 
     public function getOrganizationActivities($id){
-
-        /*$activities = DB::select('select a.id,a.activityName,a.activityDescription,o.organizationName,f.building,f.space, ac.description
-        from activities as a, organizations as o, facilities as f, activity_statuses as ac
-        where a.organization_id = o.id and a.facility_id = f.id and a.activityStatus_code = ac.code and o.id = ?',[$id]);*/
-
         $activities = DB::table('activities')
                     ->join('organizations','activities.organization_id','=','organizations.id')
                     ->join('facilities','activities.facility_id','=','facilities.id')
@@ -764,16 +424,8 @@ class organizationsService
                         'facilities.building','facilities.space','activity_statuses.description')
                     ->where('organizations.id',$id)
                     ->get();
-
-
-
-
-
-
         return $activities;
-
-
-    }
+}
 
     public function organizationsWithCounselors(){
         $orgs =  organization::has('counselors')->with('counselors')->get();
