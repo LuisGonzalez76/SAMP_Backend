@@ -21,6 +21,7 @@ Route::get('api/sendCM/{email}','v1\userController@sendEmailCM');
 
 Route::get('api/sendSA/{email}','v1\userController@sendEmailStudentAp');
 Route::get('api/sendSD/{email}','v1\userController@sendEmailStudentDen');
+Route::get('api/sendTXT/{email}','v1\userController@sendEmailText');
 
 //Facility Routes
 Route::get('api/facilities','v1\facilityController@index');//bien-getFacilities
@@ -54,6 +55,7 @@ Route::put('api/organization_types/{code}','v1\organizationController@updateOrga
 Route::get('api/organization_roles','v1\organizationController@allOrganizationRoles');
 
 Route::get('api/organizationCounselors','v1\organizationController@organizationsWithCounselor');
+Route::get('api/facilitiesWithManager','v1\facilityController@facilitiesWithManager');
 
 
 
