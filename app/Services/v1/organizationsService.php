@@ -46,6 +46,21 @@ class organizationsService
        return $organizations;
 }
 
+    public function storeOrganization2($request)
+    {
+        $organization_json = organization::create([
+            'organizationName' => $request['organizationName'],
+            'organizationInitials' => $request['organizationInitials'],
+            'organizationType_code' => $request['organizationType_code'],
+            'organizationStatus_code' => $request['organizationStatus_code'],
+            'url' => $request['url'],
+
+        ]);
+
+        return $organization_json;
+    }
+
+
     public function storeOrganization($request){
 
         if ($request != null) {
@@ -205,6 +220,7 @@ class organizationsService
                     'organizationName' => $request['organizationName'],
                     'organizationInitials' => $request['organizationInitials'],
                     'organizationType_code' => $request['organizationType_code'],
+                    'url' => $request['url'],
                     'isActive' => 1,
 
                 ]);

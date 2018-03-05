@@ -86,6 +86,7 @@ class organizationController extends Controller
     {
         //
         $data = $this->organizations->createOrganization($request);
+//        $data = $this->organizations->createOrganization2($request);
 
         return response()->json($data);
 
