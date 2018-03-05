@@ -111,11 +111,8 @@ class userController extends Controller
     }
 
     public function sendEmailStudentAp($email){
-        echo($email);
 
         $user = user::where('userEmail',$email)->get()->first();
-
-        echo($user);
         Mail::send('emails.studentAp',[],
             function ($message) use ($user)
             {
