@@ -17,7 +17,6 @@ class facilitiesSeeder extends Seeder
             ['id' => 2, 'building' => 'Centro de Estudiantes', 'space' => 'Salón Tarzan', 'facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
             ['id' => 3, 'building' => 'Chardon', 'space' => 'La Placita','facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
             ['id' => 4, 'building' => 'Centro de Estudiantes', 'space' => 'Tercer Piso', 'facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
-            ['id' => 5, 'building' => 'Stefani', 'space' => 'S-230', 'facilityDepartment' => 'Ingeniería Mecánica', 'isActive' => 1],
             ['id' => 6, 'building' => 'Centro de Estudiantes', 'space' => '1er piso - Frente a ATH', 'facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
             ['id' => 7, 'building' => 'Centro de Estudiantes', 'space' => '2do piso- Salón Tarzán', 'facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
             ['id' => 8, 'building' => 'Centro de Estudiantes', 'space' => '3er piso - Tarima', 'facilityDepartment' => 'Actividades Sociales', 'isActive' => 1],
