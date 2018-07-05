@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             ['id'=>1,'staffName'=>'Jesse Villafane',
                 'staffEmail'=>'jesse.villafane@upr.edu','staffPhone'=>'9090',
                 'staffType_code'=>1,'user_id'=>1,'isActive'=>1],
-            ['id'=>1,'staffName'=>'Yomarachaliff Luciano',
+            ['id'=>2,'staffName'=>'Yomarachaliff Luciano',
                 'staffEmail'=>'yomarachaliff.lucianofigueroa@upr.edu','staffPhone'=>'9090',
                 'staffType_code'=>1,'user_id'=>2,'isActive'=>1]
         ]);
