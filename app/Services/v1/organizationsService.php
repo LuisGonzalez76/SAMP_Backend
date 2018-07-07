@@ -42,7 +42,7 @@ class organizationsService
     }
 
     public function getOrganizations(){
-        $organizations = organization::with('counselors')->get();
+        $organizations = organization::with('counselors')->with('members')->get();
        return $organizations;
 }
 
