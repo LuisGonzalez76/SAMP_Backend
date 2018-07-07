@@ -23,7 +23,8 @@ class facilitiesService
 {
 
     public function getFacilities(){
-        $facilities = facility::all();
+        //$facilities = facility::all();
+        $facilities = facility::with('managers')->get();
         return $facilities;
     }
 
