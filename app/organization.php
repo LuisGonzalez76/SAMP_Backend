@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class organization extends Model
 {
     protected $casts = ['id'=>'integer' ,'organizationType_code'=>'integer','isActive'=>'integer'];
-    protected $hidden = ['organizationType_code','organizationStatus_code','created_at','updated_at'];
+    protected $hidden = ['organizationStatus_code','created_at','updated_at'];
     //
     protected $fillable = ['organizationName','organizationInitials','organizationType_code',
         'organizationStatus_code','url'];
