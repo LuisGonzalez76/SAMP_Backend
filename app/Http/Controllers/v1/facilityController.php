@@ -142,6 +142,12 @@ class facilityController extends Controller
         return response()->json($data);
     }
 
+
+    public function facilitiesManagerRemoveAll($fid){
+        $data = $this->facilities->removeFacilitiesManagerAll($fid);
+        return response()->json($data);
+    }
+
     public function facilitiesWithManager(){
         $data = $this->facilities->facilitiesWithManager();
         return response()->json($data);

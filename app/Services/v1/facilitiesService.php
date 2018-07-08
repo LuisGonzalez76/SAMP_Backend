@@ -22,15 +22,16 @@ use function MongoDB\BSON\fromJSON;
 class facilitiesService
 {
 
-    public function getFacilities(){
+    public function getFacilities()
+    {
         //$facilities = facility::all();
         $facilities = facility::with('managers')->get();
         return $facilities;
     }
 
 
-
-    public function createFacilities($request){
+    public function createFacilities($request)
+    {
 
         if ($request != null) {
 
@@ -43,21 +44,21 @@ class facilitiesService
 
             return $facilities;
 
-        }
-
-        else{
-            return response() -> json(['message' => 'No data is present in request!'], 200);
+        } else {
+            return response()->json(['message' => 'No data is present in request!'], 200);
         }
 
     }
 
-    public function showFacility ($id){
+    public function showFacility($id)
+    {
         $facilities = facility::find($id);
         return $facilities;
     }
 
-    public function updateFacility($request,$id){
-        $facility = facility::where('id',$id)->get()->first();
+    public function updateFacility($request, $id)
+    {
+        $facility = facility::where('id', $id)->get()->first();
 
 
         $facility->building = $request->input('building');
@@ -67,7 +68,8 @@ class facilitiesService
         $facility->save();
     }
 
-    public function addManager($fid,$mid){
+    public function addManager($fid, $mid)
+    {
 
         $manages = management::create([
             'facility_id' => $fid,
@@ -76,30 +78,40 @@ class facilitiesService
 
     }
 
-    public function getFacilitiesManagers($id){
+    public function getFacilitiesManagers($id)
+    {
 
         $managers = DB::select('select fm.id, fm.managerName, fm.managerEmail, fm.managerPhone 
         from facilities_managers as fm, managements as m, facilities as f
-        where m.facility_id = f.id and m.manager_id = fm.id and f.id = ?',[$id]);
+        where m.facility_id = f.id and m.manager_id = fm.id and f.id = ?', [$id]);
 
         return $managers;
 
     }
 
-    public function removeFacilitiesManager($fid,$mid){
+    public function removeFacilitiesManager($fid, $mid)
+    {
 
-            $managers = management::where('facility_id',$fid)
-                ->where('manager_id',$mid)
-                ->delete();
+        $managers = management::where('facility_id', $fid)
+            ->where('manager_id', $mid)
+            ->delete();
+        return $managers;
+    }
+
+    public function removeFacilitiesManagerAll($fid)
+    {
+        $managers = management::where('facility_id')->delete();
+        return $managers;
+    }
+
+    public function managedByStaff($id)
+    {
 
     }
 
-    public function managedByStaff($id){
-
-    }
-
-    public function facilitiesWithManager(){
-        $facilities =  facility::has('managers')->get();
+    public function facilitiesWithManager()
+    {
+        $facilities = facility::has('managers')->get();
         return $facilities;
     }
 
