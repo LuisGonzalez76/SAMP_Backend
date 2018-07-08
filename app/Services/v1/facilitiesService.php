@@ -100,6 +100,7 @@ class facilitiesService
 
     public function removeFacilitiesManagerAll($fid)
     {
+
         $managers = management::where('facility_id', $fid)->delete();
         return $managers;
     }
