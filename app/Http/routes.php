@@ -45,8 +45,8 @@ Route::post('api/organizations/{oid}/addCounselor/{cid}','v1\organizationControl
 
 Route::delete('api/organizations/members/delete/{sid}/{oid}','v1\organizationController@organizationMemberRemove');
 Route::get('api/organizations/members/{id}','v1\organizationController@organizationMembers');
-Route::delete('api/organizations/counselors/delete/{cid}/{oid}','v1\organizationController@organizationCounselorRemove');
 Route::delete('api/organizations/counselors/delete/all/{oid}','v1\organizationController@organizationCounselorRemoveAll');
+Route::delete('api/organizations/counselors/delete/{cid}/{oid}','v1\organizationController@organizationCounselorRemove');
 Route::get('api/organizations/counselors/{id}','v1\organizationController@organizationCounselors');
 Route::get('api/organizations/activities/{id}','v1\organizationController@organizationActivities');
 

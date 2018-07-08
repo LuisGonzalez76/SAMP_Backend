@@ -434,9 +434,6 @@ class organizationsService
 
     public function removeOrganizationCounselorAll($oid){
 
-        Log::info('The route was called.');
-        Log::info($oid);
-
         $members = counsel::where('organization_id',$oid)
             ->delete();
 

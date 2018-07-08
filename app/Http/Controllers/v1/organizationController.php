@@ -188,18 +188,12 @@ class organizationController extends Controller
     }
 
     public function organizationCounselorRemove($cid,$oid){
-
-        echo('1');
-        error_log('Some message here. 1');
-
         $data = $this->organizations->removeOrganizationCounselor($cid,$oid);
         return response()->json($data);
     }
 
     public function organizationCounselorRemoveAll($oid){
 
-        echo('2');
-        error_log('Some message here. 2');
         $data = $this->organizations->removeOrganizationCounselorAll($oid);
         return response()->json($data);
     }
