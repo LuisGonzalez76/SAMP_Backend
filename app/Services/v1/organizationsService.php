@@ -18,6 +18,7 @@ use App\organization;
 use App\counsel;
 use App\counselor;
 use App\organizationType;
+use Illuminate\Contracts\Logging\Log;
 use function MongoDB\BSON\fromJSON;
 use function MongoDB\BSON\toJSON;
 
@@ -432,6 +433,9 @@ class organizationsService
     }
 
     public function removeOrganizationCounselorAll($oid){
+
+        Log::info('The route was called.');
+        Log::info($oid);
 
         $members = counsel::where('organization_id',$oid)
             ->delete();
