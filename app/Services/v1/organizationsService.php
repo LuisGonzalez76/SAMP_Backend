@@ -428,7 +428,15 @@ class organizationsService
             ->where('organization_id',$oid)
             ->delete();
 
+        return $members;
+    }
 
+    public function removeOrganizationCounselorAll($oid){
+
+        $members = counsel::where('organization_id',$oid)
+            ->delete();
+
+        return $members;
     }
 
     public function getOrganizationActivities($id){

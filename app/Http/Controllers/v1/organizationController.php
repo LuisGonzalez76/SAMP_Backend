@@ -193,6 +193,12 @@ class organizationController extends Controller
         return response()->json($data);
     }
 
+    public function organizationCounselorRemoveAll($oid){
+
+        $data = $this->organizations->removeOrganizationCounselorAll($oid);
+        return response()->json($data);
+    }
+
     public function organizationActivities($id){
 
         $data = $this->organizations->getOrganizationActivities($id);
