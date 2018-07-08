@@ -195,8 +195,7 @@ class organizationController extends Controller
 
     public function organizationCounselorRemoveAll($oid){
 
-        Log::info('The route was called at the controller level.');
-
+        error_log('Some message here.');
         $data = $this->organizations->removeOrganizationCounselorAll($oid);
         return response()->json($data);
     }
