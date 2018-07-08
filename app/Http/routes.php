@@ -30,7 +30,7 @@ Route::put('api/facilities/{id}','v1\facilityController@update');
 Route::get('api/facilities/{id}','v1\facilityController@show');//bien
 Route::post('api/facilities/{fid}/addManager/{mid}','v1\facilityController@managerToFacility');//new route
 Route::get('api/facilities/managers/{id}','v1\facilityController@facilitiesManagers');
-Route::delete('api/facilities/managers/all/{fid}','v1\facilityController@facilitiesManagerRemoveAll');
+Route::delete('api/facilities/managers/{fid}/all','v1\facilityController@facilitiesManagerRemoveAll');
 Route::delete('api/facilities/managers/{fid}/{mid}','v1\facilityController@facilitiesManagerRemove');
 
 
